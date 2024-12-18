@@ -2,7 +2,7 @@
 Repo for COMESA tests
 
 ## COMESA Environment setup
- ![COMESA Environment](./COMESA-Environment.png)
+ ![COMESA Environment](./COMESA_SETUP.png)
 
 ## Structure of the tests
 The tests are structured in the following way:
