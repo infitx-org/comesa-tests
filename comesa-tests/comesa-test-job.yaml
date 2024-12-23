@@ -1,0 +1,61 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: moja-ml-ttk-test-comesa
+  namespace: mojaloop
+  labels:
+    argocd.argoproj.io/instance: moja
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/sync-wave: '${app.syncWave}'
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ml-ttk-test-comesa
+        job-name: moja-ml-ttk-test-comesa
+        sidecar.istio.io/inject: 'false'
+    spec:
+      volumes:
+        - name: comesa-collections
+          configMap:
+            name: comesa-test-collections
+        - name: comesa-environments
+          configMap:
+            name: comesa-test-environments
+      containers:
+        - name: comesa-test
+          image: mojaloop/ml-testing-toolkit-client-lib:${app.tag}
+          command:
+            - /bin/sh
+            - '-c'
+          args:
+            - >
+              npm run cli -- \
+                -c cli-default-config.json \
+                -e comesa-environments/pm4ml-default-environment.json \
+                -i comesa-collections \
+                -u http://moja-ml-testing-toolkit-backend:5050 \
+                --report-format html \
+                --report-auto-filename-enable true \
+                --extra-summary-information="COMESA tests" \
+                --save-report true \
+                --report-name comesa_gp_collection \
+                --save-report-base-url testing-toolkit.local;
+              export TEST_RUNNER_EXIT_CODE="$?";
+
+              echo "Test Runner finished with exit code:
+              $TEST_RUNNER_EXIT_CODE";
+
+              exit $TEST_RUNNER_EXIT_CODE;
+          volumeMounts:
+            - name: comesa-environments
+              mountPath: /opt/app/comesa-environments
+            - name: comesa-collections
+              mountPath: /opt/app/comesa-collections
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 30

@@ -1,0 +1,8 @@
+app-yamls:
+    comesa-testsEnabled: true
+    comesa-testsSyncWave: 0
+    comesa-testsNamespace: mojaloop
+
+comesa-tests:
+    tag: v1.3.0
+    syncWave: 4
