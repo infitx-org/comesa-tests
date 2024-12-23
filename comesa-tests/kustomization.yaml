@@ -1,14 +1,23 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - comesa-test-job.yaml
+  - comesa-test-zmw-job.yaml
 configMapGenerator:
+  # ZM
   - name: comesa-test-collections
-    namespace: mojaloop
+    namespace: test-zmw-dfsp
     files:
-      - collections/scheme_rule_tests/mwk_as_payer_tests.json
       - collections/scheme_rule_tests/zmw_as_payer_tests.json
   - name: comesa-test-environments
-    namespace: mojaloop
+    namespace: test-zmw-dfsp
+    files:
+      - environments/pm4ml-default-environment.json
+  # MW
+  - name: comesa-test-collections
+    namespace: test-mwk-dfsp
+    files:
+      - collections/scheme_rule_tests/mwk_as_payer_tests.json
+  - name: comesa-test-environments
+    namespace: test-mwk-dfsp
     files:
       - environments/pm4ml-default-environment.json
