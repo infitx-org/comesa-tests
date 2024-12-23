@@ -1,5 +1,5 @@
 app-yamls:
-    comesa-testsEnabled: true
+    comesa-testsEnabled: false
     comesa-testsSyncWave: 0
 
 comesa-tests:
