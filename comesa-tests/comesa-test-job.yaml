@@ -30,7 +30,7 @@ spec:
             - /bin/sh
             - '-c'
           args:
-            - >
+            - |
               npm run cli -- \
                 -c cli-default-config.json \
                 -e comesa-environments/pm4ml-default-environment.json \
@@ -41,12 +41,9 @@ spec:
                 --extra-summary-information="COMESA tests" \
                 --save-report true \
                 --report-name comesa_gp_collection \
-                --save-report-base-url testing-toolkit.local;
+                --save-report-base-url https://ttkbackend.int.${cluster.env}.${cluster.domain};
               export TEST_RUNNER_EXIT_CODE="$?";
-
-              echo "Test Runner finished with exit code:
-              $TEST_RUNNER_EXIT_CODE";
-
+              echo "Test Runner finished with exit code: $TEST_RUNNER_EXIT_CODE";
               exit $TEST_RUNNER_EXIT_CODE;
           volumeMounts:
             - name: comesa-environments
