@@ -3,7 +3,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "${app.syncWave}"
+    argocd.argoproj.io/sync-wave: "${app.comesa-testsSyncWave}"
   name: comesa-tests
   namespace: argocd
   finalizers:
