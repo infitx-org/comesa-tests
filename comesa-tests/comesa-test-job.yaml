@@ -35,13 +35,13 @@ spec:
                 -c cli-default-config.json \
                 -e comesa-environments/pm4ml-default-environment.json \
                 -i comesa-collections \
-                -u http://moja-ml-testing-toolkit-backend:5050 \
+                -u http://test-zmw-dfsp-ttk-backend:5050 \
                 --report-format html \
                 --report-auto-filename-enable true \
                 --extra-summary-information="COMESA tests" \
                 --save-report true \
                 --report-name comesa_gp_collection \
-                --save-report-base-url https://ttkbackend.int.${cluster.env}.${cluster.domain};
+                --save-report-base-url https://ttkfront-test-zmw-dfsp.${cluster.env}.${cluster.domain};
               export TEST_RUNNER_EXIT_CODE="$?";
               echo "Test Runner finished with exit code: $TEST_RUNNER_EXIT_CODE";
               exit $TEST_RUNNER_EXIT_CODE;
