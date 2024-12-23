@@ -14,7 +14,7 @@ spec:
     repoURL: ${cluster.gitlabProjectUrl}
     targetRevision: HEAD
   destination:
-    namespace: ${app.comesa-testsNamespace}
+    namespace: test-zmw-dfsp
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:

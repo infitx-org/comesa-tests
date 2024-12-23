@@ -2,7 +2,6 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: moja-ml-ttk-test-comesa
-  namespace: mojaloop
   labels:
     argocd.argoproj.io/instance: moja
   annotations:
