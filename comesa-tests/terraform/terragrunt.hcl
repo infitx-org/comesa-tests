@@ -3,5 +3,5 @@ inputs = {
 }
 
 terraform {
-  source = "."
+  copy_terraform_lock_file = false
 }
