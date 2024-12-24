@@ -5,3 +5,6 @@ app-yamls:
 comesa-tests:
     tag: v1.3.0
     syncWave: 4
+    namespaces:
+        - test-zmw-dfsp
+        - test-mwk-dfsp

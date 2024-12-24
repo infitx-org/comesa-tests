@@ -14,7 +14,6 @@ spec:
     repoURL: ${cluster.gitlabProjectUrl}
     targetRevision: HEAD
   destination:
-    namespace: test-zmw-dfsp
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
@@ -22,7 +21,6 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
 # %{ endif }
