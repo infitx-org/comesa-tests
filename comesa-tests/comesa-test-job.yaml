@@ -34,6 +34,8 @@ spec:
             - '-c'
           args:
             - |
+              until nslookup ${namespace}-ttk-backend; do sleep 5;done;
+
               npm run cli -- \
                 -c cli-default-config.json \
                 -e comesa-environments/pm4ml-default-environment.json \
