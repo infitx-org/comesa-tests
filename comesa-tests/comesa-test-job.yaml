@@ -37,7 +37,7 @@ spec:
               npm run cli -- \
                 -c cli-default-config.json \
                 -e comesa-environments/pm4ml-default-environment.json \
-                -i comesa-collections/${namespace} \
+                -i comesa-collections \
                 -u http://${namespace}-ttk-backend:5050 \
                 --report-format html \
                 --report-auto-filename-enable true \
