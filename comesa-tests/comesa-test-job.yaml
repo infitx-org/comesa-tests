@@ -34,7 +34,7 @@ spec:
             - '-c'
           args:
             - |
-              until nslookup ${namespace}-ttk-backend; do sleep 5;done;
+              until nslookup ${namespace}-ttk-backend.${namespace}.svc.cluster.local; do sleep 5;done;
 
               npm run cli -- \
                 -c cli-default-config.json \
