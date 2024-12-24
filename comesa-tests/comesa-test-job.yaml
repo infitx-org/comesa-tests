@@ -1,4 +1,5 @@
 # %{ for namespace in app.namespaces }
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
