@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - comesa-test-job.yaml
+configMapGenerator:
+# %{ for namespace in app.namespaces }
+  - name: comesa-test-collections
+    namespace: ${namespace}
+    files:
+      - collections/${namespace}/payer.json
+  - name: comesa-test-environments
+    namespace: ${namespace}
+    files:
+      - environments/pm4ml-default-environment.json
+# %{ endfor }
