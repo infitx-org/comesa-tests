@@ -1,0 +1,43 @@
+{
+  "inputValues": {
+    "HOME_TRANSACTION_ID": "123ABC",
+    "FROM_DISPLAY_NAME": "Display-Test",
+    "FROM_DOB": "1984-01-01",
+    "FROM_FIRST_NAME": "Firstname-Test",
+    "FROM_LAST_NAME": "Lastname-Test",
+    "FROM_MIDDLE_NAME": "Middlename-Test",
+    "FXP1_ID": "testfxp",
+    "P2P_AMOUNT": "10",
+    "NOTE": "test",
+    "MWK_FSP_ID": "test-mwk-dfsp",
+    "MWK_MSISDN": "16665551662",
+    "MWK_CURRENCY": "MWK",
+    "ZMW_FSP_ID": "test-zmw-dfsp",
+    "ZMW_MSISDN": "16665551662",
+    "ZMW_CURRENCY": "ZMW",
+    "EGP_FSP_ID": "test-egp-dfsp",
+    "EGP_MSISDN": "16665551222",
+    "EGP_CURRENCY": "EGP",
+    "ETB_FSP_ID": "test-etb-dfsp",
+    "ETB_MSISDN": "16665551662",
+    "ETB_CURRENCY": "ETB",
+    "MUR_FSP_ID": "test-mur-dfsp",
+    "MUR_MSISDN": "16665551662",
+    "MUR_CURRENCY": "MUR",
+    "UGX_FSP_ID": "test-ugx-dfsp",
+    "UGX_MSISDN": "16665551662",
+    "UGX_CURRENCY": "UGX",
+    "RWF_FSP_ID": "test-rwf-dfsp",
+    "RWF_MSISDN": "16665551662",
+    "RWF_CURRENCY": "RWF",
+    "KES_FSP_ID": "test-kes-dfsp",
+    "KES_MSISDN": "16665551662",
+    "KES_CURRENCY": "KES",
+    "RETRY_MAX_ATTEMPTS": 100
+  },
+  "options": {
+    "breakOnError": false,
+    "transformerName": "none",
+    "generateIDType": "ulid"
+  }
+}
