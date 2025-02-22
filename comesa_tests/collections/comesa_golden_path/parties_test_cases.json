@@ -107,7 +107,7 @@
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.COMESA_MSISDN_DOES_NOT_EXIST_ANY_SCHEME}",
+              "idValue": "{$inputs.COMESA_MSISDN_EXISTS_IN_MULTIPLE_SCHEMES_MULTIPLE_CURRENCIES}",
               "merchantClassificationCode": 123
             },
             "amountType": "SEND",
