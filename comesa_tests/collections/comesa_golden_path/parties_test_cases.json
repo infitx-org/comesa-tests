@@ -178,7 +178,7 @@
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.COMESA_MSISDN_DOES_NOT_EXIST_ANY_SCHEME}",
+              "idValue": "{$inputs.COMESA_MSISDN_MOVE_TO_ANOTHER_DFSP_SAME_SCHEME}",
               "merchantClassificationCode": 123
             },
             "amountType": "SEND",
@@ -206,67 +206,6 @@
                 "description": "Destination FSP Id should be test-mwk-dfsp",
                 "exec": [
                   "expect(response.body.getPartiesResponse.body.party.partyIdInfo.fspId).to.equal('test-mwk-dfsp')"
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "id": 2,
-          "description": "Send transfer",
-          "apiVersion": {
-            "minorVersion": 1,
-            "majorVersion": 2,
-            "type": "mojaloop_connector_outbound",
-            "asynchronous": true
-          },
-          "operationPath": "/transfers",
-          "path": "/transfers",
-          "method": "post",
-          "body": {
-            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
-            "from": {
-              "type": "CONSUMER",
-              "idType": "MSISDN",
-              "idValue": "{$inputs.P2P_SOURCE_PARTY_ID_1}",
-              "displayName": "{$inputs.FROM_DISPLAY_NAME}",
-              "firstName": "{$inputs.FROM_FIRST_NAME}",
-              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
-              "lastName": "{$inputs.FROM_LAST_NAME}",
-              "dateOfBirth": "{$inputs.FROM_DOB}",
-              "fspId": "{$inputs.FROM_FSP_ID}"
-            },
-            "to": {
-              "type": "CONSUMER",
-              "idType": "MSISDN",
-              "idValue": "{$inputs.COMESA_MSISDN_DOES_NOT_EXIST_ANY_SCHEME}",
-              "merchantClassificationCode": 123
-            },
-            "amountType": "SEND",
-            "currency": "{$inputs.P2P_CURRENCY}",
-            "amount": "{$inputs.P2P_AMOUNT}",
-            "transactionType": "TRANSFER",
-            "note": "{$inputs.NOTE}",
-            "skipPartyLookup": false
-          },
-          "params": {
-            "Type": "",
-            "ID": ""
-          },
-          "tests": {
-            "assertions": [
-              {
-                "id": 1,
-                "description": "Status is 200",
-                "exec": [
-                  "expect(response.status).to.equal(200)"
-                ]
-              },
-              {
-                "id": 2,
-                "description": "Destination FSP Id should be test-mwk-dfsp2",
-                "exec": [
-                  "expect(response.body.getPartiesResponse.body.party.partyIdInfo.fspId).to.equal('test-mwk-dfsp2')"
                 ]
               }
             ]
