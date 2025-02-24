@@ -773,7 +773,7 @@
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.COMESA_MWK_FSP_ID}",
+              "idValue": "{$inputs.COMESA_MSISDN_FXTRANSFERS_TIMEOUT_PAYEE_SCHEME}",
               "merchantClassificationCode": 123
             },
             "amountType": "SEND",
