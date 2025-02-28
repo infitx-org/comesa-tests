@@ -40,7 +40,7 @@
               "idValue": "{$inputs.MWK_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
+            "amountType": "RECEIVE",
             "currency": "{$inputs.ZMW_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
@@ -224,7 +224,7 @@
               "idValue": "{$inputs.EGP_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
+            "amountType": "RECEIVE",
             "currency": "{$inputs.ZMW_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
@@ -408,7 +408,7 @@
               "idValue": "{$inputs.ETB_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
+            "amountType": "RECEIVE",
             "currency": "{$inputs.ZMW_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
@@ -592,7 +592,7 @@
               "idValue": "{$inputs.MUR_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
+            "amountType": "RECEIVE",
             "currency": "{$inputs.ZMW_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
@@ -776,7 +776,7 @@
               "idValue": "{$inputs.UGX_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
+            "amountType": "RECEIVE",
             "currency": "{$inputs.ZMW_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
@@ -960,7 +960,7 @@
               "idValue": "{$inputs.RWF_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
+            "amountType": "RECEIVE",
             "currency": "{$inputs.ZMW_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
@@ -1144,7 +1144,7 @@
               "idValue": "{$inputs.KES_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
+            "amountType": "RECEIVE",
             "currency": "{$inputs.ZMW_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",

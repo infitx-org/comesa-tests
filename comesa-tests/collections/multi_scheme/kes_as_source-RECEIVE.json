@@ -4,9 +4,9 @@
   "test_cases": [
     {
       "id": 1,
-      "name": "Transfer from ZMW to MWK",
+      "name": "Transfer from KES to ZMW",
       "meta": {
-        "info": "Transfer from ZMW to MWK"
+        "info": "Transfer from KES to ZMW"
       },
       "requests": [
         {
@@ -26,22 +26,22 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.ZMW_MSISDN}",
+              "idValue": "{$inputs.KES_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
               "lastName": "{$inputs.FROM_LAST_NAME}",
               "dateOfBirth": "{$inputs.FROM_DOB}",
-              "fspId": "{$inputs.ZMW_FSP_ID}"
+              "fspId": "{$inputs.KES_FSP_ID}"
             },
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.MWK_MSISDN}",
+              "idValue": "{$inputs.ZMW_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
-            "currency": "{$inputs.ZMW_CURRENCY}",
+            "amountType": "RECEIVE",
+            "currency": "{$inputs.KES_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
@@ -188,9 +188,9 @@
     },
     {
       "id": 2,
-      "name": "Transfer from ZMW to EGP",
+      "name": "Transfer from KES to MWK",
       "meta": {
-        "info": "Transfer from ZMW to EGP"
+        "info": "Transfer from KES to MWK"
       },
       "requests": [
         {
@@ -210,22 +210,22 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.ZMW_MSISDN}",
+              "idValue": "{$inputs.KES_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
               "lastName": "{$inputs.FROM_LAST_NAME}",
               "dateOfBirth": "{$inputs.FROM_DOB}",
-              "fspId": "{$inputs.ZMW_FSP_ID}"
+              "fspId": "{$inputs.KES_FSP_ID}"
             },
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.EGP_MSISDN}",
+              "idValue": "{$inputs.MWK_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
-            "currency": "{$inputs.ZMW_CURRENCY}",
+            "amountType": "RECEIVE",
+            "currency": "{$inputs.KES_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
@@ -372,9 +372,9 @@
     },
     {
       "id": 3,
-      "name": "Transfer from ZMW to ETB",
+      "name": "Transfer from KES to EGP",
       "meta": {
-        "info": "Transfer from EGP to ETB"
+        "info": "Transfer from KES to EGP"
       },
       "requests": [
         {
@@ -394,22 +394,22 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.ZMW_MSISDN}",
+              "idValue": "{$inputs.KES_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
               "lastName": "{$inputs.FROM_LAST_NAME}",
               "dateOfBirth": "{$inputs.FROM_DOB}",
-              "fspId": "{$inputs.ZMW_FSP_ID}"
+              "fspId": "{$inputs.KES_FSP_ID}"
             },
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.ETB_MSISDN}",
+              "idValue": "{$inputs.EGP_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
-            "currency": "{$inputs.ZMW_CURRENCY}",
+            "amountType": "RECEIVE",
+            "currency": "{$inputs.KES_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
@@ -556,9 +556,9 @@
     },
     {
       "id": 4,
-      "name": "Transfer from ZMW to MUR",
+      "name": "Transfer from KES to ETB",
       "meta": {
-        "info": "Transfer from ZMW to MUR"
+        "info": "Transfer from KES to ETB"
       },
       "requests": [
         {
@@ -578,22 +578,22 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.ZMW_MSISDN}",
+              "idValue": "{$inputs.KES_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
               "lastName": "{$inputs.FROM_LAST_NAME}",
               "dateOfBirth": "{$inputs.FROM_DOB}",
-              "fspId": "{$inputs.ZMW_FSP_ID}"
+              "fspId": "{$inputs.KES_FSP_ID}"
             },
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.MUR_MSISDN}",
+              "idValue": "{$inputs.ETB_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
-            "currency": "{$inputs.ZMW_CURRENCY}",
+            "amountType": "RECEIVE",
+            "currency": "{$inputs.KES_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
@@ -740,9 +740,9 @@
     },
     {
       "id": 5,
-      "name": "Transfer from ZMW to UGX",
+      "name": "Transfer from KES to MUR",
       "meta": {
-        "info": "Transfer from ZMW to UGX"
+        "info": "Transfer from KES to MUR"
       },
       "requests": [
         {
@@ -762,22 +762,22 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.ZMW_MSISDN}",
+              "idValue": "{$inputs.KES_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
               "lastName": "{$inputs.FROM_LAST_NAME}",
               "dateOfBirth": "{$inputs.FROM_DOB}",
-              "fspId": "{$inputs.ZMW_FSP_ID}"
+              "fspId": "{$inputs.KES_FSP_ID}"
             },
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.UGX_MSISDN}",
+              "idValue": "{$inputs.MUR_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
-            "currency": "{$inputs.ZMW_CURRENCY}",
+            "amountType": "RECEIVE",
+            "currency": "{$inputs.KES_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
@@ -924,9 +924,9 @@
     },
     {
       "id": 6,
-      "name": "Transfer from ZMW to RWF",
+      "name": "Transfer from KES to UGX",
       "meta": {
-        "info": "Transfer from ZMW to RWF"
+        "info": "Transfer from KES to UGX"
       },
       "requests": [
         {
@@ -946,22 +946,22 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.ZMW_MSISDN}",
+              "idValue": "{$inputs.KES_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
               "lastName": "{$inputs.FROM_LAST_NAME}",
               "dateOfBirth": "{$inputs.FROM_DOB}",
-              "fspId": "{$inputs.ZMW_FSP_ID}"
+              "fspId": "{$inputs.KES_FSP_ID}"
             },
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.RWF_MSISDN}",
+              "idValue": "{$inputs.UGX_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
-            "currency": "{$inputs.ZMW_CURRENCY}",
+            "amountType": "RECEIVE",
+            "currency": "{$inputs.KES_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
@@ -1108,9 +1108,9 @@
     },
     {
       "id": 7,
-      "name": "Transfer from ZMW to KES",
+      "name": "Transfer from KES to RWF",
       "meta": {
-        "info": "Transfer from ZMW to KES"
+        "info": "Transfer from KES to RWF"
       },
       "requests": [
         {
@@ -1130,22 +1130,22 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.ZMW_MSISDN}",
+              "idValue": "{$inputs.KES_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
               "lastName": "{$inputs.FROM_LAST_NAME}",
               "dateOfBirth": "{$inputs.FROM_DOB}",
-              "fspId": "{$inputs.ZMW_FSP_ID}"
+              "fspId": "{$inputs.KES_FSP_ID}"
             },
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.KES_MSISDN}",
+              "idValue": "{$inputs.RWF_MSISDN}",
               "merchantClassificationCode": 123
             },
-            "amountType": "SEND",
-            "currency": "{$inputs.ZMW_CURRENCY}",
+            "amountType": "RECEIVE",
+            "currency": "{$inputs.KES_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
