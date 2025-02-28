@@ -41,7 +41,7 @@
               "merchantClassificationCode": 123
             },
             "amountType": "RECEIVE",
-            "currency": "{$inputs.ZMW_CURRENCY}",
+            "currency": "{$inputs.MWK_CURRENCY}",
             "amount": "{$inputs.P2P_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
@@ -72,7 +72,7 @@
         },
         {
           "id": 2,
-          "description": "Accept Party and send POST /fxQuotes",
+          "description": "Accept Party and send POST /quotes",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
@@ -100,44 +100,6 @@
               },
               {
                 "id": 2,
-                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
-                "exec": [
-                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
-                ]
-              }
-            ]
-          }
-        },
-        {
-          "id": 3,
-          "description": "Accept FX Conversion Quote and send POST /quotes",
-          "apiVersion": {
-            "minorVersion": 1,
-            "majorVersion": 2,
-            "type": "mojaloop_connector_outbound",
-            "asynchronous": false
-          },
-          "operationPath": "/transfers/{transferId}",
-          "path": "/transfers/{$prev.1.response.body.transferId}",
-          "method": "put",
-          "params": {
-            "transferId": "{$prev.1.response.body.transferId}"
-          },
-          "body": {
-            "acceptConversion": true
-          },
-          "disabled": false,
-          "tests": {
-            "assertions": [
-              {
-                "id": 1,
-                "description": "Status is 200",
-                "exec": [
-                  "expect(response.status).to.equal(200)"
-                ]
-              },
-              {
-                "id": 2,
                 "description": "Current state should be WAITING_FOR_QUOTE_ACCEPTANCE",
                 "exec": [
                   "expect(response.body.currentState).to.equal('WAITING_FOR_QUOTE_ACCEPTANCE')"
@@ -147,8 +109,8 @@
           }
         },
         {
-          "id": 4,
-          "description": "Accept Quote and send POST /fxTransfers",
+          "id": 3,
+          "description": "Accept Quote and send POST /fxQuotes",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
@@ -176,6 +138,44 @@
               },
               {
                 "id": 2,
+                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "description": "Accept FX Conversion and send POST /fxTransfers",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptConversion": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
                 "description": "Current state should be COMPLETED",
                 "exec": [
                   "expect(response.body.currentState).to.equal('COMPLETED')"
@@ -183,7 +183,7 @@
               }
             ]
           }
-        }
+        } 
       ]
     },
     {
