@@ -1,12 +1,20 @@
 {
-  "options": {},
-  "name": "FX Transfers Test Cases",
+  "options": {
+    "breakOnError": false,
+    "transformerName": "none",
+    "generateIDType": "ulid"
+  },
+  "name": "fxtransfers_transfers_test_cases",
   "test_cases": [
     {
       "id": 1,
       "name": "Timeout in Payer scheme on PUT /fxTransfers ",
       "meta": {
         "info": "Timeout in Regional scheme on PUT /fxTransfers "
+      },
+      "disabled": true,
+      "fileInfo": {
+        "path": "fxtransfers_transfers_test_cases.json"
       },
       "requests": [
         {
@@ -192,6 +200,10 @@
       "meta": {
         "info": "Timeout in Regional scheme on PUT /transfers "
       },
+      "disabled": true,
+      "fileInfo": {
+        "path": "fxtransfers_transfers_test_cases.json"
+      },
       "requests": [
         {
           "id": 1,
@@ -375,6 +387,10 @@
       "name": "Timeout in Regional scheme on PUT /fxTransfers ",
       "meta": {
         "info": "Timeout in Regional scheme on PUT /fxTransfers "
+      },
+      "disabled": true,
+      "fileInfo": {
+        "path": "fxtransfers_transfers_test_cases.json"
       },
       "requests": [
         {
@@ -560,6 +576,10 @@
       "meta": {
         "info": "Timeout in Regional scheme on PUT /transfers "
       },
+      "disabled": true,
+      "fileInfo": {
+        "path": "fxtransfers_transfers_test_cases.json"
+      },
       "requests": [
         {
           "id": 1,
@@ -740,9 +760,613 @@
     },
     {
       "id": 5,
-      "name": "Timeout in Payee scheme on PUT /fxTransfers ",
+      "name": "Timeout in /fxTransfers ",
       "meta": {
-        "info": "Timeout in Payee scheme on PUT /fxTransfers "
+        "info": "Timeout in /fxTransfers "
+      },
+      "disabled": true,
+      "fileInfo": {
+        "path": "fxtransfers_transfers_test_cases.json"
+      },
+      "requests": [
+        {
+          "id": 1,
+          "meta": {
+            "info": "Store {$inputs.COMESA_FSP1_ID} position before fxTransfer"
+          },
+          "description": "Store {$inputs.COMESA_FSP1_ID} position before fxTransfer",
+          "apiVersion": {
+            "minorVersion": 0,
+            "majorVersion": 1,
+            "type": "central_admin"
+          },
+          "operationPath": "/admin/participants/{name}/positions",
+          "path": "/admin/participants/{$inputs.COMESA_FSP1_ID}/positions",
+          "method": "get",
+          "params": {
+            "name": "{$inputs.COMESA_FSP1_ID}"
+          },
+          "url": "{$inputs.COMESA_FSP1_INTERNAL_ENDPOINT}",
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status code is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              }
+            ]
+          },
+          "scriptingEngine": "javascript",
+          "headers": {
+            "FSPIOP-Source": "{$inputs.COMESA_FSP1_ID}",
+            "Authorization": "{$inputs.TTK_BEARER_TOKEN}"
+          },
+          "disabled": true,
+          "scripts": {
+            "postRequest": {
+              "exec": [
+                "environment[environment.COMESA_FSP1_ID + 'PositionBeforeFxTransfer'] = response.body[0].value"
+              ]
+            },
+            "preRequest": {
+              "exec": [
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "id": 2,
+          "meta": {
+            "info": "Store {$inputs.COMESA_FSP1_PROXY_ID} position before fxTransfer"
+          },
+          "description": "Store {$inputs.COMESA_FSP1_PROXY_ID} position before fxTransfer",
+          "apiVersion": {
+            "minorVersion": 0,
+            "majorVersion": 1,
+            "type": "central_admin"
+          },
+          "operationPath": "/admin/participants/{name}/positions",
+          "path": "/admin/participants/{$inputs.COMESA_FSP1_PROXY_ID}/positions",
+          "method": "get",
+          "params": {
+            "name": "{$inputs.COMESA_FSP1_PROXY_ID}"
+          },
+          "url": "{$inputs.COMESA_FSP1_INTERNAL_ENDPOINT}",
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status code is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              }
+            ]
+          },
+          "scriptingEngine": "javascript",
+          "headers": {
+            "FSPIOP-Source": "{$inputs.COMESA_FSP1_PROXY_ID}",
+            "Authorization": "{$inputs.TTK_BEARER_TOKEN}"
+          },
+          "disabled": true,
+          "scripts": {
+            "postRequest": {
+              "exec": [
+                "environment[environment.COMESA_FSP1_PROXY_ID + 'PositionBeforeFxTransfer'] = response.body[0].value"
+              ]
+            },
+            "preRequest": {
+              "exec": [
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "id": 3,
+          "meta": {
+            "info": "Store {$inputs.COMESA_FSP1_PROXY_ID} position in regional scheme before fxTransfer"
+          },
+          "description": "Store {$inputs.COMESA_FSP1_PROXY_ID} position in regional scheme before fxTransfer",
+          "apiVersion": {
+            "minorVersion": 0,
+            "majorVersion": 1,
+            "type": "central_admin"
+          },
+          "operationPath": "/admin/participants/{name}/positions",
+          "path": "/admin/participants/{$inputs.COMESA_FSP1_PROXY_ID}/positions",
+          "method": "get",
+          "params": {
+            "name": "{$inputs.COMESA_FSP1_PROXY_ID}"
+          },
+          "url": "{$inputs.COMESA_REGIONAL_INTERNAL_ENDPOINT}",
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status code is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              }
+            ]
+          },
+          "scriptingEngine": "javascript",
+          "headers": {
+            "FSPIOP-Source": "{$inputs.COMESA_FSP1_PROXY_ID}",
+            "Authorization": "{$inputs.TTK_BEARER_TOKEN}"
+          },
+          "disabled": true,
+          "scripts": {
+            "postRequest": {
+              "exec": [
+                "environment[environment.COMESA_FSP1_PROXY_ID + 'PositionBeforeFxTransferInRegionalHub'] = response.body[0].value"
+              ]
+            },
+            "preRequest": {
+              "exec": [
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "id": 4,
+          "meta": {
+            "info": "Store {$inputs.COMESA_FXP_FSP_ID} position before fxTransfer"
+          },
+          "description": "Store {$inputs.COMESA_FXP_FSP_ID} position before fxTransfer",
+          "apiVersion": {
+            "minorVersion": 0,
+            "majorVersion": 1,
+            "type": "central_admin"
+          },
+          "operationPath": "/admin/participants/{name}/positions",
+          "path": "/admin/participants/{$inputs.COMESA_FXP_FSP_ID}/positions",
+          "method": "get",
+          "params": {
+            "name": "{$inputs.COMESA_FXP_FSP_ID}"
+          },
+          "url": "{$inputs.COMESA_FSP1_INTERNAL_ENDPOINT}",
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status code is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              }
+            ]
+          },
+          "scriptingEngine": "javascript",
+          "headers": {
+            "FSPIOP-Source": "{$inputs.COMESA_FXP_FSP_ID}",
+            "Authorization": "{$inputs.TTK_BEARER_TOKEN}"
+          },
+          "disabled": true,
+          "scripts": {
+            "postRequest": {
+              "exec": [
+                "environment[environment.COMESA_FXP_FSP_ID + 'PositionBeforeFxTransfer'] = response.body[0].value"
+              ]
+            },
+            "preRequest": {
+              "exec": [
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "id": 5,
+          "description": "Send transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/transfers",
+          "path": "/transfers",
+          "method": "post",
+          "body": {
+            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
+            "from": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.COMESA_ZMW_FSP_ID}",
+              "displayName": "{$inputs.FROM_DISPLAY_NAME}",
+              "firstName": "{$inputs.FROM_FIRST_NAME}",
+              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
+              "lastName": "{$inputs.FROM_LAST_NAME}",
+              "dateOfBirth": "{$inputs.FROM_DOB}",
+              "fspId": "{$inputs.FROM_FSP_ID}"
+            },
+            "to": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.FX_DESTINATION_PARTY_ID_1}",
+              "merchantClassificationCode": 123
+            },
+            "amountType": "SEND",
+            "currency": "{$inputs.P2P_CURRENCY}",
+            "amount": "{$inputs.COMESA_FXTRANSFERS_TIMEOUT_AMOUNT}",
+            "transactionType": "TRANSFER",
+            "note": "{$inputs.NOTE}",
+            "skipPartyLookup": false
+          },
+          "params": {
+            "Type": "",
+            "ID": ""
+          },
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "disabled": true
+        },
+        {
+          "id": 6,
+          "description": "Accept Party and send POST /fxQuotes",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptParty": true
+          },
+          "disabled": true,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 7,
+          "description": "Accept FX Conversion Quote and send POST /quotes",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptConversion": true
+          },
+          "disabled": true,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_QUOTE_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_QUOTE_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 8,
+          "description": "Accept Quote and send POST /fxTransfers",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptQuote": true
+          },
+          "disabled": true,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 500",
+                "exec": [
+                  "expect(response.status).to.equal(500)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "statusText should contain timeout",
+                "exec": [
+                  "expect(response.statusText).contains('timeout')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 9,
+          "meta": {
+            "info": "Store {$inputs.COMESA_FSP1_ID} position after fxTransfer"
+          },
+          "description": "Store {$inputs.COMESA_FSP1_ID} position after fxTransfer",
+          "apiVersion": {
+            "minorVersion": 0,
+            "majorVersion": 1,
+            "type": "central_admin"
+          },
+          "operationPath": "/admin/participants/{name}/positions",
+          "path": "/admin/participants/{$inputs.COMESA_FSP1_ID}/positions",
+          "method": "get",
+          "params": {
+            "name": "{$inputs.COMESA_FSP1_ID}"
+          },
+          "url": "{$inputs.COMESA_FSP1_INTERNAL_ENDPOINT}",
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status code is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Position should be same before and after the timeout.",
+                "exec": [
+                  "expect(environment[environment.COMESA_FSP1_ID + 'PositionAfterFxTransfer']).to.equal(environment[environment.COMESA_FSP1_ID + 'PositionBeforeFxTransfer'])"
+                ]
+              }
+            ]
+          },
+          "scriptingEngine": "javascript",
+          "headers": {
+            "FSPIOP-Source": "{$inputs.COMESA_FSP1_ID}",
+            "Authorization": "{$inputs.TTK_BEARER_TOKEN}"
+          },
+          "disabled": true,
+          "scripts": {
+            "postRequest": {
+              "exec": [
+                "environment[environment.COMESA_FSP1_ID + 'PositionAfterFxTransfer'] = response.body[0].value"
+              ]
+            },
+            "preRequest": {
+              "exec": [
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "id": 10,
+          "meta": {
+            "info": "Store {$inputs.COMESA_FSP1_PROXY_ID} position after fxTransfer"
+          },
+          "description": "Store {$inputs.COMESA_FSP1_PROXY_ID} position after fxTransfer",
+          "apiVersion": {
+            "minorVersion": 0,
+            "majorVersion": 1,
+            "type": "central_admin"
+          },
+          "operationPath": "/admin/participants/{name}/positions",
+          "path": "/admin/participants/{$inputs.COMESA_FSP1_PROXY_ID}/positions",
+          "method": "get",
+          "params": {
+            "name": "{$inputs.COMESA_FSP1_PROXY_ID}"
+          },
+          "url": "{$inputs.COMESA_FSP1_INTERNAL_ENDPOINT}",
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status code is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Position should be same before and after the timeout.",
+                "exec": [
+                  "expect(environment[environment.COMESA_FSP1_PROXY_ID + 'PositionAfterFxTransfer']).to.equal(environment[environment.COMESA_FSP1_PROXY_ID + 'PositionBeforeFxTransfer'])"
+                ]
+              }
+            ]
+          },
+          "scriptingEngine": "javascript",
+          "headers": {
+            "FSPIOP-Source": "{$inputs.COMESA_FSP1_PROXY_ID}",
+            "Authorization": "{$inputs.TTK_BEARER_TOKEN}"
+          },
+          "disabled": true,
+          "scripts": {
+            "postRequest": {
+              "exec": [
+                "environment[environment.COMESA_FSP1_PROXY_ID + 'PositionAfterFxTransfer'] = response.body[0].value"
+              ]
+            },
+            "preRequest": {
+              "exec": [
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "id": 11,
+          "meta": {
+            "info": "Store {$inputs.COMESA_FXP_FSP_ID} position after fxTransfer"
+          },
+          "description": "Store {$inputs.COMESA_FXP_FSP_ID} position after fxTransfer",
+          "apiVersion": {
+            "minorVersion": 0,
+            "majorVersion": 1,
+            "type": "central_admin"
+          },
+          "operationPath": "/admin/participants/{name}/positions",
+          "path": "/admin/participants/{$inputs.COMESA_FXP_FSP_ID}/positions",
+          "method": "get",
+          "params": {
+            "name": "{$inputs.COMESA_FXP_FSP_ID}"
+          },
+          "url": "{$inputs.COMESA_FSP1_INTERNAL_ENDPOINT}",
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status code is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Position should be same before and after the timeout.",
+                "exec": [
+                  "expect(environment[environment.COMESA_FXP_FSP_ID + 'PositionAfterFxTransfer']).to.equal(environment[environment.COMESA_FXP_FSP_ID + 'PositionBeforeFxTransfer'])"
+                ]
+              }
+            ]
+          },
+          "scriptingEngine": "javascript",
+          "headers": {
+            "FSPIOP-Source": "{$inputs.COMESA_FXP_FSP_ID}",
+            "Authorization": "{$inputs.TTK_BEARER_TOKEN}"
+          },
+          "disabled": true,
+          "scripts": {
+            "postRequest": {
+              "exec": [
+                "environment[environment.COMESA_FXP_FSP_ID + 'PositionAfterFxTransfer'] = response.body[0].value"
+              ]
+            },
+            "preRequest": {
+              "exec": [
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "id": 11,
+          "meta": {
+            "info": "Store {$inputs.COMESA_FSP1_PROXY_ID} position in regional scheme after fxTransfer"
+          },
+          "description": "Store {$inputs.COMESA_FSP1_PROXY_ID} position in regional scheme after fxTransfer",
+          "apiVersion": {
+            "minorVersion": 0,
+            "majorVersion": 1,
+            "type": "central_admin"
+          },
+          "operationPath": "/admin/participants/{name}/positions",
+          "path": "/admin/participants/{$inputs.COMESA_FSP1_PROXY_ID}/positions",
+          "method": "get",
+          "params": {
+            "name": "{$inputs.COMESA_FSP1_PROXY_ID}"
+          },
+          "url": "{$inputs.COMESA_REGIONAL_INTERNAL_ENDPOINT}",
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status code is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Position should be same before and after the timeout.",
+                "exec": [
+                  "expect(environment[environment.COMESA_FSP1_PROXY_ID + 'PositionAfterFxTransferInRegionalHub']).to.equal(environment[environment.COMESA_FSP1_PROXY_ID + 'PositionBeforeFxTransferInRegionalHub'])"
+                ]
+              }
+            ]
+          },
+          "scriptingEngine": "javascript",
+          "headers": {
+            "FSPIOP-Source": "{$inputs.COMESA_FSP1_PROXY_ID}",
+            "Authorization": "{$inputs.TTK_BEARER_TOKEN}"
+          },
+          "disabled": true,
+          "scripts": {
+            "postRequest": {
+              "exec": [
+                "environment[environment.COMESA_FSP1_PROXY_ID + 'PositionAfterFxTransferInRegionalHub'] = response.body[0].value"
+              ]
+            },
+            "preRequest": {
+              "exec": [
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Timeout in /fxTransfers ",
+      "meta": {
+        "info": "Timeout in /fxTransfers "
+      },
+      "fileInfo": {
+        "path": "fxtransfers_transfers_test_cases.json"
       },
       "requests": [
         {
@@ -773,12 +1397,12 @@
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.COMESA_MSISDN_FXTRANSFERS_TIMEOUT_PAYEE_SCHEME}",
+              "idValue": "{$inputs.FX_DESTINATION_PARTY_ID_1}",
               "merchantClassificationCode": 123
             },
             "amountType": "SEND",
             "currency": "{$inputs.P2P_CURRENCY}",
-            "amount": "{$inputs.COMESA_MWK_TIMEOUT_AMOUNT}",
+            "amount": "{$inputs.COMESA_FXTRANSFERS_TIMEOUT_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -804,7 +1428,8 @@
                 ]
               }
             ]
-          }
+          },
+          "disabled": true
         },
         {
           "id": 2,
@@ -824,7 +1449,7 @@
           "body": {
             "acceptParty": true
           },
-          "disabled": false,
+          "disabled": true,
           "tests": {
             "assertions": [
               {
@@ -862,7 +1487,7 @@
           "body": {
             "acceptConversion": true
           },
-          "disabled": false,
+          "disabled": true,
           "tests": {
             "assertions": [
               {
@@ -900,21 +1525,21 @@
           "body": {
             "acceptQuote": true
           },
-          "disabled": false,
+          "disabled": true,
           "tests": {
             "assertions": [
               {
                 "id": 1,
-                "description": "Status is 200",
+                "description": "Status is 500",
                 "exec": [
-                  "expect(response.status).to.equal(200)"
+                  "expect(response.status).to.equal(500)"
                 ]
               },
               {
                 "id": 2,
-                "description": "Current state should be COMPLETED",
+                "description": "statusText should contain timeout",
                 "exec": [
-                  "expect(response.body.currentState).to.equal('COMPLETED')"
+                  "expect(response.statusText).contains('timeout')"
                 ]
               }
             ]
@@ -923,10 +1548,13 @@
       ]
     },
     {
-      "id": 6,
-      "name": "Timeout in Payee scheme on PUT /transfers ",
+      "id": 7,
+      "name": "Error in /fxTransfers ",
       "meta": {
-        "info": "Timeout in Payee scheme on PUT /transfers "
+        "info": "Error in /fxTransfers "
+      },
+      "fileInfo": {
+        "path": "fxtransfers_transfers_test_cases.json"
       },
       "requests": [
         {
@@ -957,12 +1585,12 @@
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.COMESA_MWK_FSP_ID}",
+              "idValue": "{$inputs.FX_DESTINATION_PARTY_ID_1}",
               "merchantClassificationCode": 123
             },
             "amountType": "SEND",
             "currency": "{$inputs.P2P_CURRENCY}",
-            "amount": "{$inputs.COMESA_MWK_TIMEOUT_AMOUNT}",
+            "amount": "{$inputs.COMESA_FXTRANSFERS_ERROR_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -1089,16 +1717,16 @@
             "assertions": [
               {
                 "id": 1,
-                "description": "Status is 200",
+                "description": "Status is 500",
                 "exec": [
-                  "expect(response.status).to.equal(200)"
+                  "expect(response.status).to.equal(500)"
                 ]
               },
               {
                 "id": 2,
-                "description": "Current state should be COMPLETED",
+                "description": "statusText should contain Error",
                 "exec": [
-                  "expect(response.body.currentState).to.equal('COMPLETED')"
+                  "expect(response.statusText).contains('Error')"
                 ]
               }
             ]
@@ -1107,10 +1735,13 @@
       ]
     },
     {
-      "id": 6,
-      "name": "Payee scheme sends ABORT on PUT /transfers ",
+      "id": 8,
+      "name": "ABORTED in /fxTransfers ",
       "meta": {
-        "info": "Payee scheme sends ABORT on PUT /transfers "
+        "info": "ABORTED in /fxTransfers "
+      },
+      "fileInfo": {
+        "path": "fxtransfers_transfers_test_cases.json"
       },
       "requests": [
         {
@@ -1141,12 +1772,12 @@
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.COMESA_MWK_FSP_ID}",
+              "idValue": "{$inputs.FX_DESTINATION_PARTY_ID_1}",
               "merchantClassificationCode": 123
             },
             "amountType": "SEND",
             "currency": "{$inputs.P2P_CURRENCY}",
-            "amount": "{$inputs.COMESA_MWK_TIMEOUT_AMOUNT}",
+            "amount": "{$inputs.COMESA_FXTRANSFERS_ABORT_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -1273,6 +1904,79 @@
             "assertions": [
               {
                 "id": 1,
+                "description": "Status is 500",
+                "exec": [
+                  "expect(response.status).to.equal(500)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "statusText should contain Error",
+                "exec": [
+                  "expect(response.statusText).contains('Error')"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Timeout in /transfers ",
+      "meta": {
+        "info": "Timeout in /transfers "
+      },
+      "fileInfo": {
+        "path": "fxtransfers_transfers_test_cases.json"
+      },
+      "requests": [
+        {
+          "id": 1,
+          "description": "Send transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/transfers",
+          "path": "/transfers",
+          "method": "post",
+          "body": {
+            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
+            "from": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.COMESA_ZMW_FSP_ID}",
+              "displayName": "{$inputs.FROM_DISPLAY_NAME}",
+              "firstName": "{$inputs.FROM_FIRST_NAME}",
+              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
+              "lastName": "{$inputs.FROM_LAST_NAME}",
+              "dateOfBirth": "{$inputs.FROM_DOB}",
+              "fspId": "{$inputs.FROM_FSP_ID}"
+            },
+            "to": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.FX_DESTINATION_PARTY_ID_1}",
+              "merchantClassificationCode": 123
+            },
+            "amountType": "SEND",
+            "currency": "{$inputs.P2P_CURRENCY}",
+            "amount": "{$inputs.COMESA_TRANSFERS_TIMEOUT_AMOUNT}",
+            "transactionType": "TRANSFER",
+            "note": "{$inputs.NOTE}",
+            "skipPartyLookup": false
+          },
+          "params": {
+            "Type": "",
+            "ID": ""
+          },
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
                 "description": "Status is 200",
                 "exec": [
                   "expect(response.status).to.equal(200)"
@@ -1280,9 +1984,498 @@
               },
               {
                 "id": 2,
-                "description": "Current state should be COMPLETED",
+                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
                 "exec": [
-                  "expect(response.body.currentState).to.equal('COMPLETED')"
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "disabled": true
+        },
+        {
+          "id": 2,
+          "description": "Accept Party and send POST /fxQuotes",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptParty": true
+          },
+          "disabled": true,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "description": "Accept FX Conversion Quote and send POST /quotes",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptConversion": true
+          },
+          "disabled": true,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_QUOTE_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_QUOTE_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "description": "Accept Quote and send POST /fxTransfers",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptQuote": true
+          },
+          "disabled": true,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 500",
+                "exec": [
+                  "expect(response.status).to.equal(500)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "statusText should contain timeout",
+                "exec": [
+                  "expect(response.statusText).contains('timeout')"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Error in /transfers ",
+      "meta": {
+        "info": "Error in /transfers "
+      },
+      "fileInfo": {
+        "path": "fxtransfers_transfers_test_cases.json"
+      },
+      "requests": [
+        {
+          "id": 1,
+          "description": "Send transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/transfers",
+          "path": "/transfers",
+          "method": "post",
+          "body": {
+            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
+            "from": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.COMESA_ZMW_FSP_ID}",
+              "displayName": "{$inputs.FROM_DISPLAY_NAME}",
+              "firstName": "{$inputs.FROM_FIRST_NAME}",
+              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
+              "lastName": "{$inputs.FROM_LAST_NAME}",
+              "dateOfBirth": "{$inputs.FROM_DOB}",
+              "fspId": "{$inputs.FROM_FSP_ID}"
+            },
+            "to": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.FX_DESTINATION_PARTY_ID_1}",
+              "merchantClassificationCode": 123
+            },
+            "amountType": "SEND",
+            "currency": "{$inputs.P2P_CURRENCY}",
+            "amount": "{$inputs.COMESA_TRANSFERS_ERROR_AMOUNT}",
+            "transactionType": "TRANSFER",
+            "note": "{$inputs.NOTE}",
+            "skipPartyLookup": false
+          },
+          "params": {
+            "Type": "",
+            "ID": ""
+          },
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "description": "Accept Party and send POST /fxQuotes",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptParty": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "description": "Accept FX Conversion Quote and send POST /quotes",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptConversion": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_QUOTE_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_QUOTE_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "description": "Accept Quote and send POST /fxTransfers",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptQuote": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 500",
+                "exec": [
+                  "expect(response.status).to.equal(500)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "statusText should contain Error",
+                "exec": [
+                  "expect(response.statusText).contains('Error')"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "ABORTED in /transfers ",
+      "meta": {
+        "info": "ABORTED in /transfers "
+      },
+      "fileInfo": {
+        "path": "fxtransfers_transfers_test_cases.json"
+      },
+      "requests": [
+        {
+          "id": 1,
+          "description": "Send transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/transfers",
+          "path": "/transfers",
+          "method": "post",
+          "body": {
+            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
+            "from": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.COMESA_ZMW_FSP_ID}",
+              "displayName": "{$inputs.FROM_DISPLAY_NAME}",
+              "firstName": "{$inputs.FROM_FIRST_NAME}",
+              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
+              "lastName": "{$inputs.FROM_LAST_NAME}",
+              "dateOfBirth": "{$inputs.FROM_DOB}",
+              "fspId": "{$inputs.FROM_FSP_ID}"
+            },
+            "to": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.FX_DESTINATION_PARTY_ID_1}",
+              "merchantClassificationCode": 123
+            },
+            "amountType": "SEND",
+            "currency": "{$inputs.P2P_CURRENCY}",
+            "amount": "{$inputs.COMESA_TRANSFERS_ABORT_AMOUNT}",
+            "transactionType": "TRANSFER",
+            "note": "{$inputs.NOTE}",
+            "skipPartyLookup": false
+          },
+          "params": {
+            "Type": "",
+            "ID": ""
+          },
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "description": "Accept Party and send POST /fxQuotes",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptParty": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "description": "Accept FX Conversion Quote and send POST /quotes",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptConversion": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_QUOTE_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_QUOTE_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "description": "Accept Quote and send POST /fxTransfers",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptQuote": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 500",
+                "exec": [
+                  "expect(response.status).to.equal(500)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "statusText should contain Error",
+                "exec": [
+                  "expect(response.statusText).contains('Error')"
                 ]
               }
             ]
