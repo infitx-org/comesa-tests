@@ -1,0 +1,1 @@
+${yamlencode(app.ttkHelmValues)}

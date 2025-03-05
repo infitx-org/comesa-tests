@@ -1,0 +1,94 @@
+ml-testing-toolkit-backend:
+  enabled: true
+  image:
+    tag: v17.3.1
+  nameOverride: ttk-backend
+  fullnameOverride: ttk-backend
+  command: '["sh", "-c", "until nslookup github.com; do sleep 5;done; cd /opt/default_config; for FILE in *; do newFileName=/opt/app/spec_files/${FILE//__/\\/}; mkdir -p ${newFileName%/*}; firstLine=$(head -n 1 $FILE | tr -d \\\"); regex=\"^(http|https|ftp)://\"; if [[ \"$firstLine\" =~ $regex ]]; then wget $firstLine -O $newFileName; else cp $FILE $newFileName; fi; done; cd /opt/app; npm run start;"]'
+  config_files:
+    user_config.json:
+      {
+        "VERSION": 1,
+        "CALLBACK_ENDPOINT": "http://localhost:4040",
+        "SEND_CALLBACK_ENABLE": false,
+        "DEFAULT_ENVIRONMENT_FILE_NAME": "pm4ml-default-environment.json",
+        "GITHUB_CONFIG": {
+          "TEST_CASES_REPO_OWNER": "mojaloop",
+          "TEST_CASES_REPO_NAME": "testing-toolkit-test-cases",
+          "TEST_CASES_REPO_DEFAULT_RELEASE_TAG": "latest",
+          "TEST_CASES_REPO_BASE_PATH": "collections/pm4ml"
+        },
+        "DEFAULT_REQUEST_TIMEOUT": 15000,
+        "FSPID": "pm4ml-ttk",
+      }
+    system_config.json:
+      {
+        "API_DEFINITIONS":
+          [
+            {
+              "type": "mojaloop_connector_outbound",
+              "version": "2.1",
+              "folderPath": "mojaloop_connector_outbound_2.1",
+              "asynchronous": false,
+              "hostnames": [],
+              "prefix": "/sdk-out",
+            },
+            {
+              "type": "mojaloop_connector_backend",
+              "version": "2.1",
+              "folderPath": "mojaloop_connector_backend_2.1",
+              "asynchronous": false,
+            },
+          ],
+      }
+    rules_response__default.json: https://raw.githubusercontent.com/mojaloop/testing-toolkit-test-cases/v17.0.0-iso.14/rules/pm4ml/forex/rules_sync_response/fxp_response_rules.json
+    api_definitions__mojaloop_connector_backend_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.7.11/docs/sdk-scheme-adapter-backend-v2_1_0-openapi3-snippets.yaml"
+    api_definitions__mojaloop_connector_outbound_2.1__api_spec.yaml: "https://raw.githubusercontent.com/mojaloop/api-snippets/v17.7.11/docs/sdk-scheme-adapter-outbound-v2_1_0-openapi3-snippets.yaml"
+    api_definitions__mojaloop_connector_outbound_2.1__callback_map.json: []
+  extraEnvironments:
+    pm4ml-default-environment.json: {
+      "inputValues": {}
+    }
+# %{ for scheme in app.testConfig.multiScheme }
+# %{ for target in scheme.targets }
+    ${app.testConfig.dfspConfig[scheme.dfsp].shortName}-${app.testConfig.dfspConfig[target.dfsp].shortName}.json: {
+      "inputValues": {
+        "HOME_TRANSACTION_ID": "123ABC",
+        "FROM_DISPLAY_NAME": "Display-Test",
+        "FROM_DOB": "1984-01-01",
+        "FROM_FIRST_NAME": "Firstname-Test",
+        "FROM_LAST_NAME": "Lastname-Test",
+        "FROM_MIDDLE_NAME": "Middlename-Test",
+        "NOTE": "test",
+        "MULTI_SCHEME_PAYER_FSP_ID": "test-zmw-dfsp",
+        "MULTI_SCHEME_PAYER_MSISDN": "${app.testConfig.dfspConfig[scheme.dfsp].happyPathMSISDN}",
+        "MULTI_SCHEME_PAYER_CURRENCY": "${app.testConfig.dfspConfig[scheme.dfsp].currency}",
+        "MULTI_SCHEME_PAYER_AMOUNT": "${scheme.sendAmount}",
+        "MULTI_SCHEME_PAYEE_FSP_ID":"${target.dfsp}",
+        "MULTI_SCHEME_PAYEE_MSISDN": "${app.testConfig.dfspConfig[target.dfsp].happyPathMSISDN}",
+        "MULTI_SCHEME_PAYEE_CURRENCY": "${app.testConfig.dfspConfig[target.dfsp].currency}"
+      },
+      "options": {
+        "breakOnError": true,
+        "transformerName": "none",
+        "generateIDType": "ulid"
+      }
+    }
+# %{ endfor }
+# %{ endfor }
+
+  ingress:
+    enabled: false
+
+ml-testing-toolkit-frontend:
+  enabled: true
+  image:
+    repository: mojaloop/ml-testing-toolkit-ui
+    tag: v16.0.1
+  nameOverride: ttk-frontend
+  fullnameOverride: ttk-frontend
+  ingress:
+    enabled: false
+  config:
+    API_BASE_URL: http://pm4ml-testing-toolkit.local
+
