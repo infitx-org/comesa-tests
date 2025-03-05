@@ -1,0 +1,6 @@
+{
+    "options": {},
+    "name": "Per Scheme Tests",
+    "description": "This test suite contains tests that are specific to a particular scheme",
+    "test_cases": []
+}

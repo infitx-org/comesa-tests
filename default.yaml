@@ -3,8 +3,27 @@ app-yamls:
     comesa-testsSyncWave: 0
 
 comesa-tests:
-    tag: v1.3.0
+    ttkHelmVersion: 17.4.0
+    ttkHelmValues: {}
     syncWave: 4
-    namespaces:
-        - test-zmw-dfsp
-        - test-mwk-dfsp
+    testConfig:
+        dfspConfig:
+            test-zmw-dfsp:
+                name: test-zmw-dfsp
+                shortName: zmw
+                currency: ZMW
+                endpoint: payer
+                happyPathMSISDN: 16665551001
+            test-mwk-dfsp:
+                name: test-mwk-dfsp
+                shortName: mwk
+                currency: MWK
+                endpoint: payee
+                happyPathMSISDN: 16665551002
+        multiScheme:
+            - schemeName: ZMW
+              dfsp: test-zmw-dfsp
+              sendAmount: 100
+              targets:
+                - dfsp: test-mwk-dfsp
+                - dfsp: test-ugx-dfsp
