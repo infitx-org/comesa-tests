@@ -63,7 +63,7 @@ ml-testing-toolkit-backend:
         "MULTI_SCHEME_PAYER_MSISDN": "${app.testConfig.dfspConfig[scheme.dfsp].happyPathMSISDN}",
         "MULTI_SCHEME_PAYER_CURRENCY": "${app.testConfig.dfspConfig[scheme.dfsp].currency}",
         "MULTI_SCHEME_PAYER_AMOUNT": "${scheme.sendAmount}",
-        "MULTI_SCHEME_PAYEE_FSP_ID":"${target.dfsp}",
+        "MULTI_SCHEME_PAYEE_FSP_ID": "${target.dfsp}",
         "MULTI_SCHEME_PAYEE_MSISDN": "${app.testConfig.dfspConfig[target.dfsp].happyPathMSISDN}",
         "MULTI_SCHEME_PAYEE_CURRENCY": "${app.testConfig.dfspConfig[target.dfsp].currency}"
       },
