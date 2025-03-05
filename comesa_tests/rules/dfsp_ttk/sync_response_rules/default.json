@@ -86,7 +86,7 @@
         {
           "fact": "body",
           "operator": "numericEqual",
-          "value": "21",
+          "value": "12",
           "path": "conversionTerms.sourceAmount.amount"
         },
         {
