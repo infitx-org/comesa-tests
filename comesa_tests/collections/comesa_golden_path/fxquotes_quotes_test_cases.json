@@ -208,9 +208,16 @@
               },
               {
                 "id": 2,
-                "description": "statusText should contain timeout",
+                "description": "error code is 5001",
                 "exec": [
-                  "expect(response.statusText).contains('timeout')"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5001')"
+                ]
+              },
+              {
+                "id": 3,
+                "description": "statusText should contain Generic error",
+                "exec": [
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).contains('Generic Payee Error')"
                 ]
               }
             ]

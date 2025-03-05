@@ -26,7 +26,7 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.P2P_SOURCE_PARTY_ID_1}",
+              "idValue": "{$inputs.COMESA_FSP1_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
@@ -37,7 +37,7 @@
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.FX_DESTINATION_PARTY_ID_1}",
+              "idValue": "{$inputs.COMESA_FSP2_MSISDN}",
               "merchantClassificationCode": 123
             },
             "amountType": "SEND",
@@ -211,7 +211,7 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.P2P_SOURCE_PARTY_ID_1}",
+              "idValue": "{$inputs.COMESA_FSP1_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
@@ -222,7 +222,7 @@
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.FX_DESTINATION_PARTY_ID_1}",
+              "idValue": "{$inputs.COMESA_FSP2_MSISDN}",
               "merchantClassificationCode": 123
             },
             "amountType": "SEND",
@@ -334,7 +334,7 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.P2P_SOURCE_PARTY_ID_1}",
+              "idValue": "{$inputs.COMESA_FSP1_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
@@ -345,7 +345,7 @@
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.FX_DESTINATION_PARTY_ID_1}",
+              "idValue": "{$inputs.COMESA_FSP2_MSISDN}",
               "merchantClassificationCode": 123
             },
             "amountType": "SEND",
@@ -520,7 +520,7 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.P2P_SOURCE_PARTY_ID_1}",
+              "idValue": "{$inputs.COMESA_FSP1_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
@@ -531,7 +531,7 @@
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.FX_DESTINATION_PARTY_ID_1}",
+              "idValue": "{$inputs.COMESA_FSP2_MSISDN}",
               "merchantClassificationCode": 123
             },
             "amountType": "SEND",
@@ -706,7 +706,7 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.P2P_SOURCE_PARTY_ID_1}",
+              "idValue": "{$inputs.COMESA_FSP1_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
@@ -717,7 +717,7 @@
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.FX_DESTINATION_PARTY_ID_1}",
+              "idValue": "{$inputs.COMESA_FSP2_MSISDN}",
               "merchantClassificationCode": 123
             },
             "amountType": "SEND",
