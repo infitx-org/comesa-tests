@@ -89,5 +89,5 @@ ml-testing-toolkit-frontend:
   ingress:
     enabled: false
   config:
-    API_BASE_URL: http://pm4ml-testing-toolkit.local
+    API_BASE_URL: https://ttk-comesa-tests.int.${cluster.env}.${cluster.domain}
 
