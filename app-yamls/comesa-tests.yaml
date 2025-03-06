@@ -14,13 +14,23 @@ spec:
     repoURL: ${cluster.gitlabProjectUrl}
     targetRevision: HEAD
   destination:
+    namespace: comesa-tests
     server: https://kubernetes.default.svc
   project: default
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        maxDuration: 3m0s
+        factor: 2
     syncOptions:
+      - CreateNamespace=true
       - PrunePropagationPolicy=background
       - PruneLast=true
+      - Replace=true
+      - RespectIgnoreDifferences=true
 # %{ endif }
