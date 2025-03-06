@@ -59,7 +59,7 @@
     "COMESA_FSP1_INTERNAL_ENDPOINT": "https://intapi.int.zmw-uat.drpp-onprem.global",
     "COMESA_FSP2_ID": "test-mwk-dfsp",
     "COMESA_FSP2_PROXY_ID": "proxy-mwk",
-    "COMESA_FSP2_MSISDN": "16665551001",
+    "COMESA_FSP2_MSISDN": "16665551002",
     "COMESA_FSP2_CURRENCY": "MWK",
     "COMESA_FSP2_INTERNAL_ENDPOINT": "https://intapi.int.mwk-uat.drpp-onprem.global",
     "COMESA_REGIONAL_INTERNAL_ENDPOINT": "https://intapi.int.region-uat.drpp-onprem.global",
