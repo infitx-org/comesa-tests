@@ -22,14 +22,14 @@ comesa-tests:
                 happyPathMSISDN: 16665551002
             test-ugx-dfsp:
                 name: test-ugx-dfsp
-                enabled: false
+                enabled: true
                 currency: UGX
                 endpoint: payee
                 happyPathMSISDN: 16665551003
         multiSchemeConfig:
             test-zmw-dfsp:
                 dfsp: test-zmw-dfsp
-                sendAmount: 100
+                sendAmount: 10
                 targets:
                     test-mwk-dfsp:
                         dfsp: test-mwk-dfsp

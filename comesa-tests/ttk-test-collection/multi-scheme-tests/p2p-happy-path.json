@@ -1,5 +1,9 @@
 {
-  "options": {},
+  "options": {
+    "breakOnError": true,
+    "transformerName": "none",
+    "generateIDType": "ulid"
+  },
   "name": "P2P Happy Path",
   "test_cases": [
     {
@@ -7,6 +11,9 @@
       "name": "P2P Happy Path",
       "meta": {
         "info": "P2P Happy Path"
+      },
+      "fileInfo": {
+        "path": "ttk-test-collection/multi-scheme-tests/p2p-happy-path.json"
       },
       "requests": [
         {
@@ -68,7 +75,8 @@
                 ]
               }
             ]
-          }
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
         },
         {
           "id": 2,
@@ -106,7 +114,8 @@
                 ]
               }
             ]
-          }
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
         },
         {
           "id": 3,
@@ -144,7 +153,8 @@
                 ]
               }
             ]
-          }
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
         },
         {
           "id": 4,
@@ -182,7 +192,8 @@
                 ]
               }
             ]
-          }
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
         }
       ]
     }
