@@ -54,3 +54,12 @@ jspm_packages
 !.gitignore
 
 
+# Allure
+allure-results
+allure-report
+
+# Terraform
+.terraform
+.terraform.lock.hcl
+.terraform.tfstate
+

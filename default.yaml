@@ -10,19 +10,44 @@ comesa-tests:
         dfspConfig:
             test-zmw-dfsp:
                 name: test-zmw-dfsp
-                shortName: zmw
+                enabled: true
                 currency: ZMW
                 endpoint: payer
                 happyPathMSISDN: 16665551001
             test-mwk-dfsp:
                 name: test-mwk-dfsp
-                shortName: mwk
+                enabled: true
                 currency: MWK
                 endpoint: payee
                 happyPathMSISDN: 16665551002
-        multiScheme:
-            - schemeName: ZMW
-              dfsp: test-zmw-dfsp
-              sendAmount: 100
-              targets:
-                - dfsp: test-mwk-dfsp
+            test-ugx-dfsp:
+                name: test-ugx-dfsp
+                enabled: false
+                currency: UGX
+                endpoint: payee
+                happyPathMSISDN: 16665551003
+        multiSchemeConfig:
+            test-zmw-dfsp:
+                dfsp: test-zmw-dfsp
+                sendAmount: 100
+                targets:
+                    test-mwk-dfsp:
+                        dfsp: test-mwk-dfsp
+                    test-ugx-dfsp:
+                        dfsp: test-ugx-dfsp
+            test-mwk-dfsp:
+                dfsp: test-mwk-dfsp
+                sendAmount: 10
+                targets:
+                    test-zmw-dfsp:
+                        dfsp: test-zmw-dfsp
+                    test-ugx-dfsp:
+                        dfsp: test-ugx-dfsp
+            test-ugx-dfsp:
+                dfsp: test-ugx-dfsp
+                sendAmount: 15
+                targets:
+                    test-zmw-dfsp:
+                        dfsp: test-zmw-dfsp
+                    test-mwk-dfsp:
+                        dfsp: test-mwk-dfsp
