@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - comesa-tests-config.yaml
   - vs.yaml
-  - comesa-tests-job.yaml
+  # - comesa-tests-job.yaml
 helmCharts:
   - name: ml-testing-toolkit
     releaseName: ttk
