@@ -9,6 +9,7 @@
   "author": "",
   "dependencies": {
     "allure-commandline": "^2.33.0",
+    "commander": "^13.1.0",
     "uuid": "^11.1.0"
   }
 }

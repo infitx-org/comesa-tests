@@ -4,23 +4,26 @@ const { v4: uuidv4 } = require("uuid");
 const allure = require("allure-commandline");
 const ttkReportHelpers = require("./ttkReportHelpers");
 
-const RESULTS_DIR = "allure-results";
-const REPORT_DIR = "allure-report";
+const DEFAULT_RESULTS_DIR = "allure-results";
+const DEFAULT_REPORT_DIR = "allure-report";
 
 class AllureReportGenerator {
-    constructor(ttkReport, appendMode = false) {
-        this.ttkReport = ttkReport;
-        this.appendMode = appendMode;
+    constructor(options = {}) {
+        this.ttkReport = options.ttkReport || {};
+        this.ttkReport = options.ttkReportFile ? JSON.parse(fs.readFileSync(options.ttkReportFile, "utf8")) : {};
+        this.purge = options.purge || false;
+        this.resultsDir = options.resultsDir || DEFAULT_RESULTS_DIR;
+        this.reportDir = options.reportDir || DEFAULT_REPORT_DIR;
         this.ensureResultsDir();
     }
 
     ensureResultsDir() {
-        if (!fs.existsSync(RESULTS_DIR)) {
-            fs.mkdirSync(RESULTS_DIR, { recursive: true });
+        if (!fs.existsSync(this.resultsDir)) {
+            fs.mkdirSync(this.resultsDir, { recursive: true });
         } else {
-            if (!this.appendMode) {
-                fs.readdirSync(RESULTS_DIR).forEach((file) => {
-                    fs.unlinkSync(path.join(RESULTS_DIR, file));
+            if (this.purge) {
+                fs.readdirSync(this.resultsDir).forEach((file) => {
+                    fs.unlinkSync(path.join(this.resultsDir, file));
                 });
             }
         }
@@ -116,7 +119,7 @@ class AllureReportGenerator {
 
     createAttachment(details, name) {
         const attachmentId = uuidv4();
-        fs.writeFileSync(path.join(RESULTS_DIR, `${attachmentId}.txt`), details);
+        fs.writeFileSync(path.join(this.resultsDir, `${attachmentId}.txt`), details);
         return {
             name: name,
             source: `${attachmentId}.txt`,
@@ -156,23 +159,22 @@ class AllureReportGenerator {
     }
 
     writeTestResult(allureTest) {
-        const testFilePath = path.join(RESULTS_DIR, `${allureTest.uuid}-result.json`);
+        const testFilePath = path.join(this.resultsDir, `${allureTest.uuid}-result.json`);
         fs.writeFileSync(testFilePath, JSON.stringify(allureTest, null, 2));
     }
 
-    static generateAllureReport() {
+    generateAllureReport() {
         try {
-            console.log("🚀 Generating Allure report...");
-            const generation = allure(["generate", RESULTS_DIR, "--single-file", "--clean", "-o", REPORT_DIR]);
+            console.log("Generating Allure report...");
+            const generation = allure(["generate", this.resultsDir, "--single-file", "--clean", "-o", this.reportDir]);
             generation.on("exit", (exitCode) => {
                 if (exitCode === 0) {
-                    console.log(`✅ Allure report successfully generated at ${REPORT_DIR}`);
-                } else {
-                    console.error(`❌ Failed to generate Allure report (exit code: ${exitCode})`);
+                    // TODO: Customize html report
                 }
             });
+
         } catch (error) {
-            console.error("❌ Failed to generate Allure report:", error.message);
+            console.error("Failed to generate Allure report:", error.message);
         }
     }
 }
