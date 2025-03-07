@@ -12,6 +12,16 @@ spec:
         job-name: comesa-tests-job
         sidecar.istio.io/inject: 'false'
     spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                      - nginx
+              topologyKey: "kubernetes.io/hostname"
       volumes:
         - name: comesa-tests-config-vol
           configMap:
