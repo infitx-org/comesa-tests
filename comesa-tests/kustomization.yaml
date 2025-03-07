@@ -13,3 +13,10 @@ helmCharts:
     namespace: comesa-tests
     additionalValuesFiles:
       - values-ttk-override.yaml
+  - name: nginx
+    releaseName: test
+    version: 19.0.1
+    repo: oci://registry-1.docker.io/bitnamicharts
+    valuesFile: values-nginx.yaml
+    namespace: comesa-tests
+

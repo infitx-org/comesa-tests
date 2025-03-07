@@ -34,6 +34,9 @@ spec:
               %{ if app.testConfig.dfspConfig[scheme.dfsp].enabled }
               %{ for target in scheme.targets }
               %{ if app.testConfig.dfspConfig[target.dfsp].enabled }
+
+              export SCHEME_DFSP_SANITIZED="$(echo ${scheme.dfsp} | sed 's/-/_/g')"
+              export TARGET_DFSP_SANITIZED="$(echo ${target.dfsp} | sed 's/-/_/g')"
               npx ml-ttk-cli \
                 -e ttk-environments/multi_scheme_${scheme.dfsp}_to_${target.dfsp}.json \
                 -i ttk-test-collection \
@@ -42,9 +45,9 @@ spec:
                 --save-report true \
                 --report-name comesa_gp_collection \
                 --save-report-base-url https://ttkfront-${app.namespace}.${cluster.env}.${cluster.domain};
-              export EXIT_CODE_${scheme.dfsp//-/_}_to_${target.dfsp//-/_}="$?";
-              echo "Test ${scheme.dfsp} to ${target.dfsp} finished with exit code: $EXIT_CODE_${scheme.dfsp//-/_}_to_${target.dfsp//-/_}";
-              TOTAL_EXIT_CODE=$((TOTAL_EXIT_CODE || EXIT_CODE_${scheme.dfsp//-/_}_to_${target.dfsp//-/_}));
+              export $(echo EXIT_CODE_$${SCHEME_DFSP_SANITIZED}_to_$${TARGET_DFSP_SANITIZED})=$?
+              echo "Test ${scheme.dfsp} to ${target.dfsp} finished with exit code: $(echo EXIT_CODE_$${SCHEME_DFSP_SANITIZED}_to_$${TARGET_DFSP_SANITIZED})"
+              TOTAL_EXIT_CODE=$((TOTAL_EXIT_CODE || $(echo EXIT_CODE_$${SCHEME_DFSP_SANITIZED}_to_$${TARGET_DFSP_SANITIZED})));
               %{ endif }
               %{ endfor }
               %{ endif }
