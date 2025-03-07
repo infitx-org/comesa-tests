@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: comesa-tests-job
-  namespace: ${namespace}
+  namespace: ${app.namespace}
 spec:
   backoffLimit: 0
   template:
@@ -27,7 +27,7 @@ spec:
             - '-c'
           args:
             - |
-              until nslookup ttk-backend.${namespace}.svc.cluster.local; do sleep 5;done;
+              until nslookup ttk-backend.${app.namespace}.svc.cluster.local; do sleep 5;done;
 
 # %{ for scheme_name, scheme in app.testConfig.multiSchemeConfig }
 # %{ if app.testConfig.dfspConfig[scheme.dfsp].enabled }
@@ -40,7 +40,7 @@ spec:
                 --report-format json \
                 --save-report true \
                 --report-name comesa_gp_collection \
-                --save-report-base-url https://ttkfront-${namespace}.${cluster.env}.${cluster.domain};
+                --save-report-base-url https://ttkfront-${app.namespace}.${cluster.env}.${cluster.domain};
               export EXIT_CODE_${scheme.dfsp}_to_${target.dfsp}="$?";
               echo "Test ${scheme.dfsp} to ${target.dfsp} finished with exit code: $EXIT_CODE_${scheme.dfsp}_to_${target.dfsp}";
               export TOTAL_EXIT_CODE="$EXIT_CODE || $EXIT_CODE_${scheme.dfsp}_to_${target.dfsp}";

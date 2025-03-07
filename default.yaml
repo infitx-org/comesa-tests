@@ -3,6 +3,7 @@ app-yamls:
     comesa-testsSyncWave: 0
 
 comesa-tests:
+    namespace: comesa-tests
     ttkHelmVersion: 17.4.0
     ttkHelmValues: {}
     comesaTestsDockerImageTag: latest
