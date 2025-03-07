@@ -1,0 +1,14 @@
+{
+  "name": "comesa-tests",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "dependencies": {
+    "allure-commandline": "^2.33.0",
+    "uuid": "^11.1.0"
+  }
+}
