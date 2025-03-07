@@ -1,14 +1,5 @@
 # Arguments
-ARG NODE_VERSION=lts-alpine
-
-# NOTE: Ensure you set NODE_VERSION Build Argument as follows...
-#
-# export NODE_VERSION="$(cat .nvmrc)-alpine"
-# docker build \
-#   --build-arg NODE_VERSION=$NODE_VERSION \
-#   -t mojaloop/central-ledger:local \
-#   .
-#
+ARG NODE_VERSION=18.20.4-alpine
 
 # Build Image
 FROM node:${NODE_VERSION} AS builder
