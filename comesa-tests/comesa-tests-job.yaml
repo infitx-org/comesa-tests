@@ -28,11 +28,10 @@ spec:
           args:
             - |
               until nslookup ttk-backend.${app.namespace}.svc.cluster.local; do sleep 5;done;
-
-# %{ for scheme_name, scheme in app.testConfig.multiSchemeConfig }
-# %{ if app.testConfig.dfspConfig[scheme.dfsp].enabled }
-# %{ for target in scheme.targets }
-# %{ if app.testConfig.dfspConfig[target.dfsp].enabled }
+              %{ for scheme_name, scheme in app.testConfig.multiSchemeConfig }
+              %{ if app.testConfig.dfspConfig[scheme.dfsp].enabled }
+              %{ for target in scheme.targets }
+              %{ if app.testConfig.dfspConfig[target.dfsp].enabled }
               npx ml-ttk-cli -- \
                 -e ttk-environments/multi_scheme_${scheme.dfsp}_to_${target.dfsp}.json \
                 -i ttk-test-collection \
@@ -43,12 +42,12 @@ spec:
                 --save-report-base-url https://ttkfront-${app.namespace}.${cluster.env}.${cluster.domain};
               export EXIT_CODE_${scheme.dfsp}_to_${target.dfsp}="$?";
               echo "Test ${scheme.dfsp} to ${target.dfsp} finished with exit code: $EXIT_CODE_${scheme.dfsp}_to_${target.dfsp}";
-              export TOTAL_EXIT_CODE="$EXIT_CODE || $EXIT_CODE_${scheme.dfsp}_to_${target.dfsp}";
-# %{ endif }
-# %{ endfor }
-# %{ endif }
-# %{ endfor }
-             exit $TOTAL_EXIT_CODE;
+              export TOTAL_EXIT_CODE="$TOTAL_EXIT_CODE || $EXIT_CODE_${scheme.dfsp}_to_${target.dfsp}";
+              %{ endif }
+              %{ endfor }
+              %{ endif }
+              %{ endfor }
+              exit $TOTAL_EXIT_CODE;
           volumeMounts:
             - name: comesa-tests-config-vol
               mountPath: /opt/app/config
