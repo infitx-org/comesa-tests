@@ -6,7 +6,6 @@ comesa-tests:
     namespace: comesa-tests
     ttkHelmVersion: 17.4.0
     ttkHelmValues: {}
-    comesaTestsDockerImageTag: latest
     syncWave: 4
     testConfig:
         dfspConfig:
