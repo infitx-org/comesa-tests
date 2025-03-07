@@ -8,6 +8,7 @@
   },
   "author": "",
   "dependencies": {
+    "@mojaloop/ml-testing-toolkit-client-lib": "^1.6.1",
     "allure-commandline": "^2.33.0",
     "commander": "^13.1.0",
     "uuid": "^11.1.0"
