@@ -19,6 +19,9 @@ spec:
         - name: comesa-tests-ttk-environments-vol
           configMap:
             name: ttk-backend-config-extra-environments
+        - name: reports-storage
+          persistentVolumeClaim:
+            claimName: comesa-test-reports-pvc
       containers:
         - name: comesa-gp
           image: ghcr.io/infitx-org/comesa-tests:latest
@@ -43,7 +46,7 @@ spec:
                 -u http://ttk-backend:5050 \
                 --report-format json \
                 --save-report true \
-                --report-name comesa_gp_collection \
+                --report-target file://reports/${scheme.dfsp}_to_${target.dfsp}_report.json \
                 --save-report-base-url https://ttkfront-${app.namespace}.${cluster.env}.${cluster.domain};
               export $(echo EXIT_CODE_$${SCHEME_DFSP_SANITIZED}_to_$${TARGET_DFSP_SANITIZED})=$?
               echo "Test ${scheme.dfsp} to ${target.dfsp} finished with exit code: $(echo EXIT_CODE_$${SCHEME_DFSP_SANITIZED}_to_$${TARGET_DFSP_SANITIZED})"
@@ -58,6 +61,8 @@ spec:
               mountPath: /opt/app/config
             - name: comesa-tests-ttk-environments-vol
               mountPath: /opt/app/ttk-environments
+            - name: reports-storage
+              mountPath: /opt/app/reports
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent

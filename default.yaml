@@ -6,6 +6,7 @@ comesa-tests:
     namespace: comesa-tests
     ttkHelmVersion: 17.4.0
     ttkHelmValues: {}
+    storageClass: longhorn
     syncWave: 4
     testConfig:
         dfspConfig:

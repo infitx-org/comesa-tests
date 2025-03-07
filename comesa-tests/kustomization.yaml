@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - comesa-tests-config.yaml
   - vs.yaml
+  - pvc.yaml
   - comesa-tests-job.yaml
 helmCharts:
   - name: ml-testing-toolkit

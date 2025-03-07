@@ -31,6 +31,6 @@ staticSiteConfigmap: ""
 ## @param staticSitePVC Name of existing PVC with the server static site content
 ## NOTE: This will override staticSiteConfigmap
 ##
-staticSitePVC: ""
+staticSitePVC: "comesa-test-reports-pvc"
 ## @section Traffic Exposure parameters
 
