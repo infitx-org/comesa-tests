@@ -1,17 +1,20 @@
 const { createBullBoard } = require('@bull-board/api');
 const { BullMQAdapter } = require('@bull-board/api/bullMQAdapter');
 const { ExpressAdapter } = require('@bull-board/express');
-const { Queue: QueueMQ, Worker, FlowProducer } = require('bullmq');
-const { spawn } = require('node:child_process');
+const { Queue: QueueMQ, FlowProducer } = require('bullmq');
 const express = require('express');
 const path = require('path');
-const AllureReportGenerator = require("./lib/allureReportGenerator");
+const fs = require('fs');
 const Config = require('./lib/config');
+const { setupReportGenerationProcessor } = require('./processors/reportGenerationProcessor');
+const { setupTtkTestsProcessor } = require('./processors/ttkTestsProcessor');
 
 const TTK_TESTS_QUEUE = 'TTK-TESTS';
 const REPORT_GENERATION_QUEUE = 'REPORT_GENERATION';
 
-const sleep = (t) => new Promise((resolve) => setTimeout(resolve, t * 1000));
+const TTK_REPORTS_DIR = './docker/reports/ttk_reports';
+const ALLURE_REPORTS_DIR = './docker/reports/allure_reports';
+const ENV_DIR = './docker/ttk/environments';
 
 const redisOptions = {
   port: 6379,
@@ -22,98 +25,18 @@ const redisOptions = {
 
 const createQueueMQ = (name) => new QueueMQ(name, { connection: redisOptions });
 
-
-// function setupSampleProcessor(queueName) {
-//   new Worker(
-//     queueName,
-//     async (job) => {
-//       for (let i = 0; i <= 100; i++) {
-//         await sleep(Math.random());
-//         await job.updateProgress(i);
-//         await job.log(`Processing job at interval ${i}`);
-
-//         if (Math.random() * 200 < 1) throw new Error(`Random error ${i}`);
-//       }
-//       return { jobId: `This is the return value of job (${job.id})` };
-//     },
-//     { connection: redisOptions, concurrency: 10 }
-//   );
-// }
-
-function setupReportGenerationProcessor(queueName) {
-  new Worker(
-    queueName,
-    async (job) => {
-      await job.log(`Generating Allure results for each TTK report file..`);
-      const fileCount = job.data.ttkReports.length;
-      const progressStep = 100 / (fileCount - 1);
-
-      job.data.ttkReports.forEach((ttkReport, index) => {
-        const purge = index == 0;
-        const reportGenerator = new AllureReportGenerator({ ttkReportFile: ttkReport.reportFilePath, suiteName: ttkReport.suiteName, purge });
-        reportGenerator.generateAllureResults();
-        job.updateProgress(progressStep * (index + 1));
-      });
-
-      await job.log(`Generating the combined Allure report..`);
-      new AllureReportGenerator({ reportDir: job.data.reportDir }).generateAllureReport();
-      job.updateProgress(100);
-      return { jobId: `This is the return value of job (${job.id})` };
-    },
-    { connection: redisOptions, concurrency: 1 }
-  );
-}
-
-function setupTtkTestsProcessor(queueName) {
-  new Worker(
-    queueName,
-    async (job) => {
-      return new Promise((resolve, reject) => {
-        const ls = spawn('./node_modules/.bin/ml-ttk-cli', [
-          '-i', job.data.testCollection,
-          '-e', job.data.envFilePath,
-          '-u', 'http://localhost:5050',
-          '--report-format', 'json',
-          '--save-report', 'true',
-          '--report-target', `file://${job.data.reportFilePath}`,
-          '--save-report-base-url', `https://reports.somedomain.com/${job.data.reportFilePrefix}`
-        ]);
-
-        ls.stdout.on('data', async (data) => {
-          const stripAnsi = (await import('strip-ansi')).default;
-          await job.log(stripAnsi(data.toString()));
-        });
-
-        ls.stderr.on('data', async (data) => {
-          await job.log(`Error: ${data}`);
-        });
-
-        ls.on('close', (code) => {
-          console.log(`child process exited with code ${code}`);
-          if (code === 0) {
-            resolve({ jobId: `This is the return value of job (${job.id})` });
-          } else {
-            reject(new Error(`Process exited with code ${code}`));
-          }
-        });
-      });
-    },
-    { connection: redisOptions, concurrency: 10 }
-  );
-}
-
 const run = async () => {
   const flowProducer = new FlowProducer();
   const reportGenerationBullMq = createQueueMQ(REPORT_GENERATION_QUEUE);
   const ttkTestsBullMq = createQueueMQ(TTK_TESTS_QUEUE);
 
-  await setupTtkTestsProcessor(TTK_TESTS_QUEUE);
-  await setupReportGenerationProcessor(REPORT_GENERATION_QUEUE);
+  await setupTtkTestsProcessor(TTK_TESTS_QUEUE, redisOptions);
+  await setupReportGenerationProcessor(REPORT_GENERATION_QUEUE, redisOptions);
 
   const app = express();
 
   const serverAdapter = new ExpressAdapter();
-  serverAdapter.setBasePath('/ui');
+  serverAdapter.setBasePath('/');
 
   createBullBoard({
     queues: [
@@ -124,15 +47,17 @@ const run = async () => {
     serverAdapter,
     options: {
       uiConfig: {
-        boardTitle: 'COMESA TESTS',
+        boardTitle: '',
         boardLogo: {
-          path: 'assets/images/comesa-blue.png',
+          path: '/assets/images/comesa-blue-gp.png',
           width: '100px',
           height: 200,
         },
-        // miscLinks: [{text: 'Start Test', url: '/start-test'}],
+        miscLinks: [
+          { text: 'Reports', url: '/listReports' }
+        ],
         favIcon: {
-          default: 'assets/images/favicon.png',
+          default: '/assets/images/favicon.png',
         },
       },
     },
@@ -140,22 +65,78 @@ const run = async () => {
 
   // Serve static files from the "static" directory
   app.use('/assets', express.static(path.join(__dirname, '../assets')));
+    
+  app.use('/reports', express.static(path.join(process.cwd(), ALLURE_REPORTS_DIR)));
+  app.get("/listReports", (req, res) => {
+      fs.readdir(ALLURE_REPORTS_DIR, { withFileTypes: true }, (err, files) => {
+          if (err) {
+              return res.status(500).send("Error reading directory");
+          }
 
-  app.use('/ui', serverAdapter.getRouter());
+          // Filter only directories
+          const folders = files.filter(file => file.isDirectory()).map(dir => dir.name);
 
-  app.use('/add', async (req, res) => {
-    const opts = req.query.opts || {};
+          // Generate HTML page with links
+          const html = `
+            <html lang="en" dir="ltr">
+              <head>
+                  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                  <title>Reports</title>
+                  <link href="/assets/styles/main.css" rel="stylesheet">
+                  <link rel="stylesheet" type="text/css" href="/assets/styles/style.css">
+              </head>
+              <body class="dark-mode">
+                  <div id="root">
+                    <header class="header-dfryKG">
+                        <a aria-current="page" class="logo-DC8O1O active" href="/">
+                            <img src="/assets/images/comesa-blue-gp.png" class="img-ggCynO" width="100px" height="200" alt="">
+                        </a>
+                    </header>
+                    <main>
+                        <div>
+                          <section>
+                              <div class="card-xqyZlH card-BRjpw_">
+                                <div class="header-Lw4QCc">
+                                    ${folders.map(folder => `
+                                      <a class="jobLink-wmCWQg" target="_blank" href="/reports/${folder}">
+                                        <h4>${folder}</h4>
+                                      </a>
+                                    `).join("")}
+                                </div>
+                              </div>
+                          </section>
+                        </div>
+                    </main>
+                    <aside class="aside-tRszgh">
+                        <nav>
+                          <ul class="menu-zMsDO4">
+                              <li><a aria-current="page" class="active-hKGR_B" title="TTK-TESTS" href="/"> < Back </a></li>
+                          </ul>
+                        </nav>
+                    </aside>
+                  </div>
+              </body>
+            </html>
+          `;
 
-    // if (opts.delay) {
-    //   opts.delay = +opts.delay * 1000; // delay must be a number
-    // }
-    // const activeCount = await reportGenerationBullMq.getActiveCount()
-    // if (activeCount > 0) {
-    //   return res.status(400).json({
-    //     ok: false,
-    //     message: 'There is already an active job'
-    //   });
-    // }
+          res.send(html);
+      });
+  });
+
+  app.use('/', serverAdapter.getRouter());
+
+  app.use('/startTestRun', async (req, res) => {
+    // const opts = req.query.opts || {};
+  
+    const activeCount1 = await reportGenerationBullMq.getActiveCount()
+    const activeCount2 = await ttkTestsBullMq.getActiveCount()
+    if (activeCount1 > 0 || activeCount2 > 0) {
+      return res.status(400).json({
+        ok: false,
+        message: 'There are already active jobs'
+      });
+    }
     // // Clear existing jobs
     await reportGenerationBullMq.drain();
     await reportGenerationBullMq.clean(0, 1000, 'completed');
@@ -169,30 +150,23 @@ const run = async () => {
     await ttkTestsBullMq.clean(0, 1000, 'active');
     await ttkTestsBullMq.clean(0, 1000, 'waiting');
 
-    // await ttkTestsBullMq.add(`Generate Report`, { title: req.query.title }, opts);
-    // await reportGenerationBullMq.addBulk([
-    //   { name: 'ZMW to MWK', data: { title: req.query.title }, opts },
-    //   { name: 'MWK to ZMW', data: { title: req.query.title }, opts },
-    // ]);
-    // // await reportGenerationBullMq.add(`ZMW to MWK ${new Date().toISOString()}`, { title: req.query.title }, opts);
-    // // await reportGenerationBullMq.add(`MWK to ZMW ${new Date().toISOString()}`, { title: req.query.title }, opts);
     const flow = await flowProducer.add({
       name: 'Generate Report',
       queueName: REPORT_GENERATION_QUEUE,
       data: {
         ttkReports: Config.getMultiSchemeTestConfig().map((config) => ({
-          reportFilePath: `./docker/reports/${config.sourceDfspId}-${config.targetDfspId}-report.json`,
+          reportFilePath: `${TTK_REPORTS_DIR}/${config.sourceDfspId}-${config.targetDfspId}-report.json`,
           suiteName: `${config.sourceDfspId} to ${config.targetDfspId}`,
         })),
-        reportDir: './docker/reports',
+        reportDir: `${ALLURE_REPORTS_DIR}/$(date +%Y-%m-%d-%H-%M-%S)`,
       },
       children: Config.getMultiSchemeTestConfig().map((config) => ({
         name: `TTK Tests ${config.sourceDfspId} to ${config.targetDfspId}`,
         data: {
           testCollection: 'ttk-test-collection/multi-scheme-tests',
-          envFilePath: `./docker/ttk/environments/${config.ttkEnvFile}`,
+          envFilePath: `${ENV_DIR}/${config.ttkEnvFile}`,
           reportFilePrefix: `${config.sourceDfspId}-${config.targetDfspId}`,
-          reportFilePath: `./docker/reports/${config.sourceDfspId}-${config.targetDfspId}-report.json`,
+          reportFilePath: `${TTK_REPORTS_DIR}/${config.sourceDfspId}-${config.targetDfspId}-report.json`,
           ...config
         },
         queueName: TTK_TESTS_QUEUE,
@@ -206,12 +180,10 @@ const run = async () => {
 
   app.listen(3000, () => {
     console.log('Running on 3000...');
-    console.log('For the UI, open http://localhost:3000/ui');
+    console.log('For the UI, open http://localhost:3000/');
     console.log('Make sure Redis is running on port 6379 by default');
-    console.log('To populate the queue, run:');
-    console.log('  curl http://localhost:3000/add?title=Example');
-    console.log('To populate the queue with custom options (opts), run:');
-    console.log('  curl http://localhost:3000/add?title=Test&opts[delay]=9');
+    console.log('To trigger a test run:');
+    console.log('  curl http://localhost:3000/startTestRun');
   });
 };
 

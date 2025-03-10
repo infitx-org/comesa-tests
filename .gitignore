@@ -63,3 +63,5 @@ allure-report
 .terraform.lock.hcl
 .terraform.tfstate
 
+docker/reports/ttk_reports/*
+docker/reports/allure_reports/*
