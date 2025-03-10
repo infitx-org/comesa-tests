@@ -8,6 +8,10 @@ const getTestConfig = () => {
     return testConfig;
 }
 
+const getRedisOptions = () => {
+    return testConfig.redisOptions;
+}
+
 const getMultiSchemeTestTtkEnvFileList = () => {
     return getMultiSchemeTestConfig().map((config) => config.ttkEnvFile);
 }
@@ -37,6 +41,7 @@ const getMultiSchemeTestConfig = () => {
 
 module.exports = {
     getTestConfig,
+    getRedisOptions,
     getMultiSchemeTestConfig,
     getMultiSchemeTestTtkEnvFileList
 };

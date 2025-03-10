@@ -16,12 +16,7 @@ const TTK_REPORTS_DIR = './reports/ttk_reports';
 const ALLURE_REPORTS_DIR = './reports/allure_reports';
 const ENV_DIR = './ttk-environments';
 
-const redisOptions = {
-  port: 6379,
-  host: 'localhost',
-  password: '',
-  tls: false,
-};
+const redisOptions = Config.getRedisOptions();
 
 const createQueueMQ = (name) => new QueueMQ(name, { connection: redisOptions });
 

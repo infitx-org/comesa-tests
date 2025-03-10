@@ -1,4 +1,10 @@
 {
+    "redisOptions": {
+        "host": "localhost",
+        "port": 6379,
+        "password": "",
+        "tls": false
+    },
     "dfspConfig": {
         "test-zmw-dfsp": {
             "name": "test-zmw-dfsp",
