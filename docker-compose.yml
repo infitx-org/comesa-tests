@@ -51,7 +51,7 @@ services:
     image: mojaloop/ml-testing-toolkit:v18.7.5
     volumes:
       - "./docker/ttk/spec_files:/opt/app/spec_files"
-      - "./docker/ttk/environments:/opt/app/examples/environments"
+      - "./ttk-environments:/opt/app/examples/environments"
     ports:
       - "4040:4040"
       - "5050:5050"

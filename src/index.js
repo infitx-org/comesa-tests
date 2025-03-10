@@ -12,9 +12,9 @@ const { setupTtkTestsProcessor } = require('./processors/ttkTestsProcessor');
 const TTK_TESTS_QUEUE = 'TTK-TESTS';
 const REPORT_GENERATION_QUEUE = 'REPORT_GENERATION';
 
-const TTK_REPORTS_DIR = './docker/reports/ttk_reports';
-const ALLURE_REPORTS_DIR = './docker/reports/allure_reports';
-const ENV_DIR = './docker/ttk/environments';
+const TTK_REPORTS_DIR = './reports/ttk_reports';
+const ALLURE_REPORTS_DIR = './reports/allure_reports';
+const ENV_DIR = './ttk-environments';
 
 const redisOptions = {
   port: 6379,
