@@ -6,6 +6,7 @@ const { spawn } = require('node:child_process');
 const express = require('express');
 const path = require('path');
 const AllureReportGenerator = require("./lib/allureReportGenerator");
+const Config = require('./lib/config');
 
 const TTK_TESTS_QUEUE = 'TTK-TESTS';
 const REPORT_GENERATION_QUEUE = 'REPORT_GENERATION';
@@ -44,22 +45,22 @@ function setupReportGenerationProcessor(queueName) {
     queueName,
     async (job) => {
       await job.log(`Generating Allure results for each TTK report file..`);
-      const fileCount = job.data.files.length;
+      const fileCount = job.data.ttkReports.length;
       const progressStep = 100 / (fileCount - 1);
 
-      job.data.files.forEach((file, index) => {
+      job.data.ttkReports.forEach((ttkReport, index) => {
         const purge = index == 0;
-        const reportGenerator = new AllureReportGenerator({ ttkReportFile: file, purge });
+        const reportGenerator = new AllureReportGenerator({ ttkReportFile: ttkReport.reportFilePath, suiteName: ttkReport.suiteName, purge });
         reportGenerator.generateAllureResults();
         job.updateProgress(progressStep * (index + 1));
       });
 
       await job.log(`Generating the combined Allure report..`);
-      new AllureReportGenerator({ reportDir: options.output }).generateAllureReport();
+      new AllureReportGenerator({ reportDir: job.data.reportDir }).generateAllureReport();
       job.updateProgress(100);
       return { jobId: `This is the return value of job (${job.id})` };
     },
-    { connection: redisOptions, concurrency: 10 }
+    { connection: redisOptions, concurrency: 1 }
   );
 }
 
@@ -69,8 +70,13 @@ function setupTtkTestsProcessor(queueName) {
     async (job) => {
       return new Promise((resolve, reject) => {
         const ls = spawn('./node_modules/.bin/ml-ttk-cli', [
-          '-i', 'ttk-test-collection',
-          '-e', 'comesa-tests/environments/multi_scheme.json',
+          '-i', job.data.testCollection,
+          '-e', job.data.envFilePath,
+          '-u', 'http://localhost:5050',
+          '--report-format', 'json',
+          '--save-report', 'true',
+          '--report-target', `file://${job.data.reportFilePath}`,
+          '--save-report-base-url', `https://reports.somedomain.com/${job.data.reportFilePrefix}`
         ]);
 
         ls.stdout.on('data', async (data) => {
@@ -92,7 +98,7 @@ function setupTtkTestsProcessor(queueName) {
         });
       });
     },
-    { connection: redisOptions }
+    { connection: redisOptions, concurrency: 10 }
   );
 }
 
@@ -173,14 +179,24 @@ const run = async () => {
     const flow = await flowProducer.add({
       name: 'Generate Report',
       queueName: REPORT_GENERATION_QUEUE,
-      data: { files: [
-        'zmw-to-mwk-ttk-report.json',
-        'mwk-to-zmw-ttk-report.json',
-      ] },
-      children: [
-        { name: 'ZMW to MWK', data: { title: req.query.title }, queueName: TTK_TESTS_QUEUE },
-        { name: 'MWK to ZMW', data: { title: req.query.title }, queueName: TTK_TESTS_QUEUE },
-      ],
+      data: {
+        ttkReports: Config.getMultiSchemeTestConfig().map((config) => ({
+          reportFilePath: `./docker/reports/${config.sourceDfspId}-${config.targetDfspId}-report.json`,
+          suiteName: `${config.sourceDfspId} to ${config.targetDfspId}`,
+        })),
+        reportDir: './docker/reports',
+      },
+      children: Config.getMultiSchemeTestConfig().map((config) => ({
+        name: `TTK Tests ${config.sourceDfspId} to ${config.targetDfspId}`,
+        data: {
+          testCollection: 'ttk-test-collection/multi-scheme-tests',
+          envFilePath: `./docker/ttk/environments/${config.ttkEnvFile}`,
+          reportFilePrefix: `${config.sourceDfspId}-${config.targetDfspId}`,
+          reportFilePath: `./docker/reports/${config.sourceDfspId}-${config.targetDfspId}-report.json`,
+          ...config
+        },
+        queueName: TTK_TESTS_QUEUE,
+      })),
     });
 
     res.json({

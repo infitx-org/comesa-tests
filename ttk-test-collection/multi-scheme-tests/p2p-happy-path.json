@@ -45,7 +45,7 @@
               "type": "CONSUMER",
               "idType": "MSISDN",
               "idValue": "{$inputs.MULTI_SCHEME_PAYEE_MSISDN}",
-              "merchantClassificationCode": 123
+              "merchantClassificationCode": "123"
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",

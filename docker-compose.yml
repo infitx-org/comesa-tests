@@ -49,9 +49,9 @@ services:
     networks:
       - comesa-net
     image: mojaloop/ml-testing-toolkit:v18.7.5
-    # volumes:
-    #   - "./docker/ml-testing-toolkit/spec_files:/opt/app/spec_files"
-    #   - "./docker/ml-testing-toolkit/secrets:/opt/app/secrets"
+    volumes:
+      - "./docker/ttk/spec_files:/opt/app/spec_files"
+      - "./docker/ttk/environments:/opt/app/examples/environments"
     ports:
       - "4040:4040"
       - "5050:5050"

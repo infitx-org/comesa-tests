@@ -11,6 +11,7 @@ class AllureReportGenerator {
     constructor(options = {}) {
         this.ttkReport = options.ttkReport || {};
         this.ttkReport = options.ttkReportFile ? JSON.parse(fs.readFileSync(options.ttkReportFile, "utf8")) : {};
+        this.suiteName = options.suiteName || this.ttkReport.name || "TTK Report";
         this.purge = options.purge || false;
         this.resultsDir = options.resultsDir || DEFAULT_RESULTS_DIR;
         this.reportDir = options.reportDir || DEFAULT_REPORT_DIR;
@@ -53,7 +54,7 @@ class AllureReportGenerator {
             status: testCaseStatus,
             start: Date.now(),
             stop: Date.now(),
-            labels: [{ name: "parentSuite", value: this.ttkReport.name }],
+            labels: [{ name: "parentSuite", value: this.suiteName }],
             description: testCase.meta?.info || "No description available",
             parameters: [],
             steps: [],
