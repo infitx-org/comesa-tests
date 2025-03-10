@@ -30,6 +30,7 @@ USER comesa-user
 COPY --chown=comesa-user --from=builder /opt/app .
 
 COPY src /opt/app/src
+COPY assets /opt/app/assets
 COPY ttk-test-collection /opt/app/ttk-test-collection
 
 CMD ["npm", "run", "start"]
