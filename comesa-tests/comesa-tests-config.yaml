@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: comesa-tests-config
-  namespace: comesa-tests
-data:
-  testConfig.json: |-
-    ${indent(4, jsonencode(app.testConfig))}
