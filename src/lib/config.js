@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const configPath = path.join(process.cwd(), 'config', 'sample.json');
+const configPath = path.join(process.cwd(), 'config', 'testConfig.json');
 const testConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 const getTestConfig = () => {
