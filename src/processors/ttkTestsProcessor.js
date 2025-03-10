@@ -26,7 +26,7 @@ function setupTtkTestsProcessor(queueName, redisOptions) {
         const ls = spawn('./node_modules/.bin/ml-ttk-cli', [
           '-i', job.data.testCollection,
           '-e', job.data.envFilePath,
-          '-u', 'http://localhost:5050',
+          '-u', `http://${job.data.ttkBackendHost}:5050`,
           '--report-format', 'json',
           '--save-report', 'true',
           '--report-target', `file://${job.data.reportFilePath}`,

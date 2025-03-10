@@ -1,4 +1,5 @@
 {
+    "ttkBackendHost": "localhost",
     "redisOptions": {
         "host": "localhost",
         "port": 6379,

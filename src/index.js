@@ -159,6 +159,7 @@ const run = async () => {
         name: `TTK Tests ${config.sourceDfspId} to ${config.targetDfspId}`,
         data: {
           testCollection: 'ttk-test-collection/multi-scheme-tests',
+          ttkBackendHost: Config.getTestConfig().ttkBackendHost,
           envFilePath: `${ENV_DIR}/${config.ttkEnvFile}`,
           reportFilePrefix: `${config.sourceDfspId}-${config.targetDfspId}`,
           reportFilePath: `${TTK_REPORTS_DIR}/${config.sourceDfspId}-${config.targetDfspId}-report.json`,
