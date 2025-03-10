@@ -1,0 +1,75 @@
+networks:
+  comesa-net:
+    name: comesa-net
+
+services:
+
+  # comesa-tests:
+  #   networks:
+  #       - comesa-net
+  #   image: infitx-org/comesa-tests:local
+  #   build:
+  #     context: ./
+  #     dockerfile: ./Dockerfile
+  #   # env_file: ./sample.env
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - redis
+  #   command: npm run start
+  #   # volumes:
+  #   #   - ./docker/config:/tmp/config
+  #   user: root
+  #   # healthcheck:
+  #   #   test: [
+  #   #     "CMD" ,
+  #   #     "apk", "add", "--no-cache", "curl",
+  #   #     "&&",
+  #   #     "curl", "-f", "http://localhost:3000"
+  #   #     ]
+  #   #   timeout: 20s
+  #   #   retries: 10
+  #   #   start_period: 40s
+  #   #   interval: 30s
+
+  redis:
+    networks:
+      - comesa-net
+    image: "redis:6.2.4-alpine"
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD" ,"sh", "-c", "redis-cli","ping"]
+      timeout: 20s
+      retries: 10
+      start_period: 40s
+      interval: 30s
+
+  ml-testing-toolkit:
+    networks:
+      - comesa-net
+    image: mojaloop/ml-testing-toolkit:v18.7.5
+    # volumes:
+    #   - "./docker/ml-testing-toolkit/spec_files:/opt/app/spec_files"
+    #   - "./docker/ml-testing-toolkit/secrets:/opt/app/secrets"
+    ports:
+      - "4040:4040"
+      - "5050:5050"
+    environment:
+      - AUTH_ENABLED=FALSE
+    command: npm start
+    user: root
+
+  mojaloop-testing-toolkit-ui:
+    image: mojaloop/ml-testing-toolkit-ui:v16.1.2
+    ports:
+      - "6060:6060"
+    networks:
+      - comesa-net
+    environment:
+      - API_BASE_URL=http://localhost:5050
+      - AUTH_ENABLED=FALSE
+    command:
+      - sh
+      - /usr/share/nginx/start.sh
+    user: root
