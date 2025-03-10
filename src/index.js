@@ -91,15 +91,15 @@ const run = async () => {
                     <main>
                         <div>
                           <section>
+                              ${folders.map(folder => `
                               <div class="card-xqyZlH card-BRjpw_">
                                 <div class="header-Lw4QCc">
-                                    ${folders.map(folder => `
                                       <a class="jobLink-wmCWQg" target="_blank" href="/reports/${folder}">
                                         <h4>${folder}</h4>
                                       </a>
-                                    `).join("")}
-                                </div>
-                              </div>
+                                      </div>
+                                      </div>
+                              `).join("")}
                           </section>
                         </div>
                     </main>
@@ -165,6 +165,9 @@ const run = async () => {
           ...config
         },
         queueName: TTK_TESTS_QUEUE,
+        opts: {
+          ignoreDependencyOnFailure: true,
+        }
       })),
     });
 
