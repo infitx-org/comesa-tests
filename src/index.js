@@ -21,7 +21,7 @@ const redisOptions = Config.getRedisOptions();
 const createQueueMQ = (name) => new QueueMQ(name, { connection: redisOptions });
 
 const run = async () => {
-  const flowProducer = new FlowProducer();
+  const flowProducer = new FlowProducer({ connection: redisOptions });
   const reportGenerationBullMq = createQueueMQ(REPORT_GENERATION_QUEUE);
   const ttkTestsBullMq = createQueueMQ(TTK_TESTS_QUEUE);
 
