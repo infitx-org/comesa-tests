@@ -24,7 +24,7 @@ RUN mkdir ./logs && touch ./logs/combined.log
 RUN ln -sf /dev/stdout ./logs/combined.log
 
 # Create a non-root user: comesa-user
-RUN adduser -D comesa-user
+RUN addgroup -g 1001 comesa-group && adduser -D -u 1001 -G comesa-group comesa-user
 USER comesa-user
 
 COPY --chown=comesa-user --from=builder /opt/app .
