@@ -1,5 +1,6 @@
 const { Worker } = require('bullmq');
 const { spawn } = require('node:child_process');
+const fs = require('node:fs');
 
 function calculateProgress(line) {
     const match = line.match(/\[\s*(\d+)\s+passed.*?(\d+)\s+skipped.*?(\d+)\s+failed.*?(\d+)\s*\]/i);
@@ -23,6 +24,11 @@ function setupTtkTestsProcessor(queueName, redisOptions) {
     queueName,
     async (job) => {
       return new Promise((resolve, reject) => {
+        // Create reportDir if it doesn't exist
+        const reportDir = job.data.reportDir;
+        if (!fs.existsSync(reportDir)) {
+          fs.mkdirSync(reportDir, { recursive: true });
+        }
         const ls = spawn('./node_modules/.bin/ml-ttk-cli', [
           '-i', job.data.testCollection,
           '-e', job.data.envFilePath,
