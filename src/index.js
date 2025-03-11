@@ -128,7 +128,7 @@ const run = async () => {
             reportFilePath: `${TTK_REPORTS_DIR}/${config.sourceDfspId}-${config.targetDfspId}-report.json`,
             suiteName: `${config.sourceDfspId} to ${config.targetDfspId}`,
           })),
-          reportDir: `${ALLURE_REPORTS_DIR}/$(date +%Y-%m-%d-%H-%M-%S)`,
+          reportDir: `${ALLURE_REPORTS_DIR}/${new Date().toISOString().replace(/[:.]/g, '-')}`,
           resultsDir: `${ALLURE_RESULTS_DIR}`,
         },
         children: Config.getMultiSchemeTestConfig().map((config) => ({

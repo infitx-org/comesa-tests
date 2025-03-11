@@ -17,8 +17,9 @@ services:
   #   depends_on:
   #     - redis
   #   command: npm run start
-  #   # volumes:
-  #   #   - ./docker/config:/tmp/config
+  #   volumes:
+  #     - ./config:/opt/app/config
+  #     - ./reports:/opt/app/reports
   #   user: root
   #   # healthcheck:
   #   #   test: [

@@ -164,19 +164,26 @@ class AllureReportGenerator {
         fs.writeFileSync(testFilePath, JSON.stringify(allureTest, null, 2));
     }
 
-    generateAllureReport() {
-        try {
-            console.log("Generating Allure report...");
-            const generation = allure(["generate", this.resultsDir, "--single-file", "--clean", "-o", this.reportDir]);
-            generation.on("exit", (exitCode) => {
-                if (exitCode === 0) {
-                    // TODO: Customize html report
-                }
-            });
+    async generateAllureReport() {
+        return new Promise((resolve, reject) => {
+            try {
+                console.log("Generating Allure report...");
+                const generation = allure(["generate", this.resultsDir, "--single-file", "--clean", "-o", this.reportDir]);
+                generation.on("exit", (exitCode) => {
+                    if (exitCode === 0) {
+                        console.log("Allure report generated successfully.");
+                        resolve('Allure report generated successfully.');
+                    } else {
+                        console.error("Failed to generate Allure report.");
+                        reject(new Error("Failed to generate Allure report."));
+                    }
+                });
 
-        } catch (error) {
-            console.error("Failed to generate Allure report:", error.message);
-        }
+            } catch (error) {
+                console.error("Failed to generate Allure report:", error.message);
+                reject(new Error("Failed to generate Allure report."));
+            }
+        });
     }
 }
 

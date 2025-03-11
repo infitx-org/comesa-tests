@@ -65,3 +65,4 @@ allure-report
 
 reports/ttk_reports/*
 reports/allure_reports/*
+reports/allure_results/*

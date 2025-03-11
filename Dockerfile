@@ -19,6 +19,7 @@ RUN npm prune --omit=dev
 FROM node:${NODE_VERSION}
 WORKDIR /opt/app
 
+RUN apk --no-cache add openjdk11-jre
 # Create empty log file & link stdout to the application log file
 RUN mkdir ./logs && touch ./logs/combined.log
 RUN ln -sf /dev/stdout ./logs/combined.log
