@@ -24,10 +24,10 @@ function setupTtkTestsProcessor(queueName, redisOptions) {
     queueName,
     async (job) => {
       return new Promise((resolve, reject) => {
-        // Create reportDir if it doesn't exist
-        const reportDir = job.data.reportDir;
-        if (!fs.existsSync(reportDir)) {
-          fs.mkdirSync(reportDir, { recursive: true });
+        // Create reportsDir if it doesn't exist
+        const reportsDir = job.data.reportsDir;
+        if (!fs.existsSync(reportsDir)) {
+          fs.mkdirSync(reportsDir, { recursive: true });
         }
         const ls = spawn('./node_modules/.bin/ml-ttk-cli', [
           '-i', job.data.testCollection,
@@ -57,7 +57,7 @@ function setupTtkTestsProcessor(queueName, redisOptions) {
           console.log(`child process exited with code ${code}`);
           job.updateProgress(100);
           if (code === 0) {
-            resolve({ jobId: `This is the return value of job (${job.id})` });
+            resolve({ status: 'completed' });
           } else {
             reject(new Error(`Process exited with code ${code}`));
           }

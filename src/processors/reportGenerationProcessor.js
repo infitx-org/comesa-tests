@@ -17,7 +17,7 @@ function setupReportGenerationProcessor(queueName, redisOptions) {
 
       await job.log(`Generating the combined Allure report..`);
       try {
-        await (new AllureReportGenerator({ reportDir: job.data.reportDir, resultsDir: job.data.resultsDir })).generateAllureReport();
+        await (new AllureReportGenerator({ reportDir: `${job.data.reportsDir}/${job.data.reportName}`, resultsDir: job.data.resultsDir })).generateAllureReport();
         await job.log(`Generated report successfully`);
         job.updateProgress(100);
       } catch (error) {
@@ -25,7 +25,7 @@ function setupReportGenerationProcessor(queueName, redisOptions) {
         throw new Error(`Failed to generate the report`);
       }
 
-      return { jobId: `This is the return value of job (${job.id})` };
+      return { reportURL: `${job.data.reportsLinkBaseURL}/${job.data.reportName}` };
     },
     { connection: redisOptions, concurrency: 1 }
   );

@@ -33,7 +33,7 @@
       "path": null,
       "params": {
         "body": {
-          "currentState": "WAITING_FOR_PARTY_ACCEPTANCE1"
+          "currentState": "WAITING_FOR_PARTY_ACCEPTANCE"
         },
         "statusCode": "200",
         "scripts": {

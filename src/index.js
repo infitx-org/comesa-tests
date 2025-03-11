@@ -120,6 +120,7 @@ const run = async () => {
       await ttkTestsBullMq.clean(0, 1000, 'active');
       await ttkTestsBullMq.clean(0, 1000, 'waiting');
 
+      const combinedReportName = new Date().toISOString().replace(/[:.]/g, '-');
       const flow = await flowProducer.add({
         name: 'Generate Report',
         queueName: REPORT_GENERATION_QUEUE,
@@ -128,8 +129,10 @@ const run = async () => {
             reportFilePath: `${TTK_REPORTS_DIR}/${config.sourceDfspId}-${config.targetDfspId}-report.json`,
             suiteName: `${config.sourceDfspId} to ${config.targetDfspId}`,
           })),
-          reportDir: `${ALLURE_REPORTS_DIR}/${new Date().toISOString().replace(/[:.]/g, '-')}`,
-          resultsDir: `${ALLURE_RESULTS_DIR}`,
+          reportName: combinedReportName,
+          reportsDir: ALLURE_REPORTS_DIR,
+          resultsDir: ALLURE_RESULTS_DIR,
+          reportsLinkBaseURL: Config.getTestConfig().reportsLinkBaseURL || '/reports',
         },
         children: Config.getMultiSchemeTestConfig().map((config) => ({
           name: `TTK Tests ${config.sourceDfspId} to ${config.targetDfspId}`,
@@ -139,7 +142,7 @@ const run = async () => {
             envFilePath: `${ENV_DIR}/${config.ttkEnvFile}`,
             reportFilePrefix: `${config.sourceDfspId}-${config.targetDfspId}`,
             reportFilePath: `${TTK_REPORTS_DIR}/${config.sourceDfspId}-${config.targetDfspId}-report.json`,
-            reportDir: `${TTK_REPORTS_DIR}`,
+            reportsDir: `${TTK_REPORTS_DIR}`,
             ...config
           },
           queueName: TTK_TESTS_QUEUE,
