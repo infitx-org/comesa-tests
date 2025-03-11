@@ -11,7 +11,7 @@ function setupReportGenerationProcessor(queueName, redisOptions) {
 
       job.data.ttkReports.forEach((ttkReport, index) => {
         const purge = index == 0;
-        const reportGenerator = new AllureReportGenerator({ ttkReportFile: ttkReport.reportFilePath, suiteName: ttkReport.suiteName, purge });
+        const reportGenerator = new AllureReportGenerator({ ttkReportFile: ttkReport.reportFilePath, suiteName: ttkReport.suiteName, purge, resultsDir: job.data.resultsDir });
         reportGenerator.generateAllureResults();
         job.updateProgress(progressStep * (index + 1));
       });
