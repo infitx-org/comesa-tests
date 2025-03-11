@@ -17,7 +17,7 @@ function setupReportGenerationProcessor(queueName, redisOptions) {
       });
 
       await job.log(`Generating the combined Allure report..`);
-      new AllureReportGenerator({ reportDir: job.data.reportDir }).generateAllureReport();
+      new AllureReportGenerator({ reportDir: job.data.reportDir, resultsDir: job.data.resultsDir }).generateAllureReport();
       job.updateProgress(100);
       return { jobId: `This is the return value of job (${job.id})` };
     },
