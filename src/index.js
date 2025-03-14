@@ -1,34 +1,18 @@
 const { createBullBoard } = require('@bull-board/api');
 const { BullMQAdapter } = require('@bull-board/api/bullMQAdapter');
 const { ExpressAdapter } = require('@bull-board/express');
-const { Queue: QueueMQ, FlowProducer } = require('bullmq');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const Config = require('./lib/config');
-const { setupReportGenerationProcessor } = require('./processors/reportGenerationProcessor');
-const { setupTtkTestsProcessor } = require('./processors/ttkTestsProcessor');
+const { FlowExecutor } = require('./flowExecutor');
+
 const { constructHtml } = require('./lib/utils');
 
-const TTK_TESTS_QUEUE = 'TTK-TESTS';
-const REPORT_GENERATION_QUEUE = 'REPORT_GENERATION';
-
-const TTK_REPORTS_DIR = './reports/ttk_reports';
 const ALLURE_REPORTS_DIR = './reports/allure_reports';
-const ALLURE_RESULTS_DIR = './reports/allure_results';
-const ENV_DIR = './ttk-environments';
-
-const redisOptions = Config.getRedisOptions();
-
-const createQueueMQ = (name) => new QueueMQ(name, { connection: redisOptions });
 
 const run = async () => {
-  const flowProducer = new FlowProducer({ connection: redisOptions });
-  const reportGenerationBullMq = createQueueMQ(REPORT_GENERATION_QUEUE);
-  const ttkTestsBullMq = createQueueMQ(TTK_TESTS_QUEUE);
 
-  await setupTtkTestsProcessor(TTK_TESTS_QUEUE, redisOptions);
-  await setupReportGenerationProcessor(REPORT_GENERATION_QUEUE, redisOptions);
+  const flowExecutor = new FlowExecutor();
 
   const app = express();
 
@@ -37,8 +21,11 @@ const run = async () => {
 
   createBullBoard({
     queues: [
-      new BullMQAdapter(reportGenerationBullMq, { allowRetries: true, readOnlyMode: false }),
-      new BullMQAdapter(ttkTestsBullMq, { allowRetries: true, readOnlyMode: false }),
+      new BullMQAdapter(flowExecutor.waitBullMq, { allowRetries: true, readOnlyMode: false }),
+      new BullMQAdapter(flowExecutor.staticTestsBullMq, { allowRetries: true, readOnlyMode: false }),
+      new BullMQAdapter(flowExecutor.perSchemeTestsBullMq, { allowRetries: true, readOnlyMode: false }),
+      new BullMQAdapter(flowExecutor.multiSchemeTestsBullMq, { allowRetries: true, readOnlyMode: false }),
+      new BullMQAdapter(flowExecutor.reportGenerationBullMq, { allowRetries: true, readOnlyMode: false }),
     ],
     
     serverAdapter,
@@ -99,61 +86,16 @@ const run = async () => {
       message: ''
     };
   
-    const activeCount1 = await reportGenerationBullMq.getActiveCount()
-    const activeCount2 = await ttkTestsBullMq.getActiveCount()
-    if (activeCount1 > 0 || activeCount2 > 0) {
-      response ={
-        ok: false,
-        message: 'There are already active jobs'
-      };
-    } else {
-      // // Clear existing jobs
-      await reportGenerationBullMq.drain();
-      await reportGenerationBullMq.clean(0, 1000, 'completed');
-      await reportGenerationBullMq.clean(0, 1000, 'failed');
-      await reportGenerationBullMq.clean(0, 1000, 'active');
-      await reportGenerationBullMq.clean(0, 1000, 'waiting');
-
-      await ttkTestsBullMq.drain();
-      await ttkTestsBullMq.clean(0, 1000, 'completed');
-      await ttkTestsBullMq.clean(0, 1000, 'failed');
-      await ttkTestsBullMq.clean(0, 1000, 'active');
-      await ttkTestsBullMq.clean(0, 1000, 'waiting');
-
-      const combinedReportName = new Date().toISOString().replace(/[:.]/g, '-');
-      const flow = await flowProducer.add({
-        name: 'Generate Report',
-        queueName: REPORT_GENERATION_QUEUE,
-        data: {
-          ttkReports: Config.getMultiSchemeTestConfig().map((config) => ({
-            reportFilePath: `${TTK_REPORTS_DIR}/${config.sourceDfspId}-${config.targetDfspId}-report.json`,
-            suiteName: `${config.sourceDfspId} to ${config.targetDfspId}`,
-          })),
-          reportName: combinedReportName,
-          reportsDir: ALLURE_REPORTS_DIR,
-          resultsDir: ALLURE_RESULTS_DIR,
-          reportsLinkBaseURL: Config.getTestConfig().reportsLinkBaseURL || '/reports',
-        },
-        children: Config.getMultiSchemeTestConfig().map((config) => ({
-          name: `TTK Tests ${config.sourceDfspId} to ${config.targetDfspId}`,
-          data: {
-            testCollection: 'ttk-test-collection/multi-scheme-tests',
-            ttkBackendHost: Config.getTestConfig().ttkBackendHost,
-            envFilePath: `${ENV_DIR}/${config.ttkEnvFile}`,
-            reportFilePrefix: `${config.sourceDfspId}-${config.targetDfspId}`,
-            reportFilePath: `${TTK_REPORTS_DIR}/${config.sourceDfspId}-${config.targetDfspId}-report.json`,
-            reportsDir: `${TTK_REPORTS_DIR}`,
-            ...config
-          },
-          queueName: TTK_TESTS_QUEUE,
-          opts: {
-            ignoreDependencyOnFailure: true,
-          }
-        })),
-      });
-      response ={
+    try {
+      await flowExecutor.startTestRun();
+      response = {
         ok: true,
         message: 'Triggered Test Run successfully'
+      };
+    } catch (e) {
+      response ={
+        ok: false,
+        message: e.message
       };
     }
     // Generate HTML page with links

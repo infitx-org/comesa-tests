@@ -1,0 +1,13 @@
+{
+    "inputValues": {
+      "PER_SCHEME_FSP_ID": "test-mwk-dfsp",
+      "PER_SCHEME_SDK_OUTBOUND_URL": "http://localhost:4040",
+      "PER_SCHEME_HAPPY_PATH_MSISDN": "16665551002",
+      "PER_SCHEME_CURRENCY": "MWK"
+    },
+    "options": {
+      "breakOnError": true,
+      "transformerName": "none",
+      "generateIDType": "ulid"
+    }
+  }

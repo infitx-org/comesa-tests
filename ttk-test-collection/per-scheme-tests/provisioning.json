@@ -1,0 +1,46 @@
+{
+  "name": "Provisioning",
+  "test_cases": [
+    {
+      "id": 1,
+      "name": "Provisioning",
+      "meta": {
+        "info": "Provisioning"
+      },
+      "requests": [
+        {
+          "id": 1,
+          "description": "Add a party for FX P2P",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/accounts",
+          "path": "/accounts",
+          "method": "post",
+          "body": [
+            {
+              "idType": "MSISDN",
+              "idValue": "{$inputs.PER_SCHEME_HAPPY_PATH_MSISDN}",
+              "currency": "{$inputs.PER_SCHEME_CURRENCY}"
+            }
+          ],
+          "url": "{$inputs.PER_SCHEME_SDK_OUTBOUND_URL}",
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Response should be 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

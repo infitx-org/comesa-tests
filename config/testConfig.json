@@ -36,34 +36,40 @@
             "sendAmount": 10,
             "targets": {
                 "test-mwk-dfsp": {
-                    "dfsp": "test-mwk-dfsp"
+                    "dfsp": "test-mwk-dfsp",
+                    "receiveAmount": 600
                 },
                 "test-ugx-dfsp": {
-                    "dfsp": "test-ugx-dfsp"
+                    "dfsp": "test-ugx-dfsp",
+                    "receiveAmount": 1200
                 }
             }
         },
         "test-mwk-dfsp": {
             "dfsp": "test-mwk-dfsp",
-            "sendAmount": 10,
+            "sendAmount": 600,
             "targets": {
                 "test-zmw-dfsp": {
-                    "dfsp": "test-zmw-dfsp"
+                    "dfsp": "test-zmw-dfsp",
+                    "receiveAmount": 10
                 },
                 "test-ugx-dfsp": {
-                    "dfsp": "test-ugx-dfsp"
+                    "dfsp": "test-ugx-dfsp",
+                    "receiveAmount": 1200
                 }
             }
         },
         "test-ugx-dfsp": {
             "dfsp": "test-ugx-dfsp",
-            "sendAmount": 15,
+            "sendAmount": 1200,
             "targets": {
                 "test-zmw-dfsp": {
-                    "dfsp": "test-zmw-dfsp"
+                    "dfsp": "test-zmw-dfsp",
+                    "receiveAmount": 10
                 },
                 "test-mwk-dfsp": {
-                    "dfsp": "test-mwk-dfsp"
+                    "dfsp": "test-mwk-dfsp",
+                    "receiveAmount": 600
                 }
             }
         }

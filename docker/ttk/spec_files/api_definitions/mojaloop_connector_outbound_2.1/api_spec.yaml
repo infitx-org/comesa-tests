@@ -45,6 +45,7 @@ paths:
         Caller DFSP is used as the account source FSP information
       tags:
         - Accounts
+      operationId: AccountsPost
       requestBody:
         description: Identities list request body
         content:

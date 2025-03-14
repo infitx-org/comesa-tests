@@ -14,7 +14,8 @@
       "MULTI_SCHEME_PAYER_AMOUNT": "10",
       "MULTI_SCHEME_PAYEE_FSP_ID": "test-mwk-dfsp",
       "MULTI_SCHEME_PAYEE_MSISDN": "16665551002",
-      "MULTI_SCHEME_PAYEE_CURRENCY": "MWK"
+      "MULTI_SCHEME_PAYEE_CURRENCY": "MWK",
+      "MULTI_SCHEME_PAYEE_RECEIVE_AMOUNT": "600"
     },
     "options": {
       "breakOnError": true,

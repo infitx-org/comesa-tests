@@ -49,7 +49,7 @@ services:
   ml-testing-toolkit:
     networks:
       - comesa-net
-    image: mojaloop/ml-testing-toolkit:v18.7.5
+    image: mojaloop/ml-testing-toolkit:v18.9.0
     volumes:
       - "./docker/ttk/spec_files:/opt/app/spec_files"
       - "./ttk-environments:/opt/app/examples/environments"

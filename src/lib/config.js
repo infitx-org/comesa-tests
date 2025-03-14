@@ -39,9 +39,23 @@ const getMultiSchemeTestConfig = () => {
     return multiSchemeTestConfig;
 }
 
+const getPerSchemeTestConfig = () => {
+    const perSchemeTestConfig = [];
+    
+    for (const source in testConfig.dfspConfig) {
+        if (!testConfig.dfspConfig[source]?.enabled) continue; // Skip if source DFSP is not enabled
+        perSchemeTestConfig.push({
+            sourceDfspId: source,
+            ttkEnvFile: `per_scheme_${source}.json`
+        });
+    }
+    return perSchemeTestConfig;
+}
+
 module.exports = {
     getTestConfig,
     getRedisOptions,
     getMultiSchemeTestConfig,
+    getPerSchemeTestConfig,
     getMultiSchemeTestTtkEnvFileList
 };

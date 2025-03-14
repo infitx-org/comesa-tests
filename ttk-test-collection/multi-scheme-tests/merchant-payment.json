@@ -1,14 +1,14 @@
 {
-  "name": "P2P Happy Path",
+  "name": "Merchant Payment",
   "test_cases": [
     {
       "id": 1,
-      "name": "P2P Happy Path",
+      "name": "Merchant Payment",
       "meta": {
-        "info": "P2P Happy Path"
+        "info": "Merchant Payment"
       },
       "fileInfo": {
-        "path": "ttk-test-collection/multi-scheme-tests/p2p-happy-path.json"
+        "path": "ttk-test-collection/multi-scheme-tests/merchant-payment.json"
       },
       "requests": [
         {
@@ -42,9 +42,9 @@
               "idValue": "{$inputs.MULTI_SCHEME_PAYEE_MSISDN}",
               "merchantClassificationCode": "123"
             },
-            "amountType": "SEND",
-            "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": "{$inputs.MULTI_SCHEME_PAYER_AMOUNT}",
+            "amountType": "RECEIVE",
+            "currency": "{$inputs.MULTI_SCHEME_PAYEE_CURRENCY}",
+            "amount": "{$inputs.MULTI_SCHEME_PAYEE_RECEIVE_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -103,45 +103,6 @@
               },
               {
                 "id": 2,
-                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
-                "exec": [
-                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
-                ]
-              }
-            ]
-          },
-          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
-        },
-        {
-          "id": 3,
-          "description": "Accept FX Conversion Quote",
-          "apiVersion": {
-            "minorVersion": 1,
-            "majorVersion": 2,
-            "type": "mojaloop_connector_outbound",
-            "asynchronous": false
-          },
-          "operationPath": "/transfers/{transferId}",
-          "path": "/transfers/{$prev.1.response.body.transferId}",
-          "method": "put",
-          "params": {
-            "transferId": "{$prev.1.response.body.transferId}"
-          },
-          "body": {
-            "acceptConversion": true
-          },
-          "disabled": false,
-          "tests": {
-            "assertions": [
-              {
-                "id": 1,
-                "description": "Status is 200",
-                "exec": [
-                  "expect(response.status).to.equal(200)"
-                ]
-              },
-              {
-                "id": 2,
                 "description": "Current state should be WAITING_FOR_QUOTE_ACCEPTANCE",
                 "exec": [
                   "expect(response.body.currentState).to.equal('WAITING_FOR_QUOTE_ACCEPTANCE')"
@@ -152,7 +113,7 @@
           "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
         },
         {
-          "id": 4,
+          "id": 3,
           "description": "Accept Quote",
           "apiVersion": {
             "minorVersion": 1,
@@ -168,6 +129,45 @@
           },
           "body": {
             "acceptQuote": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 4,
+          "description": "Accept FX Conversion Quote",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptConversion": true
           },
           "disabled": false,
           "tests": {
