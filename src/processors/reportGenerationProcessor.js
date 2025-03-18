@@ -19,7 +19,7 @@ function setupReportGenerationProcessor(queueName, redisOptions) {
       try {
         await (new AllureReportGenerator({ reportDir: `${job.data.reportsDir}/${job.data.reportName}`, resultsDir: job.data.resultsDir })).generateAllureReport();
         await job.log(`Generated report successfully`);
-        job.updateProgress(100);
+        // job.updateProgress(100);
       } catch (error) {
         await job.log(`Failed to generate the report`);
         throw new Error(`Failed to generate the report`);

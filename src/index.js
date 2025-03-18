@@ -13,6 +13,7 @@ const ALLURE_REPORTS_DIR = './reports/allure_reports';
 const run = async () => {
 
   const flowExecutor = new FlowExecutor();
+  await flowExecutor.setupWorkers();
 
   const app = express();
 

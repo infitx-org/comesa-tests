@@ -1,4 +1,4 @@
-const { Queue: QueueMQ, FlowProducer, WaitingChildrenError } = require('bullmq');
+const { Queue: QueueMQ, FlowProducer, WaitingChildrenError, QueueEvents } = require('bullmq');
 const Config = require('./lib/config');
 const { setupReportGenerationProcessor } = require('./processors/reportGenerationProcessor');
 const { setupTtkTestsProcessor } = require('./processors/ttkTestsProcessor');
@@ -64,22 +64,25 @@ class FlowExecutor {
 
   constructor () {
     this.flowProducer = new FlowProducer({ connection: redisOptions });
-    this.reportGenerationBullMq = createQueueMQ(REPORT_GENERATION_QUEUE);
-    this.multiSchemeTestsBullMq = createQueueMQ(MULTI_SCHEME_TESTS_QUEUE);
-    this.perSchemeTestsBullMq = createQueueMQ(PER_SCHEME_TESTS_QUEUE);
-    this.staticTestsBullMq = createQueueMQ(STATIC_TESTS_QUEUE);
-    this.waitBullMq = createQueueMQ(WAIT_QUEUE);
-
-    this.setup();
+    this.topQueueName = REPORT_GENERATION_QUEUE;
+    this.multiSchemeTestsQueueName = MULTI_SCHEME_TESTS_QUEUE;
+    this.perSchemeTestsQueueName = PER_SCHEME_TESTS_QUEUE;
+    this.staticTestsQueueName = STATIC_TESTS_QUEUE;
+    this.waitQueueName = WAIT_QUEUE;
+    this.reportGenerationBullMq = createQueueMQ(this.topQueueName);
+    this.multiSchemeTestsBullMq = createQueueMQ(this.multiSchemeTestsQueueName);
+    this.perSchemeTestsBullMq = createQueueMQ(this.perSchemeTestsQueueName);
+    this.staticTestsBullMq = createQueueMQ(this.staticTestsQueueName);
+    this.waitBullMq = createQueueMQ(this.waitQueueName);
   
   }
 
-  async setup () {
-    await setupTtkTestsProcessor(MULTI_SCHEME_TESTS_QUEUE, redisOptions);
-    await setupTtkTestsProcessor(PER_SCHEME_TESTS_QUEUE, redisOptions);
-    await setupTtkTestsProcessor(STATIC_TESTS_QUEUE, redisOptions);
-    await setupReportGenerationProcessor(REPORT_GENERATION_QUEUE, redisOptions);
-    await this._setupWaitProcessor(WAIT_QUEUE, redisOptions);
+  async setupWorkers () {
+    await setupTtkTestsProcessor(this.multiSchemeTestsQueueName, redisOptions);
+    await setupTtkTestsProcessor(this.perSchemeTestsQueueName, redisOptions);
+    await setupTtkTestsProcessor(this.staticTestsQueueName, redisOptions);
+    await setupReportGenerationProcessor(this.topQueueName, redisOptions);
+    await this._setupWaitProcessor(this.waitQueueName, redisOptions);
   }
 
   _setupWaitProcessor(queueName, redisOptions) {
@@ -144,7 +147,7 @@ class FlowExecutor {
     const activeCount2 = await this.multiSchemeTestsBullMq.getActiveCount()
     const activeCount1 = await this.reportGenerationBullMq.getActiveCount()
     if (activeCount1 > 0 || activeCount2 > 0 || activeCount3 > 0 || activeCount4 > 0) {
-      return false;
+      throw new Error('There are active jobs. Please wait for them to finish.');
     } else {
       // // Clear existing jobs
 
@@ -184,9 +187,9 @@ class FlowExecutor {
       await this.reportGenerationBullMq.clean(0, 1000, 'waiting-children');
 
       const combinedReportName = new Date().toISOString().replace(/[:.]/g, '-');
-      const flow = await this.flowProducer.add({
+      const originalTree = await this.flowProducer.add({
         name: 'Generate Report',
-        queueName: REPORT_GENERATION_QUEUE,
+        queueName: this.topQueueName,
         data: {
           ttkReports: [
             ...Config.getPerSchemeTestConfig().map((config) => ({
@@ -213,27 +216,72 @@ class FlowExecutor {
             ignoreDependencyOnFailure: true,
           }
         }],
-        // children: Config.getMultiSchemeTestConfig().map((config) => ({
-        //   name: `TTK Tests ${config.sourceDfspId} to ${config.targetDfspId}`,
-        //   data: {
-        //     testCollection: 'ttk-test-collection/multi-scheme-tests',
-        //     ttkBackendHost: Config.getTestConfig().ttkBackendHost,
-        //     envFilePath: `${ENV_DIR}/${config.ttkEnvFile}`,
-        //     reportFilePrefix: `${config.sourceDfspId}-${config.targetDfspId}`,
-        //     reportFilePath: `${TTK_REPORTS_DIR}/${config.sourceDfspId}-${config.targetDfspId}-report.json`,
-        //     reportsDir: `${TTK_REPORTS_DIR}`,
-        //     ...config
-        //   },
-        //   queueName: PER_SCHEME_TESTS_QUEUE,
-        //   opts: {
-        //     ignoreDependencyOnFailure: true,
-        //   }
-        // })),
       });
-      return true;
+      return originalTree;
     }
   }
+
+  onTestExecutionLog (logFn) {
+    const perSchemeQueueEvents = new QueueEvents(this.perSchemeTestsQueueName);
+    perSchemeQueueEvents.on('progress', async ({ jobId, data }) => {
+      // const { logs, count } = await this.perSchemeTestsBullMq.getJobLogs(jobId);
+      // logFn(logs);
+      const jobInfo = await this.perSchemeTestsBullMq.getJob(jobId);
+      const jobDescription = `${jobInfo.queue.name} -> ${jobInfo.name}`;
+      logFn(`${jobDescription}: ${data}%`);
+    });
+    perSchemeQueueEvents.on('completed', async ({ jobId }) => {
+      const jobInfo = await this.perSchemeTestsBullMq.getJob(jobId);
+      const jobDescription = `${jobInfo.queue.name} -> ${jobInfo.name}`;
+      const { logs } = await this.perSchemeTestsBullMq.getJobLogs(jobId);
+      logFn(
+        `-------------------- START OF LOG: ${jobDescription} --------------------\n` +
+        getLogStringFromArray(logs) +
+        `-------------------- END OF LOG: ${jobDescription} --------------------\n`
+      );
+    });
+
+    const multiSchemeQueueEvents = new QueueEvents(this.multiSchemeTestsQueueName);
+    multiSchemeQueueEvents.on('progress', async ({ jobId, data }) => {
+      const jobInfo = await this.multiSchemeTestsBullMq.getJob(jobId);
+      const jobDescription = `${jobInfo.queue.name} -> ${jobInfo.name}`;
+      logFn(`${jobDescription}: ${data}%`);
+    });
+    multiSchemeQueueEvents.on('completed', async ({ jobId }) => {
+      const jobInfo = await this.multiSchemeTestsBullMq.getJob(jobId);
+      const jobDescription = `${jobInfo.queue.name} -> ${jobInfo.name}`;
+      const { logs } = await this.multiSchemeTestsBullMq.getJobLogs(jobId);
+      logFn(
+        `-------------------- START OF LOG: ${jobDescription} --------------------\n` +
+        getLogStringFromArray(logs) +
+        `-------------------- END OF LOG: ${jobDescription} --------------------\n`
+      );
+    });
+
+    const staticQueueEvents = new QueueEvents(this.staticTestsQueueName);
+    staticQueueEvents.on('progress', async ({ jobId, data }) => {
+      const jobInfo = await this.staticTestsBullMq.getJob(jobId);
+      const jobDescription = `${jobInfo.queue.name} -> ${jobInfo.name}`;
+      logFn(`${jobDescription}: ${data}%`);
+    });
+    staticQueueEvents.on('completed', async ({ jobId }) => {
+      const jobInfo = await this.staticTestsBullMq.getJob(jobId);
+      const jobDescription = `${jobInfo.queue.name} -> ${jobInfo.name}`;
+      const { logs } = await this.staticTestsBullMq.getJobLogs(jobId);
+      logFn(
+        `-------------------- START OF LOG: ${jobDescription} --------------------\n` +
+        getLogStringFromArray(logs) +
+        `-------------------- END OF LOG: ${jobDescription} --------------------\n`
+      );
+    });
+  }
 }
+
+getLogStringFromArray = (logArray) => {
+  return logArray.join('\n');
+}
+
+
 
 module.exports = {
   FlowExecutor

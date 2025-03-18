@@ -55,7 +55,7 @@ function setupTtkTestsProcessor(queueName, redisOptions) {
 
         ls.on('close', (code) => {
           console.log(`child process exited with code ${code}`);
-          job.updateProgress(100);
+          // job.updateProgress(100);
           if (code === 0) {
             resolve({ status: 'completed' });
           } else {

@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "npm run start:service",
+    "start:service": "node src/index.js",
+    "start:testRun": "node src/testRun.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

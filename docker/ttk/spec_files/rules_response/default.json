@@ -106,7 +106,7 @@
           ],
           "scriptingEngine": "javascript"
         },
-        "delay": 2000
+        "delay": 20
       },
       "type": "MOCK_RESPONSE"
     },
