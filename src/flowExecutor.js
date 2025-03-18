@@ -231,14 +231,10 @@ class FlowExecutor {
       logFn(`${jobDescription}: ${data}%`);
     });
     perSchemeQueueEvents.on('completed', async ({ jobId }) => {
-      const jobInfo = await this.perSchemeTestsBullMq.getJob(jobId);
-      const jobDescription = `${jobInfo.queue.name} -> ${jobInfo.name}`;
-      const { logs } = await this.perSchemeTestsBullMq.getJobLogs(jobId);
-      logFn(
-        `-------------------- START OF LOG: ${jobDescription} --------------------\n` +
-        getLogStringFromArray(logs) +
-        `-------------------- END OF LOG: ${jobDescription} --------------------\n`
-      );
+      logFn(await getJobLogs(this.perSchemeTestsBullMq, jobId));
+    });
+    perSchemeQueueEvents.on('failed', async ({ jobId }) => {
+      logFn(await getJobLogs(this.perSchemeTestsBullMq, jobId));
     });
 
     const multiSchemeQueueEvents = new QueueEvents(this.multiSchemeTestsQueueName);
@@ -248,14 +244,10 @@ class FlowExecutor {
       logFn(`${jobDescription}: ${data}%`);
     });
     multiSchemeQueueEvents.on('completed', async ({ jobId }) => {
-      const jobInfo = await this.multiSchemeTestsBullMq.getJob(jobId);
-      const jobDescription = `${jobInfo.queue.name} -> ${jobInfo.name}`;
-      const { logs } = await this.multiSchemeTestsBullMq.getJobLogs(jobId);
-      logFn(
-        `-------------------- START OF LOG: ${jobDescription} --------------------\n` +
-        getLogStringFromArray(logs) +
-        `-------------------- END OF LOG: ${jobDescription} --------------------\n`
-      );
+      logFn(await getJobLogs(this.multiSchemeTestsBullMq, jobId));
+    });
+    multiSchemeQueueEvents.on('failed', async ({ jobId }) => {
+      logFn(await getJobLogs(this.multiSchemeTestsBullMq, jobId));
     });
 
     const staticQueueEvents = new QueueEvents(this.staticTestsQueueName);
@@ -265,20 +257,27 @@ class FlowExecutor {
       logFn(`${jobDescription}: ${data}%`);
     });
     staticQueueEvents.on('completed', async ({ jobId }) => {
-      const jobInfo = await this.staticTestsBullMq.getJob(jobId);
-      const jobDescription = `${jobInfo.queue.name} -> ${jobInfo.name}`;
-      const { logs } = await this.staticTestsBullMq.getJobLogs(jobId);
-      logFn(
-        `-------------------- START OF LOG: ${jobDescription} --------------------\n` +
-        getLogStringFromArray(logs) +
-        `-------------------- END OF LOG: ${jobDescription} --------------------\n`
-      );
+      logFn(await getJobLogs(this.staticTestsBullMq, jobId));
+    });
+    staticQueueEvents.on('failed', async ({ jobId }) => {
+      logFn(await getJobLogs(this.staticTestsBullMq, jobId));
     });
   }
+
+
 }
 
 getLogStringFromArray = (logArray) => {
   return logArray.join('\n');
+}
+
+getJobLogs = async (queue, jobId) => {
+  const jobInfo = await queue.getJob(jobId);
+  const jobDescription = `${jobInfo.queue.name} -> ${jobInfo.name}`;
+  const { logs } = await queue.getJobLogs(jobId);
+  return `-------------------- START OF LOG: ${jobDescription} --------------------\n` +
+    getLogStringFromArray(logs) +
+    `-------------------- END OF LOG: ${jobDescription} --------------------\n`;
 }
 
 

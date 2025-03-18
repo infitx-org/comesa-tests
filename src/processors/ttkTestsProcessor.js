@@ -34,7 +34,7 @@ function setupTtkTestsProcessor(queueName, redisOptions) {
           '-e', job.data.envFilePath,
           '-u', `http://${job.data.ttkBackendHost}:5050`,
           '--report-format', 'json',
-          '--save-report', 'true',
+          '--save-report', 'false',
           '--report-target', `file://${job.data.reportFilePath}`,
           '--save-report-base-url', `https://reports.somedomain.com/${job.data.reportFilePrefix}`
         ]);

@@ -13,7 +13,7 @@
   "dependencies": {
     "@bull-board/api": "^6.7.10",
     "@bull-board/express": "^6.7.10",
-    "@mojaloop/ml-testing-toolkit-client-lib": "^1.6.1",
+    "@mojaloop/ml-testing-toolkit-client-lib": "^1.8.1",
     "allure-commandline": "^2.33.0",
     "bull": "^4.16.5",
     "bullmq": "^5.41.8",
