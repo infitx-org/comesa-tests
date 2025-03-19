@@ -205,6 +205,8 @@ class FlowExecutor {
           reportsDir: ALLURE_REPORTS_DIR,
           resultsDir: ALLURE_RESULTS_DIR,
           reportsLinkBaseURL: Config.getTestConfig().reportsLinkBaseURL || '/reports',
+          slackWebhookUrl: Config.getTestConfig().slackWebhookUrl,
+          slackWebhookUrlForFailed: Config.getTestConfig().slackWebhookUrlForFailed,
         },
         children: [{
           name: `Wait Queue`,
