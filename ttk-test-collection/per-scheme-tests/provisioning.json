@@ -23,8 +23,7 @@
           "body": [
             {
               "idType": "MSISDN",
-              "idValue": "{$inputs.PER_SCHEME_HAPPY_PATH_MSISDN}",
-              "currency": "{$inputs.PER_SCHEME_CURRENCY}"
+              "idValue": "{$inputs.PER_SCHEME_HAPPY_PATH_MSISDN}"
             }
           ],
           "url": "{$inputs.PER_SCHEME_SDK_OUTBOUND_URL}",
