@@ -20,6 +20,7 @@ services:
   #   volumes:
   #     - ./config:/opt/app/config
   #     - ./reports:/opt/app/reports
+  #     - ./ttk-environments:/opt/app/ttk-environments
   #   user: root
   #   # healthcheck:
   #   #   test: [

@@ -15,10 +15,6 @@ const ALLURE_REPORTS_DIR = './reports/allure_reports';
 const ALLURE_RESULTS_DIR = './reports/allure_results';
 const ENV_DIR = './ttk-environments';
 
-const redisOptions = Config.getRedisOptions();
-
-const createQueueMQ = (name) => new QueueMQ(name, { connection: redisOptions });
-
 const WaitProcessorStep = {
   Start: 'Start',
   perSchemeTests: 'perSchemeTests',
@@ -63,29 +59,34 @@ const multiSchemeTestJobs = Config.getMultiSchemeTestConfig().map((config) => ({
 class FlowExecutor {
 
   constructor () {
-    this.flowProducer = new FlowProducer({ connection: redisOptions });
+    this.redisOptions = Config.getRedisOptions();
+
+    this.flowProducer = new FlowProducer({ connection: this.redisOptions });
     this.topQueueName = REPORT_GENERATION_QUEUE;
     this.multiSchemeTestsQueueName = MULTI_SCHEME_TESTS_QUEUE;
     this.perSchemeTestsQueueName = PER_SCHEME_TESTS_QUEUE;
     this.staticTestsQueueName = STATIC_TESTS_QUEUE;
     this.waitQueueName = WAIT_QUEUE;
-    this.reportGenerationBullMq = createQueueMQ(this.topQueueName);
-    this.multiSchemeTestsBullMq = createQueueMQ(this.multiSchemeTestsQueueName);
-    this.perSchemeTestsBullMq = createQueueMQ(this.perSchemeTestsQueueName);
-    this.staticTestsBullMq = createQueueMQ(this.staticTestsQueueName);
-    this.waitBullMq = createQueueMQ(this.waitQueueName);
+    
+    this.reportGenerationBullMq = this._createQueueMQ(this.topQueueName);
+    this.multiSchemeTestsBullMq = this._createQueueMQ(this.multiSchemeTestsQueueName);
+    this.perSchemeTestsBullMq = this._createQueueMQ(this.perSchemeTestsQueueName);
+    this.staticTestsBullMq = this._createQueueMQ(this.staticTestsQueueName);
+    this.waitBullMq = this._createQueueMQ(this.waitQueueName);
   
   }
 
+  _createQueueMQ = (name) => new QueueMQ(name, { connection: this.redisOptions });
+
   async setupWorkers () {
-    await setupTtkTestsProcessor(this.multiSchemeTestsQueueName, redisOptions);
-    await setupTtkTestsProcessor(this.perSchemeTestsQueueName, redisOptions);
-    await setupTtkTestsProcessor(this.staticTestsQueueName, redisOptions);
-    await setupReportGenerationProcessor(this.topQueueName, redisOptions);
-    await this._setupWaitProcessor(this.waitQueueName, redisOptions);
+    await setupTtkTestsProcessor(this.multiSchemeTestsQueueName);
+    await setupTtkTestsProcessor(this.perSchemeTestsQueueName);
+    await setupTtkTestsProcessor(this.staticTestsQueueName);
+    await setupReportGenerationProcessor(this.topQueueName);
+    await this._setupWaitProcessor(this.waitQueueName);
   }
 
-  _setupWaitProcessor(queueName, redisOptions) {
+  _setupWaitProcessor(queueName) {
     new Worker(
       queueName,
       async (job, token) => {
@@ -137,7 +138,7 @@ class FlowExecutor {
           }
         }
       },
-      { connection: redisOptions, concurrency: 1 }
+      { connection: this.redisOptions, concurrency: 1 }
     );
   }
 
@@ -224,7 +225,7 @@ class FlowExecutor {
   }
 
   onTestExecutionLog (logFn) {
-    const perSchemeQueueEvents = new QueueEvents(this.perSchemeTestsQueueName);
+    const perSchemeQueueEvents = new QueueEvents(this.perSchemeTestsQueueName, { connection: this.redisOptions });
     perSchemeQueueEvents.on('progress', async ({ jobId, data }) => {
       // const { logs, count } = await this.perSchemeTestsBullMq.getJobLogs(jobId);
       // logFn(logs);
@@ -239,7 +240,7 @@ class FlowExecutor {
       logFn(await getJobLogs(this.perSchemeTestsBullMq, jobId));
     });
 
-    const multiSchemeQueueEvents = new QueueEvents(this.multiSchemeTestsQueueName);
+    const multiSchemeQueueEvents = new QueueEvents(this.multiSchemeTestsQueueName, { connection: this.redisOptions });
     multiSchemeQueueEvents.on('progress', async ({ jobId, data }) => {
       const jobInfo = await this.multiSchemeTestsBullMq.getJob(jobId);
       const jobDescription = `${jobInfo.queue.name} -> ${jobInfo.name}`;
@@ -252,7 +253,7 @@ class FlowExecutor {
       logFn(await getJobLogs(this.multiSchemeTestsBullMq, jobId));
     });
 
-    const staticQueueEvents = new QueueEvents(this.staticTestsQueueName);
+    const staticQueueEvents = new QueueEvents(this.staticTestsQueueName, { connection: this.redisOptions });
     staticQueueEvents.on('progress', async ({ jobId, data }) => {
       const jobInfo = await this.staticTestsBullMq.getJob(jobId);
       const jobDescription = `${jobInfo.queue.name} -> ${jobInfo.name}`;

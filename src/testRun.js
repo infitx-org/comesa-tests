@@ -18,7 +18,7 @@ const run = async () => {
     console.error(e);
   }
 
-  const topQueueEvents = new QueueEvents(flowExecutor.topQueueName);
+  const topQueueEvents = new QueueEvents(flowExecutor.topQueueName, { connection: flowExecutor.redisOptions });
 
   topQueueEvents.on('completed', ({returnvalue}) => {
     console.log(returnvalue);
