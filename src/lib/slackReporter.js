@@ -81,6 +81,7 @@ class SlackReporter {
     });
 
     Object.keys(results).forEach(category => {
+      if (this.showDetails) {
         blocks.push({
             type: "section",
             text: { type: "mrkdwn", text: `*${category}*` }
@@ -93,16 +94,27 @@ class SlackReporter {
               elements: [{ type: "mrkdwn", text: `${suiteStatusEmoji} ${suiteName}` }]
             });
             
-            if (this.showDetails) {
-              results[category][suiteName].forEach(({ testName, testStatus, responseCode }) => {
-                  const testStatusEmoji = testStatus === "passed" ? ":white_check_mark:" : ":x:";
-                  blocks.push({
-                      type: "context",
-                      elements: [{ type: "mrkdwn", text: `-  ${testStatusEmoji} ${testName} \`${responseCode}\`` }]
-                  });
-              });
-            }
+            results[category][suiteName].forEach(({ testName, testStatus, responseCode }) => {
+                const testStatusEmoji = testStatus === "passed" ? ":white_check_mark:" : ":x:";
+                blocks.push({
+                    type: "context",
+                    elements: [{ type: "mrkdwn", text: `-  ${testStatusEmoji} ${testName} \`${responseCode}\`` }]
+                });
+            });
         });
+      } else {
+        const elements = [];
+        elements.push({ type: "mrkdwn", text: `*${category}*` });
+        Object.keys(results[category]).forEach(suiteName => {
+            const suiteStatus = results[category][suiteName].every(test => test.testStatus === "passed");
+            const suiteStatusEmoji = suiteStatus ? ":white_check_mark:" : ":warning:";
+            elements.push({ type: "mrkdwn", text: `${suiteStatusEmoji} ${suiteName}` });
+        });
+        blocks.push({
+          type: "context",
+          elements
+        });
+      }
     });
 
     blocks.push({ type: "divider" });
@@ -129,6 +141,8 @@ class SlackReporter {
       return logs;
     }
     const { blocks, isPassed } = this.generateCombinedReport(reportURL)
+    // console.log(JSON.stringify(blocks,null,2))
+    // process.exit(0)
   
     if (this.webhook) {
       try {
