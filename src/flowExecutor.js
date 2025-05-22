@@ -208,6 +208,7 @@ class FlowExecutor {
           reportsLinkBaseURL: Config.getTestConfig().reportsLinkBaseURL || '/reports',
           slackWebhookUrl: Config.getTestConfig().slackWebhookUrl,
           slackWebhookUrlForFailed: Config.getTestConfig().slackWebhookUrlForFailed,
+          slackWebhookDescription: Config.getTestConfig().slackWebhookDescription,
         },
         children: [{
           name: `Wait Queue`,

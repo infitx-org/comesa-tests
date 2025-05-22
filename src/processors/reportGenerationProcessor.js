@@ -26,6 +26,7 @@ function setupReportGenerationProcessor(queueName, redisOptions) {
           slackWebhookUrlForFailed: job.data.slackWebhookUrlForFailed,
           allureResultsPath: job.data.resultsDir,
           showDetails: false,
+          slackWebhookDescription: job.data.slackWebhookDescription,
         });
         const slackReporterLogs = await slackReporter.sendSlackNotification(reportURL);
         slackReporterLogs.forEach(async log => {

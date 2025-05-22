@@ -20,6 +20,7 @@ class SlackReporter {
     }
     this.allureResultsPath = config.allureResultsPath || './reports/allure_results';
     this.showDetails = config.showDetails || false;
+    this.slackWebhookDescription = config.slackWebhookDescription || '';
   }
 
   generateCombinedReport = (reportURL) => {
@@ -125,7 +126,7 @@ class SlackReporter {
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: `${totalStatus} *COMESA GP:* \`${totalPassed}/${totalTests}\` <${reportURL}|View Report>`
+                text: `${totalStatus} *COMESA GP:* ${this.slackWebhookDescription} \`${totalPassed}/${totalTests}\` <${reportURL}|View Report>`
             }
     });
     return {
