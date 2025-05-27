@@ -56,16 +56,16 @@
             "assertions": [
               {
                 "id": 1,
-                "description": "Error Code should be 4200",
+                "description": "Error Code should be 3200",
                 "exec": [
-                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('4200')"
+                  "expect(response.body.transferState.getPartiesResponse.body.errorInformation.errorCode).to.equal('3200')"
                 ]
               },
               {
                 "id": 2,
                 "description": "Error description should be Party Not Found",
                 "exec": [
-                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.equal('Party Not Found')"
+                  "expect(response.body.transferState.getPartiesResponse.body.errorInformation.errorDescription).to.equal('Identifier Error')"
                 ]
               }
             ]
