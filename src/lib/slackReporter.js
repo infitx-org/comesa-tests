@@ -81,13 +81,13 @@ class SlackReporter {
         }
     });
 
-    Object.keys(results).forEach(category => {
+    Object.keys(results).sort().forEach(category => {
       if (this.showDetails) {
         blocks.push({
             type: "section",
             text: { type: "mrkdwn", text: `*${category}*` }
         });
-        Object.keys(results[category]).forEach(suiteName => {
+        Object.keys(results[category]).sort().forEach(suiteName => {
             const suiteStatus = results[category][suiteName].every(test => test.testStatus === "passed");
             const suiteStatusEmoji = suiteStatus ? ":white_check_mark:" : ":warning:";
             blocks.push({
