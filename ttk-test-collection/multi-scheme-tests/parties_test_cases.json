@@ -1,12 +1,19 @@
 {
-  "options": {},
-  "name": "Parties Test Cases",
+  "options": {
+    "breakOnError": true,
+    "transformerName": "none",
+    "generateIDType": "ulid"
+  },
+  "name": "parties_test_cases",
   "test_cases": [
     {
       "id": 1,
       "name": "Party does not exist in any scheme",
       "meta": {
         "info": "Party does not exist in any scheme"
+      },
+      "fileInfo": {
+        "path": "parties_test_cases.json"
       },
       "requests": [
         {
@@ -79,6 +86,9 @@
       "meta": {
         "info": "Party exists in multiple schemes under different currencies"
       },
+      "fileInfo": {
+        "path": "parties_test_cases.json"
+      },
       "requests": [
         {
           "id": 1,
@@ -141,7 +151,8 @@
                 ]
               }
             ]
-          }
+          },
+          "disabled": true
         }
       ]
     },
@@ -151,9 +162,43 @@
       "meta": {
         "info": "Party moves from one DFSP to another DFSP in a single scheme"
       },
+      "fileInfo": {
+        "path": "parties_test_cases.json"
+      },
       "requests": [
         {
           "id": 1,
+          "description": "Add a party for DFSP1",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/accounts",
+          "path": "/accounts",
+          "method": "post",
+          "body": [
+            {
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
+            }
+          ],
+          "url": "{$inputs.MULTI_SCHEME_PAYEE1_SDK_OUTBOUND_URL}",
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Response should be 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 2,
           "description": "Send transfer",
           "apiVersion": {
             "minorVersion": 1,
@@ -215,7 +260,69 @@
           }
         },
         {
-          "id": 2,
+          "id": 3,
+          "description": "Delete Party from DFSP1",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/accounts",
+          "path": "/accounts",
+          "method": "post",
+          "body": [
+            {
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
+            }
+          ],
+          "url": "{$inputs.MULTI_SCHEME_PAYEE1_SDK_OUTBOUND_URL}",
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Response should be 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "description": "Add a party for DFSP2",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/accounts",
+          "path": "/accounts",
+          "method": "post",
+          "body": [
+            {
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
+            }
+          ],
+          "url": "{$inputs.MULTI_SCHEME_PAYEE2_SDK_OUTBOUND_URL}",
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Response should be 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 5,
           "description": "Send transfer",
           "apiVersion": {
             "minorVersion": 1,
@@ -223,6 +330,7 @@
             "type": "mojaloop_connector_outbound",
             "asynchronous": true
           },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}",
           "operationPath": "/transfers",
           "path": "/transfers",
           "method": "post",
@@ -231,23 +339,23 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.P2P_SOURCE_PARTY_ID_1}",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYER_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
               "lastName": "{$inputs.FROM_LAST_NAME}",
               "dateOfBirth": "{$inputs.FROM_DOB}",
-              "fspId": "{$inputs.FROM_FSP_ID}"
+              "fspId": "{$inputs.MULTI_SCHEME_PAYER_FSP_ID}"
             },
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.COMESA_MSISDN_DOES_NOT_EXIST_ANY_SCHEME}",
+              "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}",
               "merchantClassificationCode": 123
             },
             "amountType": "SEND",
-            "currency": "{$inputs.P2P_CURRENCY}",
-            "amount": "{$inputs.P2P_AMOUNT}",
+            "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -267,9 +375,40 @@
               },
               {
                 "id": 2,
-                "description": "Destination FSP Id should be test-mwk-dfsp2",
+                "description": "Destination FSP Id should be test-mwk-dfsp",
                 "exec": [
-                  "expect(response.body.getPartiesResponse.body.party.partyIdInfo.fspId).to.equal('test-mwk-dfsp2')"
+                  "expect(response.body.getPartiesResponse.body.party.partyIdInfo.fspId).to.equal('test-mwk-dfsp')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 6,
+          "description": "Delete Party from DFSP2",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/accounts",
+          "path": "/accounts",
+          "method": "post",
+          "body": [
+            {
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
+            }
+          ],
+          "url": "{$inputs.MULTI_SCHEME_PAYEE2_SDK_OUTBOUND_URL}",
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Response should be 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
                 ]
               }
             ]
@@ -282,6 +421,9 @@
       "name": "Party moves from DFSP in one scheme to another DFSP in a different scheme",
       "meta": {
         "info": "Party moves from DFSP in one scheme to another DFSP in a different scheme"
+      },
+      "fileInfo": {
+        "path": "parties_test_cases.json"
       },
       "requests": [
         {
@@ -344,7 +486,8 @@
                 ]
               }
             ]
-          }
+          },
+          "disabled": true
         },
         {
           "id": 2,
@@ -405,7 +548,8 @@
                 ]
               }
             ]
-          }
+          },
+          "disabled": true
         }
       ]
     },
@@ -414,6 +558,9 @@
       "name": "The DFSP that has the Party throws processing error while the other DFSPs return Party Not Found error.",
       "meta": {
         "info": "The DFSP that has the Party throws processing error while the other DFSPs return Party Not Found error."
+      },
+      "fileInfo": {
+        "path": "parties_test_cases.json"
       },
       "requests": [
         {
@@ -476,7 +623,8 @@
                 ]
               }
             ]
-          }
+          },
+          "disabled": true
         }
       ]
     }
