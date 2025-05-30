@@ -1,12 +1,12 @@
 {
   "options": {},
-  "name": "FX Quotes Test Cases",
+  "name": "FXQuotes & Quotes Negative Test Cases",
   "test_cases": [
     {
-      "id": 2,
-      "name": "Test FXP Service timeout",
+      "id": 1,
+      "name": "Timeout in Regional scheme on POST /fxQuotes",
       "meta": {
-        "info": "Test FXP Service timeout"
+        "info": "Timeout in Regional scheme on POST /fxQuotes"
       },
       "requests": [
         {
@@ -43,7 +43,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": 503,
+            "amount": 401,
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -105,6 +105,428 @@
                 "description": "Response should contain timeout message",
                 "exec": [
                   "expect(response.statusText).to.contain('timeout of')"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Generic error in Regional scheme on POST /fxQuotes",
+      "meta": {
+        "info": "Generic error in Regional scheme on POST /fxQuotes"
+      },
+      "requests": [
+        {
+          "id": 1,
+          "description": "Send transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}",
+          "operationPath": "/transfers",
+          "path": "/transfers",
+          "method": "post",
+          "body": {
+            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
+            "from": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYER_MSISDN}",
+              "displayName": "{$inputs.FROM_DISPLAY_NAME}",
+              "firstName": "{$inputs.FROM_FIRST_NAME}",
+              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
+              "lastName": "{$inputs.FROM_LAST_NAME}",
+              "dateOfBirth": "{$inputs.FROM_DOB}",
+              "fspId": "{$inputs.MULTI_SCHEME_PAYER_FSP_ID}"
+            },
+            "to": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYEE_MSISDN}",
+              "merchantClassificationCode": 123
+            },
+            "amountType": "SEND",
+            "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
+            "amount": 402,
+            "transactionType": "TRANSFER",
+            "note": "{$inputs.NOTE}",
+            "skipPartyLookup": false
+          },
+          "params": {
+            "Type": "",
+            "ID": ""
+          },
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "description": "Accept Party and send POST /fxQuotes",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}",
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptParty": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 500",
+                "exec": [
+                  "expect(response.status).to.equal(500)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Error code is 5001",
+                "exec": [
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5001')"
+                ]
+              },
+              {
+                "id": 3,
+                "description": "Error description should contain error message",
+                "exec": [
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.equal('Generic Forex Quotes Error')"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Timeout in Payee scheme on POST /quotes",
+      "meta": {
+        "info": "Timeout in Payee scheme on POST /quotes"
+      },
+      "requests": [
+        {
+          "id": 1,
+          "description": "Send transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}",
+          "operationPath": "/transfers",
+          "path": "/transfers",
+          "method": "post",
+          "body": {
+            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
+            "from": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYER_MSISDN}",
+              "displayName": "{$inputs.FROM_DISPLAY_NAME}",
+              "firstName": "{$inputs.FROM_FIRST_NAME}",
+              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
+              "lastName": "{$inputs.FROM_LAST_NAME}",
+              "dateOfBirth": "{$inputs.FROM_DOB}",
+              "fspId": "{$inputs.MULTI_SCHEME_PAYER_FSP_ID}"
+            },
+            "to": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYEE_MSISDN}",
+              "merchantClassificationCode": 123
+            },
+            "amountType": "SEND",
+            "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
+            "amount": 403,
+            "transactionType": "TRANSFER",
+            "note": "{$inputs.NOTE}",
+            "skipPartyLookup": false
+          },
+          "params": {
+            "Type": "",
+            "ID": ""
+          },
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "description": "Accept Party and send POST /fxQuotes",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}",
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptParty": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "description": "Accept FX Conversion Quote and send POST /quotes",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}",
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptConversion": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 500",
+                "exec": [
+                  "expect(response.status).to.equal(500)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Response should contain timeout message",
+                "exec": [
+                  "expect(response.statusText).to.contain('timeout of')"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Generic error in Payee scheme on POST /quotes",
+      "meta": {
+        "info": "Generic error in Payee scheme on POST /quotes"
+      },
+      "requests": [
+        {
+          "id": 1,
+          "description": "Send transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}",
+          "operationPath": "/transfers",
+          "path": "/transfers",
+          "method": "post",
+          "body": {
+            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
+            "from": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYER_MSISDN}",
+              "displayName": "{$inputs.FROM_DISPLAY_NAME}",
+              "firstName": "{$inputs.FROM_FIRST_NAME}",
+              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
+              "lastName": "{$inputs.FROM_LAST_NAME}",
+              "dateOfBirth": "{$inputs.FROM_DOB}",
+              "fspId": "{$inputs.MULTI_SCHEME_PAYER_FSP_ID}"
+            },
+            "to": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYEE_MSISDN}",
+              "merchantClassificationCode": 123
+            },
+            "amountType": "SEND",
+            "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
+            "amount": 404,
+            "transactionType": "TRANSFER",
+            "note": "{$inputs.NOTE}",
+            "skipPartyLookup": false
+          },
+          "params": {
+            "Type": "",
+            "ID": ""
+          },
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "description": "Accept Party and send POST /fxQuotes",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}",
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptParty": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "description": "Accept FX Conversion Quote and send POST /quotes",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}",
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptConversion": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 500",
+                "exec": [
+                  "expect(response.status).to.equal(500)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Error code is 5001",
+                "exec": [
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5001')"
+                ]
+              },
+              {
+                "id": 3,
+                "description": "Error description should contain error message",
+                "exec": [
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.equal('Generic Quotes Error')"
                 ]
               }
             ]

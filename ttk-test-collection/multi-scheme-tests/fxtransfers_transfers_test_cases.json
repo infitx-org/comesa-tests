@@ -4,7 +4,7 @@
     "transformerName": "none",
     "generateIDType": "ulid"
   },
-  "name": "fxtransfers_transfers_test_cases",
+  "name": "FXTransfers & Transfers Negative Test Cases",
   "test_cases": [
     {
       "id": 1,
