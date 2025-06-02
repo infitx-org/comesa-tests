@@ -1,6 +1,7 @@
 const { IncomingWebhook } = require('@slack/webhook');
 const fs = require('fs');
 const path = require('path');
+const releaseCd = require('./release-cd');
 
 // TODO: Need to adjust the following values dynamically
 const categoryMap = {
@@ -23,7 +24,7 @@ class SlackReporter {
     this.slackWebhookDescription = config.slackWebhookDescription || '';
   }
 
-  generateCombinedReport = (reportURL) => {
+  generateCombinedReport = async (reportURL) => {
     const blocks = [];
 
     const results = {};
@@ -33,7 +34,7 @@ class SlackReporter {
 
     function countSteps(steps) {
         let total = 0, passed = 0;
-        
+
         function traverse(steps) {
             steps.forEach(step => {
                 total++;
@@ -41,7 +42,7 @@ class SlackReporter {
                 if (step.steps) traverse(step.steps);
             });
         }
-        
+
         traverse(steps);
         return { passed, total };
     }
@@ -50,10 +51,10 @@ class SlackReporter {
         if (path.extname(file) === '.json') {
             const filePath = path.join(this.allureResultsPath, file);
             const content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-            
+
             const suite = content.labels.find(label => label.name === "parentSuite")?.value || "Uncategorized";
             let category = "Uncategorized";
-            
+
             let suiteName = '';
             for (const key in categoryMap) {
                 if (suite.startsWith(key)) {
@@ -62,10 +63,10 @@ class SlackReporter {
                     break;
                 }
             }
-            
+
             const testName = content.name;
             const testStatus = content.status;
-            
+
             const { passed, total } = countSteps(content.steps);
             totalPassed += passed;
             totalTests += total;
@@ -81,6 +82,11 @@ class SlackReporter {
         }
     });
 
+    await releaseCd({
+      totalPassedAssertions: totalPassed,
+      totalAssertions: totalTests
+    }, logs);
+
     Object.keys(results).sort().forEach(category => {
       if (this.showDetails) {
         blocks.push({
@@ -94,7 +100,7 @@ class SlackReporter {
               type: "context",
               elements: [{ type: "mrkdwn", text: `${suiteStatusEmoji} ${suiteName}` }]
             });
-            
+
             results[category][suiteName].forEach(({ testName, testStatus, responseCode }) => {
                 const testStatusEmoji = testStatus === "passed" ? ":white_check_mark:" : ":x:";
                 blocks.push({
@@ -134,21 +140,21 @@ class SlackReporter {
       isPassed: totalPassed === totalTests
     };
   }
-  
+
   sendSlackNotification = async (reportURL = 'http://localhost/') => {
     const logs = [];
     if (!this.webhook && !this.webhookForFailed) {
       logs.push('No Slack webhook URLs configured.')
       return logs;
     }
-    const { blocks, isPassed } = this.generateCombinedReport(reportURL)
+    const { blocks, isPassed } = await this.generateCombinedReport(reportURL, logs)
     // console.log(JSON.stringify(blocks,null,2))
     // process.exit(0)
-  
+
     if (this.webhook) {
       try {
         await this.webhook.send({
-          blocks 
+          blocks
         })
         logs.push('Slack notification sent.')
       } catch (err) {
@@ -159,7 +165,7 @@ class SlackReporter {
     if (this.webhookForFailed && !isPassed) {
       try {
         await this.webhookForFailed.send({
-          blocks 
+          blocks
         })
         logs.push('Slack failure notification sent.')
       } catch (err) {
