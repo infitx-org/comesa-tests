@@ -22,6 +22,7 @@ class SlackReporter {
     this.allureResultsPath = config.allureResultsPath || './reports/allure_results';
     this.showDetails = config.showDetails || false;
     this.slackWebhookDescription = config.slackWebhookDescription || '';
+    this.releaseCdUrl = config.releaseCdUrl;
   }
 
   generateCombinedReport = async (reportURL, logs) => {
@@ -83,6 +84,7 @@ class SlackReporter {
     });
 
     await releaseCd({
+      url: this.releaseCdUrl,
       totalPassedAssertions: totalPassed,
       totalAssertions: totalTests
     }, logs);

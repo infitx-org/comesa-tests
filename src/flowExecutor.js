@@ -67,13 +67,13 @@ class FlowExecutor {
     this.perSchemeTestsQueueName = PER_SCHEME_TESTS_QUEUE;
     this.staticTestsQueueName = STATIC_TESTS_QUEUE;
     this.waitQueueName = WAIT_QUEUE;
-    
+
     this.reportGenerationBullMq = this._createQueueMQ(this.topQueueName);
     this.multiSchemeTestsBullMq = this._createQueueMQ(this.multiSchemeTestsQueueName);
     this.perSchemeTestsBullMq = this._createQueueMQ(this.perSchemeTestsQueueName);
     this.staticTestsBullMq = this._createQueueMQ(this.staticTestsQueueName);
     this.waitBullMq = this._createQueueMQ(this.waitQueueName);
-  
+
   }
 
   _createQueueMQ = (name) => new QueueMQ(name, { connection: this.redisOptions });
@@ -209,6 +209,7 @@ class FlowExecutor {
           slackWebhookUrl: Config.getTestConfig().slackWebhookUrl,
           slackWebhookUrlForFailed: Config.getTestConfig().slackWebhookUrlForFailed,
           slackWebhookDescription: Config.getTestConfig().slackWebhookDescription,
+          releaseCdUrl: process.env.RELEASE_CD_URL,
         },
         children: [{
           name: `Wait Queue`,

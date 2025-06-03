@@ -27,9 +27,8 @@
  --------------
  ******/
 const axios = require('axios').default
-const url = process.env.RELEASE_CD_URL
 
-module.exports = async function ({ totalAssertions, totalPassedAssertions }, logs) {
+module.exports = async function ({ url, totalAssertions, totalPassedAssertions }, logs) {
   if (!url) return
   const data = {
     [`tests.comesa_gp`]: {
