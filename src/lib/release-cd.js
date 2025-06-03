@@ -27,21 +27,21 @@
  --------------
  ******/
 const axios = require('axios').default
-const config = require('../lib/config').getTestConfig()?.releaseCd || {};
+const url = process.env.RELEASE_CD_URL
 
 module.exports = async function ({ totalAssertions, totalPassedAssertions }, logs) {
-  if (!config.reportUrl) return
+  if (!url) return
   const data = {
     [`tests.comesa_gp`]: {
       totalAssertions,
       totalPassedAssertions
     }
   }
-  console.log(`Sending report to ${config.reportUrl}`, data)
+  console.log(`Sending report to ${url}`, data)
   try {
     await axios({
       method: 'post',
-      url: config.reportUrl,
+      url,
       data
     })
   } catch (error) {
