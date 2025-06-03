@@ -37,7 +37,7 @@ module.exports = async function ({ totalAssertions, totalPassedAssertions }, log
       totalPassedAssertions
     }
   }
-  console.log(`Sending report to ${url}`, data)
+  logs.push(`Sending report to ${url} with data: ${JSON.stringify(data)}`);
   try {
     await axios({
       method: 'post',
@@ -45,6 +45,6 @@ module.exports = async function ({ totalAssertions, totalPassedAssertions }, log
       data
     })
   } catch (error) {
-    await logs.push(`Failed to send the report to release-cd, ${error.message}`);
+    logs.push(`Failed to send the report to release-cd, ${error.message}`);
   }
 }
