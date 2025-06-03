@@ -24,7 +24,7 @@ class SlackReporter {
     this.slackWebhookDescription = config.slackWebhookDescription || '';
   }
 
-  generateCombinedReport = async (reportURL) => {
+  generateCombinedReport = async (reportURL, logs) => {
     const blocks = [];
 
     const results = {};
