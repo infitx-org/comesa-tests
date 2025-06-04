@@ -67,21 +67,22 @@ class FlowExecutor {
     this.perSchemeTestsQueueName = PER_SCHEME_TESTS_QUEUE;
     this.staticTestsQueueName = STATIC_TESTS_QUEUE;
     this.waitQueueName = WAIT_QUEUE;
-    
+
     this.reportGenerationBullMq = this._createQueueMQ(this.topQueueName);
     this.multiSchemeTestsBullMq = this._createQueueMQ(this.multiSchemeTestsQueueName);
     this.perSchemeTestsBullMq = this._createQueueMQ(this.perSchemeTestsQueueName);
     this.staticTestsBullMq = this._createQueueMQ(this.staticTestsQueueName);
     this.waitBullMq = this._createQueueMQ(this.waitQueueName);
-  
+
   }
 
   _createQueueMQ = (name) => new QueueMQ(name, { connection: this.redisOptions });
 
   async setupWorkers () {
-    await setupTtkTestsProcessor(this.multiSchemeTestsQueueName, this.redisOptions);
-    await setupTtkTestsProcessor(this.perSchemeTestsQueueName, this.redisOptions);
-    await setupTtkTestsProcessor(this.staticTestsQueueName, this.redisOptions);
+    const { multiSchemeConcurrency, perSchemeConcurrency, staticConcurrency } = Config.getTestConfig();
+    await setupTtkTestsProcessor(this.multiSchemeTestsQueueName, this.redisOptions, multiSchemeConcurrency);
+    await setupTtkTestsProcessor(this.perSchemeTestsQueueName, this.redisOptions, perSchemeConcurrency);
+    await setupTtkTestsProcessor(this.staticTestsQueueName, this.redisOptions, staticConcurrency);
     await setupReportGenerationProcessor(this.topQueueName, this.redisOptions);
     await this._setupWaitProcessor(this.waitQueueName, this.redisOptions);
   }
@@ -209,6 +210,7 @@ class FlowExecutor {
           slackWebhookUrl: Config.getTestConfig().slackWebhookUrl,
           slackWebhookUrlForFailed: Config.getTestConfig().slackWebhookUrlForFailed,
           slackWebhookDescription: Config.getTestConfig().slackWebhookDescription,
+          releaseCdUrl: process.env.RELEASE_CD_URL,
         },
         children: [{
           name: `Wait Queue`,

@@ -27,6 +27,7 @@ function setupReportGenerationProcessor(queueName, redisOptions) {
           allureResultsPath: job.data.resultsDir,
           showDetails: false,
           slackWebhookDescription: job.data.slackWebhookDescription,
+          releaseCdUrl: job.data.releaseCdUrl,
         });
         const slackReporterLogs = await slackReporter.sendSlackNotification(reportURL);
         slackReporterLogs.forEach(async log => {
