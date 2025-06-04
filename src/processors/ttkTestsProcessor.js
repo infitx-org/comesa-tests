@@ -4,7 +4,7 @@ const fs = require('node:fs');
 
 function calculateProgress(line) {
     const match = line.match(/\[\s*(\d+)\s+passed.*?(\d+)\s+skipped.*?(\d+)\s+failed.*?(\d+)\s*\]/i);
-    
+
     if (match) {
         const passed = parseInt(match[1], 10);
         const skipped = parseInt(match[2], 10);
@@ -19,7 +19,7 @@ function calculateProgress(line) {
     return null;
 }
 
-function setupTtkTestsProcessor(queueName, redisOptions) {
+function setupTtkTestsProcessor(queueName, redisOptions, concurrency = 10) {
   new Worker(
     queueName,
     async (job) => {
@@ -64,7 +64,7 @@ function setupTtkTestsProcessor(queueName, redisOptions) {
         });
       });
     },
-    { connection: redisOptions, concurrency: 10 }
+    { connection: redisOptions, concurrency }
   );
 }
 
