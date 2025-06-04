@@ -113,12 +113,22 @@ class SlackReporter {
         });
       } else {
         const elements = [];
-        elements.push({ type: "mrkdwn", text: `*${category}*` });
-        Object.keys(results[category]).forEach(suiteName => {
-            const suiteStatus = results[category][suiteName].every(test => test.testStatus === "passed");
-            const suiteStatusEmoji = suiteStatus ? ":white_check_mark:" : ":warning:";
-            elements.push({ type: "mrkdwn", text: `${suiteStatusEmoji} ${suiteName}` });
-        });
+        if (Object.keys(results[category]).length <= 8) {
+          elements.push({ type: "mrkdwn", text: `*${category}*` });
+          Object.keys(results[category]).sort().forEach(suiteName => {
+              const suiteStatus = results[category][suiteName].every(test => test.testStatus === "passed");
+              const suiteStatusEmoji = suiteStatus ? ":white_check_mark:" : ":warning:";
+              elements.push({ type: "mrkdwn", text: `${suiteStatusEmoji} ${suiteName}` });
+          });
+        } else {
+          // generate summary for large categories
+          const totalSuites = Object.keys(results[category]).length;
+          const totalPassedSuites = Object.keys(results[category]).filter(suiteName =>
+            results[category][suiteName].every(test => test.testStatus === "passed")
+          ).length;
+          const suiteStatusEmoji = totalPassedSuites === totalSuites ? ":white_check_mark:" : ":warning:";
+          elements.push({ type: "mrkdwn", text: `*${category}* ${suiteStatusEmoji} \`${totalPassedSuites}/${totalSuites}\`` });
+        }
         blocks.push({
           type: "context",
           elements
