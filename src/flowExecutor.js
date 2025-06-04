@@ -79,10 +79,10 @@ class FlowExecutor {
   _createQueueMQ = (name) => new QueueMQ(name, { connection: this.redisOptions });
 
   async setupWorkers () {
-    const { multiSchemeConcurrency, perSchemeConcurrency, staticTestConcurrency } = Config.getTestConfig();
+    const { multiSchemeConcurrency, perSchemeConcurrency, staticConcurrency } = Config.getTestConfig();
     await setupTtkTestsProcessor(this.multiSchemeTestsQueueName, this.redisOptions, multiSchemeConcurrency);
     await setupTtkTestsProcessor(this.perSchemeTestsQueueName, this.redisOptions, perSchemeConcurrency);
-    await setupTtkTestsProcessor(this.staticTestsQueueName, this.redisOptions, staticTestConcurrency);
+    await setupTtkTestsProcessor(this.staticTestsQueueName, this.redisOptions, staticConcurrency);
     await setupReportGenerationProcessor(this.topQueueName, this.redisOptions);
     await this._setupWaitProcessor(this.waitQueueName, this.redisOptions);
   }
