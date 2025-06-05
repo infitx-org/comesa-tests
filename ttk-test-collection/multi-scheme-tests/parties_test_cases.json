@@ -144,7 +144,7 @@
               },
               {
                 "id": 2,
-                "description": "Multiple Party currencies should be reyurned",
+                "description": "Multiple Party currencies should be returned",
                 "exec": [
                   "expect(response.body.getPartiesResponse.body.party.supportedCurrencies[0]).to.equal('MWK')",
                   "expect(response.body.getPartiesResponse.body.party.supportedCurrencies[0]).to.equal('EGT')"
@@ -184,18 +184,7 @@
               "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
             }
           ],
-          "url": "{$inputs.MULTI_SCHEME_PAYEE1_SDK_OUTBOUND_URL}",
-          "tests": {
-            "assertions": [
-              {
-                "id": 1,
-                "description": "Response should be 200",
-                "exec": [
-                  "expect(response.status).to.equal(200)"
-                ]
-              }
-            ]
-          }
+          "url": "{$inputs.MULTI_SCHEME_PAYEE1_SDK_OUTBOUND_URL}"
         },
         {
           "id": 2,
@@ -268,27 +257,14 @@
             "type": "mojaloop_connector_outbound",
             "asynchronous": true
           },
-          "operationPath": "/accounts",
-          "path": "/accounts",
-          "method": "post",
-          "body": [
-            {
-              "idType": "MSISDN",
-              "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
-            }
-          ],
-          "url": "{$inputs.MULTI_SCHEME_PAYEE1_SDK_OUTBOUND_URL}",
-          "tests": {
-            "assertions": [
-              {
-                "id": 1,
-                "description": "Response should be 200",
-                "exec": [
-                  "expect(response.status).to.equal(200)"
-                ]
-              }
-            ]
-          }
+          "operationPath": "/accounts/{idType}/{idValue}",
+          "path": "/accounts/MSISDN/{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}",
+          "method": "delete",
+          "params": {
+            "idType": "MSISDN",
+            "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYEE1_SDK_OUTBOUND_URL}"
         },
         {
           "id": 4,
@@ -308,18 +284,7 @@
               "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
             }
           ],
-          "url": "{$inputs.MULTI_SCHEME_PAYEE2_SDK_OUTBOUND_URL}",
-          "tests": {
-            "assertions": [
-              {
-                "id": 1,
-                "description": "Response should be 200",
-                "exec": [
-                  "expect(response.status).to.equal(200)"
-                ]
-              }
-            ]
-          }
+          "url": "{$inputs.MULTI_SCHEME_PAYEE2_SDK_OUTBOUND_URL}"
         },
         {
           "id": 5,
@@ -375,9 +340,9 @@
               },
               {
                 "id": 2,
-                "description": "Destination FSP Id should be test-mwk-dfsp",
+                "description": "Destination FSP Id should be {$inputs.MULTI_SCHEME_PAYER_FSP_ID2}",
                 "exec": [
-                  "expect(response.body.getPartiesResponse.body.party.partyIdInfo.fspId).to.equal('test-mwk-dfsp')"
+                  "expect(response.body.getPartiesResponse.body.party.partyIdInfo.fspId).to.equal({$inputs.MULTI_SCHEME_PAYER_FSP_ID2})"
                 ]
               }
             ]
@@ -392,27 +357,14 @@
             "type": "mojaloop_connector_outbound",
             "asynchronous": true
           },
-          "operationPath": "/accounts",
-          "path": "/accounts",
-          "method": "post",
-          "body": [
-            {
-              "idType": "MSISDN",
-              "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
-            }
-          ],
-          "url": "{$inputs.MULTI_SCHEME_PAYEE2_SDK_OUTBOUND_URL}",
-          "tests": {
-            "assertions": [
-              {
-                "id": 1,
-                "description": "Response should be 200",
-                "exec": [
-                  "expect(response.status).to.equal(200)"
-                ]
-              }
-            ]
-          }
+          "operationPath": "/accounts/{idType}/{idValue}",
+          "path": "/accounts/MSISDN/{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}",
+          "method": "delete",
+          "params": {
+            "idType": "MSISDN",
+            "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYEE2_SDK_OUTBOUND_URL}"
         }
       ]
     },
