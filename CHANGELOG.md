@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/infitx-org/comesa-tests/compare/v1.4.0...v1.5.0) (2025-06-10)
+
+
+### Features
+
+* refactor using super ttk ([6accd75](https://github.com/infitx-org/comesa-tests/commit/6accd75e6e5b21823f8ce0745bfe691f02083f69))
+
 ## [1.4.0](https://github.com/infitx-org/comesa-tests/compare/v1.3.6...v1.4.0) (2025-06-04)
 
 
