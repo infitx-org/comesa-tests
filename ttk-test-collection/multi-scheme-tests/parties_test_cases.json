@@ -8,9 +8,9 @@
   "test_cases": [
     {
       "id": 1,
-      "name": "Party does not exist in any scheme",
+      "name": "DRPP-GP-04 Party does not exist in any scheme",
       "meta": {
-        "info": "Party does not exist in any scheme"
+        "info": "DRPP-GP-04 Party does not exist in any scheme"
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
@@ -82,9 +82,9 @@
     },
     {
       "id": 2,
-      "name": "Party exists in multiple schemes under different currencies",
+      "name": "DRPP-GP-05 Party exists in multiple schemes under different currencies",
       "meta": {
-        "info": "Party exists in multiple schemes under different currencies"
+        "info": "DRPP-GP-05 Party exists in multiple schemes under different currencies"
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
@@ -158,9 +158,9 @@
     },
     {
       "id": 3,
-      "name": "Party moves from one DFSP to another DFSP in a single scheme",
+      "name": "DRPP-GP-06 Party moves from one DFSP to another DFSP in a single scheme",
       "meta": {
-        "info": "Party moves from one DFSP to another DFSP in a single scheme"
+        "info": "DRPP-GP-06 Party moves from one DFSP to another DFSP in a single scheme"
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
@@ -370,9 +370,9 @@
     },
     {
       "id": 4,
-      "name": "Party moves from DFSP in one scheme to another DFSP in a different scheme",
+      "name": "DRPP-GP-07 Party moves from DFSP in one scheme to another DFSP in a different scheme",
       "meta": {
-        "info": "Party moves from DFSP in one scheme to another DFSP in a different scheme"
+        "info": "DRPP-GP-07 Party moves from DFSP in one scheme to another DFSP in a different scheme"
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
@@ -507,9 +507,9 @@
     },
     {
       "id": 5,
-      "name": "The DFSP that has the Party throws processing error while the other DFSPs return Party Not Found error.",
+      "name": "DRPP-GP-08 The DFSP that has the Party throws processing error while the other DFSPs return Party Not Found error.",
       "meta": {
-        "info": "The DFSP that has the Party throws processing error while the other DFSPs return Party Not Found error."
+        "info": "DRPP-GP-08 The DFSP that has the Party throws processing error while the other DFSPs return Party Not Found error."
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
