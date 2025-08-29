@@ -1284,6 +1284,63 @@
     "version": 1
   },
   {
+    "ruleId": 50,
+    "priority": 1,
+    "description": "ABORTED for post /transfer",
+    "apiVersion": {
+      "minorVersion": 1,
+      "majorVersion": 2,
+      "type": "mojaloop_connector_backend",
+      "asynchronous": false,
+      "specFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/api_spec.yaml",
+      "callbackMapFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/callback_map.json",
+      "responseMapFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/response_map.json",
+      "jsfRefFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/mockRef.json",
+      "triggerTemplatesFolder": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/trigger_templates"
+    },
+    "conditions": {
+      "all": [
+        {
+          "fact": "body",
+          "operator": "equal",
+          "value": "25916",
+          "path": "amount"
+        },
+        {
+          "fact": "operationPath",
+          "operator": "equal",
+          "value": "/transfers"
+        },
+        {
+          "fact": "method",
+          "operator": "equal",
+          "value": "post"
+        }
+      ]
+    },
+    "event": {
+      "method": null,
+      "path": null,
+      "params": {
+        "body": {
+          "homeTransactionId": "{$request.body.homeTransactionId}",
+          "completedTimestamp": "{$environment.completedTimestamp}",
+          "conversionState": "ABORTED"
+        },
+        "statusCode": "200",
+        "scripts": {
+          "exec": [
+            "environment.completedTimestamp = new Date().toISOString()"
+          ],
+          "scriptingEngine": "javascript"
+        }
+      },
+      "type": "FIXED_RESPONSE"
+    },
+    "type": "response",
+    "version": 1
+  },
+  {
     "ruleId": 10,
     "priority": 1,
     "description": "post /transfers",
