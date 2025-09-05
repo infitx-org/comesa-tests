@@ -8,9 +8,9 @@
   "test_cases": [
     {
       "id": 1,
-      "name": "Party does not exist in any scheme",
+      "name": "DRPP-GP-04 Party does not exist in any scheme",
       "meta": {
-        "info": "Party does not exist in any scheme"
+        "info": "DRPP-GP-04 Party does not exist in any scheme"
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
@@ -63,9 +63,9 @@
             "assertions": [
               {
                 "id": 1,
-                "description": "Error Code should be 3200",
+                "description": "Error Code should be 3204",
                 "exec": [
-                  "expect(response.body.transferState.getPartiesResponse.body.errorInformation.errorCode).to.equal('3200')"
+                  "expect(response.body.transferState.getPartiesResponse.body.errorInformation.errorCode).to.equal('3204')"
                 ]
               },
               {
@@ -82,9 +82,9 @@
     },
     {
       "id": 2,
-      "name": "Party exists in multiple schemes under different currencies",
+      "name": "DRPP-GP-05 Party exists in multiple schemes under different currencies",
       "meta": {
-        "info": "Party exists in multiple schemes under different currencies"
+        "info": "DRPP-GP-05 Party exists in multiple schemes under different currencies"
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
@@ -158,9 +158,9 @@
     },
     {
       "id": 3,
-      "name": "Party moves from one DFSP to another DFSP in a single scheme",
+      "name": "DRPP-GP-06 Party moves from one DFSP to another DFSP in a single scheme",
       "meta": {
-        "info": "Party moves from one DFSP to another DFSP in a single scheme"
+        "info": "DRPP-GP-06 Party moves from one DFSP to another DFSP in a single scheme"
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
@@ -369,147 +369,10 @@
       ]
     },
     {
-      "id": 4,
-      "name": "Party moves from DFSP in one scheme to another DFSP in a different scheme",
-      "meta": {
-        "info": "Party moves from DFSP in one scheme to another DFSP in a different scheme"
-      },
-      "fileInfo": {
-        "path": "parties_test_cases.json"
-      },
-      "requests": [
-        {
-          "id": 1,
-          "description": "Send transfer",
-          "apiVersion": {
-            "minorVersion": 1,
-            "majorVersion": 2,
-            "type": "mojaloop_connector_outbound",
-            "asynchronous": true
-          },
-          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}",
-          "operationPath": "/transfers",
-          "path": "/transfers",
-          "method": "post",
-          "body": {
-            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
-            "from": {
-              "type": "CONSUMER",
-              "idType": "MSISDN",
-              "idValue": "{$inputs.MULTI_SCHEME_PAYER_MSISDN}",
-              "displayName": "{$inputs.FROM_DISPLAY_NAME}",
-              "firstName": "{$inputs.FROM_FIRST_NAME}",
-              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
-              "lastName": "{$inputs.FROM_LAST_NAME}",
-              "dateOfBirth": "{$inputs.FROM_DOB}",
-              "fspId": "{$inputs.MULTI_SCHEME_PAYER_FSP_ID}"
-            },
-            "to": {
-              "type": "CONSUMER",
-              "idType": "MSISDN",
-              "idValue": "{$inputs.MULTI_SCHEME_MSISDN_ACROSS_SCHEME_DFSP_MIGRATION}",
-              "merchantClassificationCode": 123
-            },
-            "amountType": "SEND",
-            "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": "{$inputs.MULTI_SCHEME_PAYER_AMOUNT}",
-            "transactionType": "TRANSFER",
-            "note": "{$inputs.NOTE}",
-            "skipPartyLookup": false
-          },
-          "params": {
-            "Type": "",
-            "ID": ""
-          },
-          "tests": {
-            "assertions": [
-              {
-                "id": 1,
-                "description": "Status is 200",
-                "exec": [
-                  "expect(response.status).to.equal(200)"
-                ]
-              },
-              {
-                "id": 2,
-                "description": "Destination FSP Id should be test-mwk-dfsp",
-                "exec": [
-                  "expect(response.body.getPartiesResponse.body.party.partyIdInfo.fspId).to.equal('test-mwk-dfsp')"
-                ]
-              }
-            ]
-          },
-          "disabled": true
-        },
-        {
-          "id": 2,
-          "description": "Send transfer",
-          "apiVersion": {
-            "minorVersion": 1,
-            "majorVersion": 2,
-            "type": "mojaloop_connector_outbound",
-            "asynchronous": true
-          },
-          "operationPath": "/transfers",
-          "path": "/transfers",
-          "method": "post",
-          "body": {
-            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
-            "from": {
-              "type": "CONSUMER",
-              "idType": "MSISDN",
-              "idValue": "{$inputs.P2P_SOURCE_PARTY_ID_1}",
-              "displayName": "{$inputs.FROM_DISPLAY_NAME}",
-              "firstName": "{$inputs.FROM_FIRST_NAME}",
-              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
-              "lastName": "{$inputs.FROM_LAST_NAME}",
-              "dateOfBirth": "{$inputs.FROM_DOB}",
-              "fspId": "{$inputs.FROM_FSP_ID}"
-            },
-            "to": {
-              "type": "CONSUMER",
-              "idType": "MSISDN",
-              "idValue": "{$inputs.COMESA_MSISDN_DOES_NOT_EXIST_ANY_SCHEME}",
-              "merchantClassificationCode": 123
-            },
-            "amountType": "SEND",
-            "currency": "{$inputs.P2P_CURRENCY}",
-            "amount": "{$inputs.P2P_AMOUNT}",
-            "transactionType": "TRANSFER",
-            "note": "{$inputs.NOTE}",
-            "skipPartyLookup": false
-          },
-          "params": {
-            "Type": "",
-            "ID": ""
-          },
-          "tests": {
-            "assertions": [
-              {
-                "id": 1,
-                "description": "Status is 200",
-                "exec": [
-                  "expect(response.status).to.equal(200)"
-                ]
-              },
-              {
-                "id": 2,
-                "description": "Destination FSP Id should be test-mwk-dfsp2",
-                "exec": [
-                  "expect(response.body.getPartiesResponse.body.party.partyIdInfo.fspId).to.equal('test-mwk-dfsp2')"
-                ]
-              }
-            ]
-          },
-          "disabled": true
-        }
-      ]
-    },
-    {
       "id": 5,
-      "name": "The DFSP that has the Party throws processing error while the other DFSPs return Party Not Found error.",
+      "name": "DRPP-GP-08 The DFSP that has the Party throws processing error while the other DFSPs return Party Not Found error.",
       "meta": {
-        "info": "The DFSP that has the Party throws processing error while the other DFSPs return Party Not Found error."
+        "info": "DRPP-GP-08 The DFSP that has the Party throws processing error while the other DFSPs return Party Not Found error."
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
@@ -544,7 +407,7 @@
             "to": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.COMESA_MSISDN_DOES_NOT_EXIST_ANY_SCHEME}",
+              "idValue": "{$inputs.MULTI_SCHEME_MSISDN_DFSP_PROCESSING_ERROR}",
               "merchantClassificationCode": 123
             },
             "amountType": "SEND",

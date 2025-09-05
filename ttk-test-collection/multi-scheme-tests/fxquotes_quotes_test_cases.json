@@ -4,9 +4,9 @@
   "test_cases": [
     {
       "id": 1,
-      "name": "Timeout in Regional scheme on POST /fxQuotes",
+      "name": "DRPP-GP-09 FXP timeout in currency conversion",
       "meta": {
-        "info": "Timeout in Regional scheme on POST /fxQuotes"
+        "info": "DRPP-GP-09 FXP timeout in currency conversion"
       },
       "requests": [
         {
@@ -114,9 +114,9 @@
     },
     {
       "id": 2,
-      "name": "Generic error in Regional scheme on POST /fxQuotes",
+      "name": "DRPP-GP-10 FXP processing errors in currency conversion",
       "meta": {
-        "info": "Generic error in Regional scheme on POST /fxQuotes"
+        "info": "DRPP-GP-10 FXP processing errors in currency conversion"
       },
       "requests": [
         {
@@ -231,9 +231,9 @@
     },
     {
       "id": 3,
-      "name": "Timeout in Payee scheme on POST /quotes",
+      "name": "DRPP-GP-13 Quoting Service Timeout",
       "meta": {
-        "info": "Timeout in Payee scheme on POST /quotes"
+        "info": "DRPP-GP-13 Quoting Service Timeout"
       },
       "requests": [
         {
@@ -380,9 +380,9 @@
     },
     {
       "id": 4,
-      "name": "Generic error in Payee scheme on POST /quotes",
+      "name": "DRPP-GP-14 Quoting Service Processing Error",
       "meta": {
-        "info": "Generic error in Payee scheme on POST /quotes"
+        "info": "DRPP-GP-14 Quoting Service Processing Error"
       },
       "requests": [
         {

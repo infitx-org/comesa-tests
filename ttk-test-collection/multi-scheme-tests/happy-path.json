@@ -3,9 +3,9 @@
   "test_cases": [
     {
       "id": 1,
-      "name": "P2P Happy Path",
+      "name": "DRPP-GP-01 Send Money (Source Currency, Multiple FXPs)",
       "meta": {
-        "info": "P2P Happy Path"
+        "info": "DRPP-GP-01 Send Money (Source Currency, Multiple FXPs)"
       },
       "fileInfo": {
         "path": "ttk-test-collection/multi-scheme-tests/p2p-happy-path.json"
@@ -194,9 +194,9 @@
     },
     {
       "id": 2,
-      "name": "Merchant Payment Happy Path",
+      "name": "DRPP-GP-03 Merchant Payment (Target Currency, Multiple FXPs)",
       "meta": {
-        "info": "Merchant Payment Happy Path"
+        "info": "DRPP-GP-03 Merchant Payment (Target Currency, Multiple FXPs)"
       },
       "fileInfo": {
         "path": "ttk-test-collection/multi-scheme-tests/merchant-payment.json"
