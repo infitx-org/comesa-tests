@@ -3,6 +3,7 @@
     "reportsLinkBaseURL": "http://localhost:3000/reports",
     "slackWebhookUrl": "",
     "slackWebhookUrlForFailed": "",
+    "slackWebhookDescription": "",
     "redisOptions": {
         "host": "localhost",
         "port": 6379,
