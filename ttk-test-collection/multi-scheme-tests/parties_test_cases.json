@@ -63,9 +63,9 @@
             "assertions": [
               {
                 "id": 1,
-                "description": "Error Code should be 3200",
+                "description": "Error Code should be 3204",
                 "exec": [
-                  "expect(response.body.transferState.getPartiesResponse.body.errorInformation.errorCode).to.equal('3200')"
+                  "expect(response.body.transferState.getPartiesResponse.body.errorInformation.errorCode).to.equal('3204')"
                 ]
               },
               {
