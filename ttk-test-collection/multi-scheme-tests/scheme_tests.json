@@ -4,9 +4,9 @@
   "test_cases": [
     {
       "id": 1,
-      "name": "COMESA Scheme Rule: Test Payer for Max outgoing",
+      "name": "DRPP-GP-12 - COMESA Scheme Rule: Test Payer for Max outgoing",
       "meta": {
-        "info": "COMESA Scheme Rule: Test Payer for Max outgoing"
+        "info": "DRPP-GP-12 - COMESA Scheme Rule: Test Payer for Max outgoing"
       },
       "requests": [
         {
@@ -42,7 +42,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": "{$inputs.MULTI_SCHEME_RULES_MAX_OUTGOING_AMOUNT}",
+            "amount": "{$inputs.MULTI_SCHEME_RULES_PAYER_MAX_OUTGOING_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -119,9 +119,9 @@
     },
     {
       "id": 2,
-      "name": "COMESA Scheme Rule: Test Payee for Max incoming",
+      "name": "DRPP-GP-11 - COMESA Scheme Rule: Test Payee for Max incoming",
       "meta": {
-        "info": "COMESA Scheme Rule: Test Payee for Max incoming"
+        "info": "DRPP-GP-11 - COMESA Scheme Rule: Test Payee for Max incoming"
       },
       "requests": [
         {
@@ -157,7 +157,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.COMESA_ZMW_CURRENCY}",
-            "amount": "{$inputs.MULTI_SCHEME_RULES_MAX_INCOMING_AMOUNT_IN_PAYEE_CURRENCY}",
+            "amount": "{$inputs.MULTI_SCHEME_RULES_PAYEE_MAX_INCOMING_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -303,9 +303,9 @@
     },
     {
       "id": 3,
-      "name": "COMESA Scheme Rule: Test for Max outgoing region-dev:1000 MWK",
+      "name": "COMESA Scheme Rule: Test for Max Payee Outgoing in region scheme",
       "meta": {
-        "info": "COMESA Scheme Rule: Test for Max outgoing region-dev:1000 MWK"
+        "info": "COMESA Scheme Rule: Test for Max Payee outgoing in region scheme"
       },
       "requests": [
         {
@@ -341,7 +341,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.COMESA_ZMW_CURRENCY}",
-            "amount": "{$inputs.COMESA_REGIONAL_SCHEME_MAX_IN_ZMW_CURRENCY}",
+            "amount": "{$inputs.MULTI_SCHEME_RULES_PAYEE_MAX_INCOMING_AMOUNT_IN_REGION_SCHEME}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
