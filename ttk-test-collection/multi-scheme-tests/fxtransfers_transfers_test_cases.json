@@ -637,7 +637,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": 503,
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_TRANSFERS_TIMEOUT_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -785,7 +785,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "DRPP-GP-19 Transfer Service Processing Error ",
       "meta": {
         "info": "DRPP-GP-19 Transfer Service Processing Error  "
@@ -828,7 +828,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": 504,
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_TRANSFERS_GENERIC_ERROR_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -983,7 +983,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": 6,
       "name": "DRPP-GP-20 Transfer Service sends ABORTED state ",
       "meta": {
         "info": "DRPP-GP-20 Transfer Service sends ABORTED state  "
@@ -1026,7 +1026,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": 504,
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_TRANSFERS_ABORTED_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
