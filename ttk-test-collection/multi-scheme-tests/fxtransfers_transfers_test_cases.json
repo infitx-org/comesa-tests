@@ -241,7 +241,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": 502,
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_FXPTRANSFERS_GENERIC_ERROR_AMOUNT}}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -439,7 +439,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": 502,
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_FXPTRANSFERS_ABORTED_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false

@@ -832,7 +832,7 @@
         {
           "fact": "body",
           "operator": "numericEqual",
-          "value": "502",
+          "value": "12",
           "path": "sourceAmount.amount"
         },
         {
@@ -885,7 +885,7 @@
         {
           "fact": "body",
           "operator": "numericEqual",
-          "value": "506",
+          "value": "13",
           "path": "sourceAmount.amount"
         },
         {
@@ -1149,7 +1149,7 @@
         {
           "fact": "body",
           "operator": "equal",
-          "value": "25863",
+          "value": "14",
           "path": "amount"
         },
         {
@@ -1250,7 +1250,7 @@
         {
           "fact": "body",
           "operator": "equal",
-          "value": "25915",
+          "value": "15",
           "path": "amount"
         },
         {
@@ -1303,7 +1303,7 @@
         {
           "fact": "body",
           "operator": "equal",
-          "value": "25916",
+          "value": "16",
           "path": "amount"
         },
         {
