@@ -774,7 +774,7 @@
         {
           "fact": "body",
           "operator": "numericEqual",
-          "value": "501",
+          "value": "11",
           "path": "sourceAmount.amount"
         },
         {

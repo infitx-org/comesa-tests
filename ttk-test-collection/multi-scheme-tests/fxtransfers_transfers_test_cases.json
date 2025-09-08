@@ -50,7 +50,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": 501,
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_FXPTRANSFERS_TIMEOUT_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -459,9 +459,9 @@
               },
               {
                 "id": 2,
-                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
+                "description": "Current state should be ABORTED",
                 "exec": [
-                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
+                  "expect(response.body.currentState).to.equal('ABORTED')"
                 ]
               }
             ]
@@ -1046,9 +1046,9 @@
               },
               {
                 "id": 2,
-                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
+                "description": "Current state should be ABORTED",
                 "exec": [
-                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
+                  "expect(response.body.currentState).to.equal('ABORTED')"
                 ]
               }
             ]
