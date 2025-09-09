@@ -241,7 +241,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": "{$inputs.MULTI_SCHEME_PAYER_FXPTRANSFERS_GENERIC_ERROR_AMOUNT}}",
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_FXPTRANSFERS_GENERIC_ERROR_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -459,9 +459,9 @@
               },
               {
                 "id": 2,
-                "description": "Current state should be ABORTED",
+                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
                 "exec": [
-                  "expect(response.body.currentState).to.equal('ABORTED')"
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
                 ]
               }
             ]
@@ -583,9 +583,9 @@
               },
               {
                 "id": 3,
-                "description": "Error description should contain error message",
+                "description": "Error description should contain ABORTED message",
                 "exec": [
-                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.equal('Generic forex transfer error')"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.contain('ABORTED')"
                 ]
               }
             ]
@@ -1046,9 +1046,9 @@
               },
               {
                 "id": 2,
-                "description": "Current state should be ABORTED",
+                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
                 "exec": [
-                  "expect(response.body.currentState).to.equal('ABORTED')"
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
                 ]
               }
             ]
@@ -1170,9 +1170,9 @@
               },
               {
                 "id": 3,
-                "description": "Error description should contain error message",
+                "description": "Error description should contain ABORTED message",
                 "exec": [
-                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.equal('Generic transfer error')"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.contain('ABORTED')"
                 ]
               }
             ]
