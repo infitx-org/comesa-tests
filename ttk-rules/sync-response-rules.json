@@ -1146,10 +1146,17 @@
     },
     "conditions": {
       "all": [
+        
         {
           "fact": "body",
           "operator": "equal",
-          "value": "14",
+          "value": "MWK",
+          "path": "currency"
+        },
+        {
+          "fact": "body",
+          "operator": "equal",
+          "value": "720",
           "path": "amount"
         },
         {
@@ -1247,10 +1254,17 @@
     },
     "conditions": {
       "all": [
+        
         {
           "fact": "body",
           "operator": "equal",
-          "value": "15",
+          "value": "MWK",
+          "path": "currency"
+        },
+        {
+          "fact": "body",
+          "operator": "equal",
+          "value": "771",
           "path": "amount"
         },
         {
@@ -1303,7 +1317,13 @@
         {
           "fact": "body",
           "operator": "equal",
-          "value": "16",
+          "value": "MWK",
+          "path": "currency"
+        },
+        {
+          "fact": "body",
+          "operator": "equal",
+          "value": "823",
           "path": "amount"
         },
         {
