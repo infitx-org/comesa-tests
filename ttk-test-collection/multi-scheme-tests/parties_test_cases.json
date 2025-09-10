@@ -242,7 +242,7 @@
                 "id": 2,
                 "description": "Destination FSP Id should be test-mwk-dfsp",
                 "exec": [
-                  "expect(response.body.getPartiesResponse.body.party.partyIdInfo.fspId).to.equal('test-mwk-dfsp')"
+                  "expect(response.body.getPartiesResponse.body.party.partyIdInfo.fspId).to.equal(environment.MULTI_SCHEME_PAYEE_FSP_ID)"
                 ]
               }
             ]
@@ -342,7 +342,7 @@
                 "id": 2,
                 "description": "Destination FSP Id should be {$inputs.MULTI_SCHEME_PAYER_FSP_ID2}",
                 "exec": [
-                  "expect(response.body.getPartiesResponse.body.party.partyIdInfo.fspId).to.equal({$inputs.MULTI_SCHEME_PAYER_FSP_ID2})"
+                  "expect(response.body.getPartiesResponse.body.party.partyIdInfo.fspId).to.equal({$inputs.MULTI_SCHEME_PAYEE_FSP_ID2})"
                 ]
               }
             ]
