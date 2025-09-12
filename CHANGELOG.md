@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.8.0](https://github.com/infitx-org/comesa-tests/compare/v1.7.0...v1.8.0) (2025-09-12)
+
+
+### Features
+
+* add commitlint and husky for commit message validation ([976a715](https://github.com/infitx-org/comesa-tests/commit/976a71529aac085b0cd694316548f2f69ff9a619))
+* added commit lint ([299c575](https://github.com/infitx-org/comesa-tests/commit/299c575fc940553504df4bbb08acfe7b9c086a04))
+
+
+### Bug Fixes
+
+* updated rules ([ddbf3d9](https://github.com/infitx-org/comesa-tests/commit/ddbf3d9d329de44b7eb80524dadfed4b9c55fcbe))
+
 ## [1.7.0](https://github.com/infitx-org/comesa-tests/compare/v1.6.0...v1.7.0) (2025-09-12)
 
 
