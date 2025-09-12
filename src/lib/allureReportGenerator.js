@@ -168,7 +168,7 @@ class AllureReportGenerator {
         return new Promise((resolve, reject) => {
             try {
                 console.log("Generating Allure report...");
-                const generation = allure(["generate", this.resultsDir, "--single-file", "--clean", "-o", this.reportDir]);
+                const generation = allure(["generate", this.resultsDir, "--single-file", "--clean", "--name", "\"COMESA GP Report\"", "-o", this.reportDir]);
                 generation.on("exit", (exitCode) => {
                     if (exitCode === 0) {
                         console.log("Allure report generated successfully.");
