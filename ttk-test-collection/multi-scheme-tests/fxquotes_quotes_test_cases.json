@@ -43,7 +43,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": 401,
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_FXPQUOTES_TIMEOUT_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -153,7 +153,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": 402,
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_FXPQUOTES_GENERIC_ERROR_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -270,7 +270,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": 403,
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_QUOTES_TIMEOUT_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false
@@ -419,7 +419,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": 404,
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_QUOTES_GENERIC_ERROR_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false

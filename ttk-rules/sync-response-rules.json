@@ -69,7 +69,7 @@
         {
           "fact": "body",
           "operator": "numericEqual",
-          "value": "401",
+          "value": "7",
           "path": "conversionTerms.sourceAmount.amount"
         },
         {
@@ -136,7 +136,7 @@
         {
           "fact": "body",
           "operator": "numericEqual",
-          "value": "402",
+          "value": "8",
           "path": "conversionTerms.sourceAmount.amount"
         },
         {
@@ -988,7 +988,7 @@
         {
           "fact": "body",
           "operator": "equal",
-          "value": "20721",
+          "value": "463",
           "path": "amount"
         },
         {
@@ -1048,7 +1048,7 @@
         {
           "fact": "body",
           "operator": "equal",
-          "value": "20773",
+          "value": "514",
           "path": "amount"
         },
         {
