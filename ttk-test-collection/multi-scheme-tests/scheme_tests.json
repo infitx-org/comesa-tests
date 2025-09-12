@@ -73,7 +73,7 @@
         },
         {
           "id": 2,
-          "description": "Accept Party",
+          "description": "Accept Party and send FXQuote",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
@@ -190,7 +190,7 @@
         },
         {
           "id": 2,
-          "description": "Accept Party",
+          "description": "Accept Party and send FXQuote",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
@@ -229,7 +229,7 @@
         },
         {
           "id": 3,
-          "description": "Accept FX Conversion Quote",
+          "description": "Accept FX Conversion Quote and send Quote",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
@@ -378,7 +378,7 @@
         },
         {
           "id": 2,
-          "description": "Accept Party",
+          "description": "Accept Party and send FXQuote",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
@@ -417,7 +417,7 @@
         },
         {
           "id": 3,
-          "description": "Accept FX Conversion Quote",
+          "description": "Accept FX Conversion Quote and send Quote",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
@@ -439,16 +439,16 @@
             "assertions": [
               {
                 "id": 1,
-                "description": "Status is 200",
+                "description": "Error Code should be 4200",
                 "exec": [
-                  "expect(response.status).to.equal(200)"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('4200')"
                 ]
               },
               {
                 "id": 2,
-                "description": "Current state should be WAITING_FOR_QUOTE_ACCEPTANCE",
+                "description": "Error Description should be Payer limit error - Regional scheme: amount limit exceeded",
                 "exec": [
-                  "expect(response.body.currentState).to.equal('WAITING_FOR_QUOTE_ACCEPTANCE')"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.equal('Payer limit error - Regional scheme: amount limit exceeded')"
                 ]
               }
             ]
@@ -478,16 +478,16 @@
             "assertions": [
               {
                 "id": 1,
-                "description": "Error Code should be ",
+                "description": "Error Code should be 4200",
                 "exec": [
-                  "expect(response.body.errorBody.errorCode).to.equal('TBD')"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('4200')"
                 ]
               },
               {
                 "id": 2,
-                "description": "Error Description should be ",
+                "description": "Error Description should be Payer limit error - Regional scheme: amount limit exceeded",
                 "exec": [
-                  "expect(response.body.errorBody.errorDescription).to.equal('TBD')"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.equal('Payer limit error - Regional scheme: amount limit exceeded')"
                 ]
               }
             ]
