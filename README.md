@@ -28,4 +28,3 @@ The tests are structured in the following folders:
     - `Payer` is `MWK` and `Payee` is `ZMW` : To test ZMW Incoming amount
 
 ### 2. comesa_golden_path
-
