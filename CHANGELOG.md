@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/infitx-org/comesa-tests/compare/v1.6.0...v1.7.0) (2025-09-12)
+
+
+### Features
+
+* release PR 14 ([51fe40a](https://github.com/infitx-org/comesa-tests/commit/51fe40afadab9fa31dcd8f09143561764164dbaa))
+
 ## [1.6.0](https://github.com/infitx-org/comesa-tests/compare/v1.5.2...v1.6.0) (2025-09-12)
 
 
