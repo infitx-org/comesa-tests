@@ -3,10 +3,11 @@ const { BullMQAdapter } = require('@bull-board/api/bullMQAdapter');
 const { ExpressAdapter } = require('@bull-board/express');
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
 const { FlowExecutor } = require('./flowExecutor');
 
 const { constructHtml } = require('./lib/utils');
+const { handleListReports } = require('./handlers/listReportsHandler');
+const { handleDownloadReport } = require('./handlers/downloadHandler');
 
 const ALLURE_REPORTS_DIR = './reports/allure_reports';
 
@@ -53,30 +54,8 @@ const run = async () => {
   app.use('/assets', express.static(path.join(__dirname, '../assets')));
     
   app.use('/reports', express.static(path.join(process.cwd(), ALLURE_REPORTS_DIR)));
-  app.get("/listReports", (req, res) => {
-      fs.readdir(ALLURE_REPORTS_DIR, { withFileTypes: true }, (err, files) => {
-          if (err) {
-              return res.status(500).send("Error reading directory");
-          }
-
-          // Filter only directories
-          const folders = files.filter(file => file.isDirectory()).map(dir => dir.name);
-
-          // Generate HTML page with links
-          const html = constructHtml(`
-            ${folders.map(folder => `
-            <div class="card-xqyZlH card-BRjpw_">
-              <div class="header-Lw4QCc">
-                    <a class="jobLink-wmCWQg" target="_blank" href="/reports/${folder}">
-                      <h4>${folder}</h4>
-                    </a>
-                    </div>
-                    </div>
-            `).join("")}`);
-
-          res.send(html);
-      });
-  });
+  app.get("/listReports", handleListReports(ALLURE_REPORTS_DIR));
+  app.get("/download/:folder", handleDownloadReport(ALLURE_REPORTS_DIR));
 
   app.use('/', serverAdapter.getRouter());
 
