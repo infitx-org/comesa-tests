@@ -266,7 +266,7 @@
         },
         {
           "id": 2,
-          "description": "Accept Party and send FXQuote",
+          "description": "Accept Party and send Quote",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
