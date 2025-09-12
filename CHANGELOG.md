@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1](https://github.com/infitx-org/comesa-tests/compare/v1.8.0...v1.8.1) (2025-09-12)
+
+
+### Bug Fixes
+
+* updated package-lock.json ([dd79492](https://github.com/infitx-org/comesa-tests/commit/dd79492660f6e5fd13d1055303c7fd6bfc704d24))
+
 ## [1.8.0](https://github.com/infitx-org/comesa-tests/compare/v1.7.0...v1.8.0) (2025-09-12)
 
 
