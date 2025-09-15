@@ -576,16 +576,16 @@
               },
               {
                 "id": 2,
-                "description": "Error code is 5002",
+                "description": "Error code is 5100",
                 "exec": [
-                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5002')"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5100')"
                 ]
               },
               {
                 "id": 3,
-                "description": "Error description should contain ABORTED message",
+                "description": "Error description should contain Generic FXP rejection message",
                 "exec": [
-                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.contain('ABORTED')"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.contain('Generic FXP rejection')"
                 ]
               }
             ]
@@ -1163,16 +1163,16 @@
               },
               {
                 "id": 2,
-                "description": "Error code is 5002",
+                "description": "Error code is 5100",
                 "exec": [
-                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5002')"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5100')"
                 ]
               },
               {
                 "id": 3,
-                "description": "Error description should contain ABORTED message",
+                "description": "Error description should contain Generic Payee rejection message",
                 "exec": [
-                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.contain('ABORTED')"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.contain('Generic Payee rejection')"
                 ]
               }
             ]
