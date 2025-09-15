@@ -63,10 +63,17 @@ class AllureReportGenerator {
     }
 
     processRequests(testCase, allureTest) {
+        const statusDetailsMessages = [];
         testCase.requests.forEach((request) => {
             const step = this.createStep(request);
             allureTest.steps.push(step);
+            if (step.status === "failed" && step.statusDetails?.message) {
+                statusDetailsMessages.push(step.statusDetails.message);
+            }
         });
+        allureTest.statusDetails = {
+            message: statusDetailsMessages.join(", \n") || ""
+        };
     }
 
     createStep(request) {
@@ -74,16 +81,26 @@ class AllureReportGenerator {
         const stepParameters = this.getStepParameters(request);
         const attachments = this.createAttachments(request);
 
-        const assertionSteps = request.request.tests?.assertions.map((assertion) => ({
-            name: assertion.description,
-            status: assertion.resultStatus.status === "SUCCESS" ? "passed" : "failed",
-            start: Date.now(),
-            stop: Date.now(),
-        }));
+        const assertionSteps = [];
+        const statusDetailsMessages = [];
+        request.request.tests?.assertions.forEach((assertion) => {
+            if (assertion.resultStatus.status !== "SUCCESS") {
+                statusDetailsMessages.push(assertion.description);
+            }
+            assertionSteps.push({
+                name: assertion.description,
+                status: assertion.resultStatus.status === "SUCCESS" ? "passed" : "failed",
+                start: Date.now(),
+                stop: Date.now(),
+            });
+        });
 
         return {
             name: request.request.description || "Unnamed Step",
             status: requestStatus,
+            statusDetails: {
+                message: statusDetailsMessages.join(", \n") || ""
+            },
             start: request.testResult?.startedTS || Date.now(),
             stop: request.testResult?.completedTS || Date.now(),
             parameters: stepParameters,
@@ -96,7 +113,7 @@ class AllureReportGenerator {
         if (ttkReportHelpers.ifSkippedRequest(request.status)) {
             return "skipped";
         }
-        return ttkReportHelpers.ifAllTestsPassedInRequest(request) ? "passed" : "failed";
+        return ttkReportHelpers.ifAllTestsPassedInRequest(request.request) ? "passed" : "failed";
     }
 
     getStepParameters(request) {
