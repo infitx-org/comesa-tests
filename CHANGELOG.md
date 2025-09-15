@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.5](https://github.com/infitx-org/comesa-tests/compare/v1.8.4...v1.8.5) (2025-09-15)
+
+
+### Bug Fixes
+
+* aborted usecase ([dd7f60b](https://github.com/infitx-org/comesa-tests/commit/dd7f60b6687be204b607a66181519cad79a893f1))
+
 ## [1.8.4](https://github.com/infitx-org/comesa-tests/compare/v1.8.3...v1.8.4) (2025-09-15)
 
 
