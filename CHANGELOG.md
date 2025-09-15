@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.8.3](https://github.com/infitx-org/comesa-tests/compare/v1.8.2...v1.8.3) (2025-09-15)
+
+
+### Bug Fixes
+
+* assertion status message ([802e158](https://github.com/infitx-org/comesa-tests/commit/802e158a58e27fc2349a8b7169d67f12d7567f85))
+* issues ([2f3c30d](https://github.com/infitx-org/comesa-tests/commit/2f3c30d5d02b6e58aab82bb1e7912be07d18c4a0))
+* issues ([1323247](https://github.com/infitx-org/comesa-tests/commit/1323247197d36efac2dfadc360ea49397701e8e0))
+
 ## [1.8.2](https://github.com/infitx-org/comesa-tests/compare/v1.8.1...v1.8.2) (2025-09-12)
 
 
