@@ -905,15 +905,11 @@
       "path": null,
       "params": {
         "body": {
-          "homeTransactionId": "{$request.body.homeTransactionId}",
-          "completedTimestamp": "{$environment.completedTimestamp}",
-          "conversionState": "ABORTED"
+          "statusCode": "5100",
+          "message": "Generic FXP rejection"
         },
-        "statusCode": "200",
+        "statusCode": "500",
         "scripts": {
-          "exec": [
-            "environment.completedTimestamp = new Date().toISOString()"
-          ],
           "scriptingEngine": "javascript"
         }
       },
@@ -1303,14 +1299,8 @@
         {
           "fact": "body",
           "operator": "equal",
-          "value": "MWK",
-          "path": "currency"
-        },
-        {
-          "fact": "body",
-          "operator": "equal",
-          "value": "823",
-          "path": "amount"
+          "value": "scenario-transfers-aborted",
+          "path": "from.displayName"
         },
         {
           "fact": "operationPath",
@@ -1329,15 +1319,11 @@
       "path": null,
       "params": {
         "body": {
-          "homeTransactionId": "{$request.body.homeTransactionId}",
-          "completedTimestamp": "{$environment.completedTimestamp}",
-          "conversionState": "ABORTED"
+          "statusCode": "5100",
+          "message": "Generic Payee rejection"
         },
-        "statusCode": "200",
+        "statusCode": "500",
         "scripts": {
-          "exec": [
-            "environment.completedTimestamp = new Date().toISOString()"
-          ],
           "scriptingEngine": "javascript"
         }
       },
