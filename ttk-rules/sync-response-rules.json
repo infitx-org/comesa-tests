@@ -988,8 +988,8 @@
         {
           "fact": "body",
           "operator": "equal",
-          "value": "463",
-          "path": "amount"
+          "value": "scenario-quotes-timeout",
+          "path": "from.displayName"
         },
         {
           "fact": "operationPath",
@@ -1048,8 +1048,8 @@
         {
           "fact": "body",
           "operator": "equal",
-          "value": "514",
-          "path": "amount"
+          "value": "scenario-quotes-generic-error",
+          "path": "from.displayName"
         },
         {
           "fact": "operationPath",
@@ -1146,18 +1146,11 @@
     },
     "conditions": {
       "all": [
-        
         {
           "fact": "body",
           "operator": "equal",
-          "value": "MWK",
-          "path": "currency"
-        },
-        {
-          "fact": "body",
-          "operator": "equal",
-          "value": "720",
-          "path": "amount"
+          "value": "scenario-transfers-timeout",
+          "path": "from.displayName"
         },
         {
           "fact": "operationPath",
@@ -1254,18 +1247,11 @@
     },
     "conditions": {
       "all": [
-        
         {
           "fact": "body",
           "operator": "equal",
-          "value": "MWK",
-          "path": "currency"
-        },
-        {
-          "fact": "body",
-          "operator": "equal",
-          "value": "771",
-          "path": "amount"
+          "value": "scenario-transfers-generic-error",
+          "path": "from.displayName"
         },
         {
           "fact": "operationPath",
