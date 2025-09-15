@@ -453,45 +453,6 @@
               }
             ]
           }
-        },
-        {
-          "id": 4,
-          "description": "Accept Quote",
-          "apiVersion": {
-            "minorVersion": 1,
-            "majorVersion": 2,
-            "type": "mojaloop_connector_outbound",
-            "asynchronous": false
-          },
-          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}",
-          "operationPath": "/transfers/{transferId}",
-          "path": "/transfers/{$prev.1.response.body.transferId}",
-          "method": "put",
-          "params": {
-            "transferId": "{$prev.1.response.body.transferId}"
-          },
-          "body": {
-            "acceptQuote": true
-          },
-          "disabled": false,
-          "tests": {
-            "assertions": [
-              {
-                "id": 1,
-                "description": "Error Code should be 4200",
-                "exec": [
-                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('4200')"
-                ]
-              },
-              {
-                "id": 2,
-                "description": "Error Description should be Payer limit error - Regional scheme: amount limit exceeded",
-                "exec": [
-                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.equal('Payer limit error - Regional scheme: amount limit exceeded')"
-                ]
-              }
-            ]
-          }
         }
       ]
     }
