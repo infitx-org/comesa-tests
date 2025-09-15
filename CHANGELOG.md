@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.4](https://github.com/infitx-org/comesa-tests/compare/v1.8.3...v1.8.4) (2025-09-15)
+
+
+### Bug Fixes
+
+* remove unneeded request ([89b0f08](https://github.com/infitx-org/comesa-tests/commit/89b0f08cd1615fb1c19aec239af09e57f158987e))
+
 ## [1.8.3](https://github.com/infitx-org/comesa-tests/compare/v1.8.2...v1.8.3) (2025-09-15)
 
 
