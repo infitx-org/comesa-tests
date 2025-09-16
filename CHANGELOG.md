@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.7](https://github.com/infitx-org/comesa-tests/compare/v1.8.6...v1.8.7) (2025-09-16)
+
+
+### Bug Fixes
+
+* Test Payee for Max incoming assertions ([7b7d4ac](https://github.com/infitx-org/comesa-tests/commit/7b7d4ac73b94873f4623c9eea74ccae74860c6c3))
+
 ## [1.8.6](https://github.com/infitx-org/comesa-tests/compare/v1.8.5...v1.8.6) (2025-09-15)
 
 
