@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.8.8](https://github.com/infitx-org/comesa-tests/compare/v1.8.7...v1.8.8) (2025-09-16)
+
+
+### Bug Fixes
+
+* **csi-1778:** updated test to check PARTY_RESOLUTION_FAILURE ([927aadd](https://github.com/infitx-org/comesa-tests/commit/927aadd5f4e71982d08951477ebda524337748f9))
+* **csi-1778:** updated test to check PARTY_RESOLUTION_FAILURE ([6e6c8a0](https://github.com/infitx-org/comesa-tests/commit/6e6c8a0a905df4030d13fac3aaadbab1c49f447e))
+
 ## [1.8.7](https://github.com/infitx-org/comesa-tests/compare/v1.8.6...v1.8.7) (2025-09-16)
 
 
