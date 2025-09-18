@@ -6,7 +6,7 @@
       "id": 1,
       "name": "DRPP-GP-12 - COMESA Scheme Rule: Test Payer for Max outgoing",
       "meta": {
-        "info": "DRPP-GP-12 - COMESA Scheme Rule: Test Payer for Max outgoing"
+        "info": "Objective: Ensure enforcement of COMESA scheme rules for each scheme for OUtgoing amounts \n\n Expected Result: Transfer is rejected with error code 4200 and description 'Payer limit error - Emulated scheme: invalid outgoing amount'"
       },
       "requests": [
         {
@@ -123,7 +123,7 @@
       "id": 2,
       "name": "DRPP-GP-11 - COMESA Scheme Rule: Test Payee for Max incoming",
       "meta": {
-        "info": "DRPP-GP-11 - COMESA Scheme Rule: Test Payee for Max incoming"
+        "info": "Objective: Ensure enforcement of COMESA scheme rules for each scheme \n\n Expected Result: Expected Result: Transfer is rejected with error code 4200 and description 'Payee limit error - Emulated scheme: invalid incoming amount'"
       },
       "requests": [
         {
@@ -272,7 +272,7 @@
       "id": 3,
       "name": "COMESA Scheme Rule: Test for Max Payee Outgoing in region scheme",
       "meta": {
-        "info": "COMESA Scheme Rule: Test for Max Payee outgoing in region scheme"
+        "info": "Objective: Ensure enforcement of COMESA scheme rules for regional scheme \n\n Expected Result: Transfer is rejected with error code 4200 and description 'Payer limit error - Regional scheme: amount limit exceeded'"
       },
       "requests": [
         {
