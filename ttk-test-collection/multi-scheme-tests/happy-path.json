@@ -5,7 +5,7 @@
       "id": 1,
       "name": "DRPP-GP-01 Send Money (Source Currency, Multiple FXPs)",
       "meta": {
-        "info": "DRPP-GP-01 Send Money (Source Currency, Multiple FXPs)"
+        "info": "Objective: Validate successful transaction completion across interscheme combinations \n\n Expected Result: Successful transaction completion"
       },
       "fileInfo": {
         "path": "ttk-test-collection/multi-scheme-tests/p2p-happy-path.json"
@@ -196,7 +196,7 @@
       "id": 2,
       "name": "DRPP-GP-03 Merchant Payment (Target Currency, Multiple FXPs)",
       "meta": {
-        "info": "DRPP-GP-03 Merchant Payment (Target Currency, Multiple FXPs)"
+        "info": "Objective: Validate successful merchant transaction completion across interscheme combinations \n\n Expected Result: Successful merchant transaction completion"
       },
       "fileInfo": {
         "path": "ttk-test-collection/multi-scheme-tests/merchant-payment.json"
