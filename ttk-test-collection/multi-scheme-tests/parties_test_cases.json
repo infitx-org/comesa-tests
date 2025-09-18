@@ -10,7 +10,7 @@
       "id": 1,
       "name": "DRPP-GP-04 Party does not exist in any scheme",
       "meta": {
-        "info": "DRPP-GP-04 Party does not exist in any scheme"
+        "info": "Objecyive: Ensure correct party resolution and error handling across interscheme combinations \n\n Expected Result: Appropriate error: Party Not Found"
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
