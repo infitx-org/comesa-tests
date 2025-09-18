@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/infitx-org/comesa-tests/compare/v1.8.8...v1.9.0) (2025-09-18)
+
+
+### Features
+
+* Added multiline description for one of the test cases for parties ([591c7f8](https://github.com/infitx-org/comesa-tests/commit/591c7f8f7c3f52ab5c0046a40da02bf59fb8b89e))
+
 ## [1.8.8](https://github.com/infitx-org/comesa-tests/compare/v1.8.7...v1.8.8) (2025-09-16)
 
 
