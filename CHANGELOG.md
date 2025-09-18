@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.10.0](https://github.com/infitx-org/comesa-tests/compare/v1.9.0...v1.10.0) (2025-09-18)
+
+
+### Features
+
+* updated metadata descriptions for quotes and transfers ([d3e4737](https://github.com/infitx-org/comesa-tests/commit/d3e473717fcbd9867899636991d75f5949fd438a))
+* updated metadata descriptions for scheme rules tests ([56a14af](https://github.com/infitx-org/comesa-tests/commit/56a14af3721e1ac2c4a1ef54fe6977bb89739fb3))
+
 ## [1.9.0](https://github.com/infitx-org/comesa-tests/compare/v1.8.8...v1.9.0) (2025-09-18)
 
 
