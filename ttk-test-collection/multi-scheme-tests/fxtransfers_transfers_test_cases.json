@@ -10,7 +10,7 @@
       "id": 1,
       "name": "DRPP-GP-15 FXP timeout in transfer process",
       "meta": {
-        "info": "DRPP-GP-15 FXP timeout in transfer process"
+        "info": "Objective: Validate FXP timeout handling across interscheme combinations \n\n Expected Result: Timeout error in FXP response without impacting DFSP positions"
       },
       "fileInfo": {
         "path": "fxtransfers_transfers_test_cases.json"
@@ -201,7 +201,7 @@
       "id": 2,
       "name": "DRPP-GP-16 FXP processing errors in transfer process",
       "meta": {
-        "info": "DRPP-GP-16 FXP processing errors in transfer process"
+        "info": "Objective: Validate FXP processing error handling across interscheme combinations \n\n Expected Result: Processing error in FXP response without impacting DFSP positions"
       },
       "fileInfo": {
         "path": "fxtransfers_transfers_test_cases.json"
@@ -399,7 +399,7 @@
       "id": 3,
       "name": "DRPP-GP-17 FXP sends ABORTED state in transfer process",
       "meta": {
-        "info": "DRPP-GP-17 FXP sends ABORTED state in transfer process"
+        "info": "Objective: Validate FXP service ABORTED state response across interscheme combinations \n\n Expected Result: ABORTED state in FXP response without impacting DFSP positions"
       },
       "fileInfo": {
         "path": "fxtransfers_transfers_test_cases.json"
@@ -597,7 +597,7 @@
       "id": 4,
       "name": "DRPP-GP-18 Transfer Service Timeout ",
       "meta": {
-        "info": "DRPP-GP-18 Transfer Service Timeout "
+        "info": "Objective: Validate transfer service timeout handling across interscheme combinations \n\n Expected Result: Timeout error in transfer service response without impacting DFSP positions"
       },
       "fileInfo": {
         "path": "fxtransfers_transfers_test_cases.json"
@@ -788,7 +788,7 @@
       "id": 5,
       "name": "DRPP-GP-19 Transfer Service Processing Error ",
       "meta": {
-        "info": "DRPP-GP-19 Transfer Service Processing Error  "
+        "info": "Objective: Validate transfer service processing errors across interscheme combinations \n\n Expected Result: Processing error in transfer service response without impacting DFSP positions"
       },
       "fileInfo": {
         "path": "fxtransfers_transfers_test_cases.json"
@@ -986,7 +986,7 @@
       "id": 6,
       "name": "DRPP-GP-20 Transfer Service sends ABORTED state ",
       "meta": {
-        "info": "DRPP-GP-20 Transfer Service sends ABORTED state  "
+        "info": "Objective: Validate Transfer service ABORTED state response across interscheme combinations \n\n Expected Result: ABORTED state in transfer service response without impacting DFSP positions"
       },
       "fileInfo": {
         "path": "fxtransfers_transfers_test_cases.json"

@@ -6,7 +6,7 @@
       "id": 1,
       "name": "DRPP-GP-09 FXP timeout in currency conversion",
       "meta": {
-        "info": "DRPP-GP-09 FXP timeout in currency conversion"
+        "info": "Objective: Validate FXP timeout handling across interscheme combinations \n\n Expected Result: - The transfer should fail with a timeout error. The error should be logged and monitored. The payer FSP should be notified of the failure"
       },
       "requests": [
         {
@@ -116,7 +116,7 @@
       "id": 2,
       "name": "DRPP-GP-10 FXP processing errors in currency conversion",
       "meta": {
-        "info": "DRPP-GP-10 FXP processing errors in currency conversion"
+        "info": "Objective: Validate FXP processing error handling across interscheme combinations \n\n Expected Result: - The transfer should fail with a processing error. The error should be logged and monitored. The payer FSP should be notified of the failure"
       },
       "requests": [
         {
@@ -233,7 +233,7 @@
       "id": 3,
       "name": "DRPP-GP-13 Quoting Service Timeout",
       "meta": {
-        "info": "DRPP-GP-13 Quoting Service Timeout"
+        "info": "Objective: Validate Quoting Service timeout handling  for each scheme\n\n Expected Result: - The transfer should fail with a timeout error. The error should be logged and monitored. The payer FSP should be notified of the failure"
       },
       "requests": [
         {
@@ -382,7 +382,7 @@
       "id": 4,
       "name": "DRPP-GP-14 Quoting Service Processing Error",
       "meta": {
-        "info": "DRPP-GP-14 Quoting Service Processing Error"
+        "info": "Objective: Validate Quoting Service processing errors  for each scheme\n\n Expected Result: - The transfer should fail with a processing error. The error should be logged and monitored. The payer FSP should be notified of the failure"
       },
       "requests": [
         {
