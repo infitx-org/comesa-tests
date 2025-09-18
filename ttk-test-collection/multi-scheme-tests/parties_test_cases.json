@@ -10,7 +10,7 @@
       "id": 1,
       "name": "DRPP-GP-04 Party does not exist in any scheme",
       "meta": {
-        "info": "Objecyive: Ensure correct party resolution and error handling across interscheme combinations \n\n Expected Result: Appropriate error: Party Not Found"
+        "info": "Objective: Ensure correct party resolution and error handling across interscheme combinations \n\n Expected Result: Appropriate error: Party Not Found"
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
@@ -84,7 +84,7 @@
       "id": 2,
       "name": "DRPP-GP-05 Party exists in multiple schemes under different currencies",
       "meta": {
-        "info": "DRPP-GP-05 Party exists in multiple schemes under different currencies"
+        "info": "Objective: Ensure correct party resolution and error handling across interscheme combinations \n\n Expected Result: Correct party resolution with configured currencies returned"
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
@@ -160,7 +160,7 @@
       "id": 3,
       "name": "DRPP-GP-06 Party moves from one DFSP to another DFSP in a single scheme",
       "meta": {
-        "info": "DRPP-GP-06 Party moves from one DFSP to another DFSP in a single scheme"
+        "info": "Objective: Ensure correct party resolution across interscheme combination \n\n Expected Result: Smooth transition and correct DFSP returned"
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
@@ -372,7 +372,7 @@
       "id": 5,
       "name": "DRPP-GP-08 The DFSP that has the Party throws processing error while the other DFSPs return Party Not Found error.",
       "meta": {
-        "info": "DRPP-GP-08 The DFSP that has the Party throws processing error while the other DFSPs return Party Not Found error."
+        "info": "Objective: Ensure correct party resolution and error handling across interscheme combinations \n\n Expected Result: Proper error handling; error returned to Payer"
       },
       "fileInfo": {
         "path": "parties_test_cases.json"
