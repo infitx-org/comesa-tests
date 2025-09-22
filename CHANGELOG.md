@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/infitx-org/comesa-tests/compare/v1.10.0...v1.11.0) (2025-09-22)
+
+
+### Features
+
+* Updated test negative cases for Merchant Payments ([ce9b49f](https://github.com/infitx-org/comesa-tests/commit/ce9b49fdd4fb6e3bc039cc375968c923fdff600e))
+
 ## [1.10.0](https://github.com/infitx-org/comesa-tests/compare/v1.9.0...v1.10.0) (2025-09-18)
 
 
