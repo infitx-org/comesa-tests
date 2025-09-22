@@ -1489,7 +1489,7 @@
   {
     "ruleId": 53,
     "priority": 1,
-    "description": "ABORTED for post /transfer in merchant payments",
+    "description": "ABORTED scenario for post /transfer in merchant payments",
     "apiVersion": {
       "minorVersion": 1,
       "majorVersion": 2,
