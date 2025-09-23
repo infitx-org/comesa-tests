@@ -1182,7 +1182,7 @@
     },
     {
       "id": 7,
-      "name": "DRPP-GP-21 Transfer Service Timeout for Merchant Payment",
+      "name": "DRPP-GP-21 Payee Transfer Service Timeout for Merchant Payment",
       "meta": {
         "info": "Objective: Validate Merchant Payment Transfer service timeout handling across interscheme combinations \n\n Expected Result: Timeout error in transfer service response without impacting DFSP positions"
       },
@@ -1373,7 +1373,7 @@
     },
     {
       "id": 8,
-      "name": "DRPP-GP-22 Transfer Service Processing Error for Merchant Payment",
+      "name": "DRPP-GP-22 Payee Transfer Service Processing Error for Merchant Payment",
       "meta": {
         "info": "Objective: Validate Merchant Payment Transfer service processing errors across interscheme combinations \n\n Expected Result: Processing error in transfer service response without impacting DFSP positions"
       },
@@ -1564,7 +1564,7 @@
     },
     {
       "id": 9,
-      "name": "DRPP-GP-23 Transfer Service sends ABORTED state for Merchant Payment",
+      "name": "DRPP-GP-23 Payee Transfer Service sends ABORTED state for Merchant Payment",
       "meta": {
         "info": "Objective: Validate Merchant Payment Transfer service ABORTED state response across interscheme combinations \n\n Expected Result: ABORTED state in transfer service response without impacting DFSP positions"
       },
