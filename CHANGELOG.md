@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.14.0](https://github.com/infitx-org/comesa-tests/compare/v1.13.0...v1.14.0) (2025-09-23)
+
+
+### Features
+
+* **csi-1817:** added cleanup call for payer DFSP ([6611b78](https://github.com/infitx-org/comesa-tests/commit/6611b7897294180ac3c08a36a61dd76ae974a47d))
+* **csi-1817:** added cleanup call for payer DFSP ([661984c](https://github.com/infitx-org/comesa-tests/commit/661984c46387621bbb0337055eae6c191509c61c))
+
 ## [1.13.0](https://github.com/infitx-org/comesa-tests/compare/v1.12.0...v1.13.0) (2025-09-23)
 
 
