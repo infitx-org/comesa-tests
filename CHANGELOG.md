@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.12.0](https://github.com/infitx-org/comesa-tests/compare/v1.11.0...v1.12.0) (2025-09-23)
+
+
+### Features
+
+* **csi-1817:** updated DRPP-GP-06 test logic ([5ccc11a](https://github.com/infitx-org/comesa-tests/commit/5ccc11a174955896260f097fbd37ef9d6e37db96))
+* **csi-1817:** updated DRPP-GP-06 test logic ([c02956e](https://github.com/infitx-org/comesa-tests/commit/c02956eb2125c9214fb40752026d4232bcdc68d5))
+
 ## [1.11.0](https://github.com/infitx-org/comesa-tests/compare/v1.10.0...v1.11.0) (2025-09-22)
 
 
