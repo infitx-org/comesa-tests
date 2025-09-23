@@ -1543,17 +1543,17 @@
           "tests": {
             "assertions": [
               {
-                "id": 1,
-                "description": "Status is 500",
+                "id": 2,
+                "description": "Error code is 5002",
                 "exec": [
-                  "expect(response.status).to.equal(500)"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5002')"
                 ]
               },
               {
-                "id": 2,
-                "description": "Response should contain timeout message",
+                "id": 3,
+                "description": "Error description should contain error message",
                 "exec": [
-                  "expect(response.statusText).to.contain('timeout of')"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.equal('Generic transfer error')"
                 ]
               }
             ]
@@ -1742,9 +1742,16 @@
               },
               {
                 "id": 2,
-                "description": "Response should contain timeout message",
+                "description": "Error code is 5100",
                 "exec": [
-                  "expect(response.statusText).to.contain('timeout of')"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5100')"
+                ]
+              },
+              {
+                "id": 3,
+                "description": "Error description should contain Generic Payee rejection message",
+                "exec": [
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorDescription).to.contain('Generic Payee rejection')"
                 ]
               }
             ]
