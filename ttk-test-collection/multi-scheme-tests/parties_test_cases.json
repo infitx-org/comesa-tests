@@ -168,7 +168,43 @@
       "requests": [
         {
           "id": 1,
-          "description": "Add a party for DFSP1",
+          "description": "Delete Party from payee DFSP1 (clean up after previous test)",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/accounts/{idType}/{idValue}",
+          "path": "/accounts/MSISDN/{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}",
+          "method": "delete",
+          "params": {
+            "idType": "MSISDN",
+            "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYEE1_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 2,
+          "description": "Delete Party from payee DFSP2 (clean up after previous test)",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/accounts/{idType}/{idValue}",
+          "path": "/accounts/MSISDN/{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}",
+          "method": "delete",
+          "params": {
+            "idType": "MSISDN",
+            "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYEE2_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 3,
+          "description": "Add a party for payee DFSP1",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
@@ -184,10 +220,11 @@
               "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
             }
           ],
-          "url": "{$inputs.MULTI_SCHEME_PAYEE1_SDK_OUTBOUND_URL}"
+          "url": "{$inputs.MULTI_SCHEME_PAYEE1_SDK_OUTBOUND_URL}",
+          "delay": "500"
         },
         {
-          "id": 2,
+          "id": 4,
           "description": "Send transfer",
           "apiVersion": {
             "minorVersion": 1,
@@ -246,11 +283,12 @@
                 ]
               }
             ]
-          }
+          },
+          "delay": "1000"
         },
         {
-          "id": 3,
-          "description": "Delete Party from DFSP1",
+          "id": 5,
+          "description": "Delete Party from payee DFSP1",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
@@ -267,8 +305,8 @@
           "url": "{$inputs.MULTI_SCHEME_PAYEE1_SDK_OUTBOUND_URL}"
         },
         {
-          "id": 4,
-          "description": "Add a party for DFSP2",
+          "id": 6,
+          "description": "Add a party for payee DFSP2",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
@@ -284,11 +322,12 @@
               "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
             }
           ],
-          "url": "{$inputs.MULTI_SCHEME_PAYEE2_SDK_OUTBOUND_URL}"
+          "url": "{$inputs.MULTI_SCHEME_PAYEE2_SDK_OUTBOUND_URL}",
+          "delay": "500"
         },
         {
-          "id": 5,
-          "description": "Send transfer",
+          "id": 7,
+          "description": "Send transfer (2006 error is expected due to outdated party mapping)",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
@@ -346,25 +385,71 @@
                 ]
               }
             ]
-          }
+          },
+          "delay": "1000"
         },
         {
-          "id": 6,
-          "description": "Delete Party from DFSP2",
+          "id": 8,
+          "description": "Send transfer",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
             "type": "mojaloop_connector_outbound",
             "asynchronous": true
           },
-          "operationPath": "/accounts/{idType}/{idValue}",
-          "path": "/accounts/MSISDN/{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}",
-          "method": "delete",
-          "params": {
-            "idType": "MSISDN",
-            "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}",
+          "operationPath": "/transfers",
+          "path": "/transfers",
+          "method": "post",
+          "body": {
+            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
+            "from": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYER_MSISDN}",
+              "displayName": "{$inputs.FROM_DISPLAY_NAME}",
+              "firstName": "{$inputs.FROM_FIRST_NAME}",
+              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
+              "lastName": "{$inputs.FROM_LAST_NAME}",
+              "dateOfBirth": "{$inputs.FROM_DOB}",
+              "fspId": "{$inputs.MULTI_SCHEME_PAYER_FSP_ID}"
+            },
+            "to": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}",
+              "merchantClassificationCode": 123
+            },
+            "amountType": "SEND",
+            "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_AMOUNT}",
+            "transactionType": "TRANSFER",
+            "note": "{$inputs.NOTE}",
+            "skipPartyLookup": false
           },
-          "url": "{$inputs.MULTI_SCHEME_PAYEE2_SDK_OUTBOUND_URL}"
+          "params": {
+            "Type": "",
+            "ID": ""
+          },
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Destination FSP Id should be {$inputs.MULTI_SCHEME_PAYEE_FSP_ID2}",
+                "exec": [
+                  "expect(response.body.getPartiesResponse.body.party.partyIdInfo.fspId).to.equal(environment.MULTI_SCHEME_PAYEE_FSP_ID2)"
+                ]
+              }
+            ]
+          },
+          "delay": "3000"
         }
       ]
     },
