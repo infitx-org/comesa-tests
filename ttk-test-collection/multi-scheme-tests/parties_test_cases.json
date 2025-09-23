@@ -168,6 +168,24 @@
       "requests": [
         {
           "id": 1,
+          "description": "Delete Party from payer DFSP (clean up after previous test)",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/accounts/{idType}/{idValue}",
+          "path": "/accounts/MSISDN/{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}",
+          "method": "delete",
+          "params": {
+            "idType": "MSISDN",
+            "idValue": "{$inputs.MULTI_SCHEME_MSISDN_WITHIN_SCHEME_DFSP_MIGRATION}"
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 2,
           "description": "Delete Party from payee DFSP1 (clean up after previous test)",
           "apiVersion": {
             "minorVersion": 1,
@@ -185,7 +203,7 @@
           "url": "{$inputs.MULTI_SCHEME_PAYEE1_SDK_OUTBOUND_URL}"
         },
         {
-          "id": 2,
+          "id": 3,
           "description": "Delete Party from payee DFSP2 (clean up after previous test)",
           "apiVersion": {
             "minorVersion": 1,
@@ -203,7 +221,7 @@
           "url": "{$inputs.MULTI_SCHEME_PAYEE2_SDK_OUTBOUND_URL}"
         },
         {
-          "id": 3,
+          "id": 4,
           "description": "Add a party for payee DFSP1",
           "apiVersion": {
             "minorVersion": 1,
@@ -224,7 +242,7 @@
           "delay": "500"
         },
         {
-          "id": 4,
+          "id": 5,
           "description": "Send transfer",
           "apiVersion": {
             "minorVersion": 1,
@@ -287,7 +305,7 @@
           "delay": "1000"
         },
         {
-          "id": 5,
+          "id": 6,
           "description": "Delete Party from payee DFSP1",
           "apiVersion": {
             "minorVersion": 1,
@@ -305,7 +323,7 @@
           "url": "{$inputs.MULTI_SCHEME_PAYEE1_SDK_OUTBOUND_URL}"
         },
         {
-          "id": 6,
+          "id": 7,
           "description": "Add a party for payee DFSP2",
           "apiVersion": {
             "minorVersion": 1,
@@ -326,8 +344,8 @@
           "delay": "500"
         },
         {
-          "id": 7,
-          "description": "Send transfer (2006 error is expected due to outdated party mapping)",
+          "id": 8,
+          "description": "Send transfer (2006 error is expected due to outdated party mapping in payer ALS)",
           "apiVersion": {
             "minorVersion": 1,
             "majorVersion": 2,
@@ -389,7 +407,7 @@
           "delay": "1000"
         },
         {
-          "id": 8,
+          "id": 9,
           "description": "Send transfer",
           "apiVersion": {
             "minorVersion": 1,
