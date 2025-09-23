@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/infitx-org/comesa-tests/compare/v1.12.0...v1.13.0) (2025-09-23)
+
+
+### Features
+
+* TC description updates ([5092e41](https://github.com/infitx-org/comesa-tests/commit/5092e41a3b5e00c8ae2d8406931e4382c7c34a8d))
+
 ## [1.12.0](https://github.com/infitx-org/comesa-tests/compare/v1.11.0...v1.12.0) (2025-09-23)
 
 
