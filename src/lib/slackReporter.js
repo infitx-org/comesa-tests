@@ -33,18 +33,29 @@ class SlackReporter {
     let totalTests = 0;
 
 
+    // function countStepsRecursive(steps) {
+    //     let total = 0, passed = 0;
+
+    //     function traverse(steps) {
+    //         steps.forEach(step => {
+    //             total++;
+    //             if (step.status === "passed") passed++;
+    //             if (step.steps) traverse(step.steps);
+    //         });
+    //     }
+
+    //     traverse(steps);
+    //     return { passed, total };
+    // }
+
     function countSteps(steps) {
         let total = 0, passed = 0;
 
-        function traverse(steps) {
-            steps.forEach(step => {
-                total++;
-                if (step.status === "passed") passed++;
-                if (step.steps) traverse(step.steps);
-            });
-        }
+        steps.forEach(step => {
+            total++;
+            if (step.status === "passed") passed++;
+        });
 
-        traverse(steps);
         return { passed, total };
     }
 
