@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.1](https://github.com/infitx-org/comesa-tests/compare/v1.14.0...v1.14.1) (2025-09-25)
+
+
+### Bug Fixes
+
+* update bad MSISDN reference in multi-scheme tests ([5c0883e](https://github.com/infitx-org/comesa-tests/commit/5c0883ef7787cd35ff3f45f349dc5c1f9b0be208))
+
 ## [1.14.0](https://github.com/infitx-org/comesa-tests/compare/v1.13.0...v1.14.0) (2025-09-23)
 
 
