@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.2](https://github.com/infitx-org/comesa-tests/compare/v1.14.1...v1.14.2) (2025-09-25)
+
+
+### Bug Fixes
+
+* test count ([99cec62](https://github.com/infitx-org/comesa-tests/commit/99cec6253768aa8c56d199d875085203d4b1ec8e))
+
 ## [1.14.1](https://github.com/infitx-org/comesa-tests/compare/v1.14.0...v1.14.1) (2025-09-25)
 
 
