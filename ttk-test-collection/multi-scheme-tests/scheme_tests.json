@@ -27,7 +27,7 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.P2P_SOURCE_PARTY_ID_1}",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYER_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
@@ -144,7 +144,7 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.P2P_SOURCE_PARTY_ID_1}",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYER_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
@@ -293,7 +293,7 @@
             "from": {
               "type": "CONSUMER",
               "idType": "MSISDN",
-              "idValue": "{$inputs.P2P_SOURCE_PARTY_ID_1}",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYER_MSISDN}",
               "displayName": "{$inputs.FROM_DISPLAY_NAME}",
               "firstName": "{$inputs.FROM_FIRST_NAME}",
               "middleName": "{$inputs.FROM_MIDDLE_NAME}",
