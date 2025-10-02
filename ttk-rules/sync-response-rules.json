@@ -1540,6 +1540,160 @@
     "version": 1
   },
   {
+    "ruleId": 71,
+    "priority": 1,
+    "description": "ABORTED for post /transfer for MSISDNs",
+    "apiVersion": {
+      "minorVersion": 1,
+      "majorVersion": 2,
+      "type": "mojaloop_connector_backend",
+      "asynchronous": false,
+      "specFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/api_spec.yaml",
+      "callbackMapFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/callback_map.json",
+      "responseMapFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/response_map.json",
+      "jsfRefFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/mockRef.json",
+      "triggerTemplatesFolder": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/trigger_templates"
+    },
+    "conditions": {
+      "all": [
+        {
+          "fact": "body",
+          "operator": "in",
+          "value": "260976652785,265975627283",
+          "path": "to.idValue"
+        },
+        {
+          "fact": "operationPath",
+          "operator": "equal",
+          "value": "/transfers"
+        },
+        {
+          "fact": "method",
+          "operator": "equal",
+          "value": "post"
+        }
+      ]
+    },
+    "event": {
+      "method": null,
+      "path": null,
+      "params": {
+        "body": {
+          "statusCode": "5100",
+          "message": "Generic Payee rejection"
+        },
+        "statusCode": "500",
+        "scripts": {
+          "scriptingEngine": "javascript"
+        }
+      },
+      "type": "FIXED_RESPONSE"
+    },
+    "type": "response",
+    "version": 1
+  },
+  {
+    "ruleId": 72,
+    "priority": 1,
+    "description": "Timeout scenario for post /transfers for MSISDNs",
+    "apiVersion": {
+      "minorVersion": 1,
+      "majorVersion": 2,
+      "type": "mojaloop_connector_backend",
+      "asynchronous": false,
+      "specFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/api_spec.yaml",
+      "callbackMapFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/callback_map.json",
+      "responseMapFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/response_map.json",
+      "jsfRefFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/mockRef.json",
+      "triggerTemplatesFolder": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/trigger_templates"
+    },
+    "conditions": {
+      "all": [
+        {
+          "fact": "body",
+          "operator": "in",
+          "value": "260976652786,265975627284",
+          "path": "to.idValue"
+        },
+        {
+          "fact": "operationPath",
+          "operator": "equal",
+          "value": "/transfers"
+        },
+        {
+          "fact": "method",
+          "operator": "equal",
+          "value": "post"
+        }
+      ]
+    },
+    "event": {
+      "method": null,
+      "path": null,
+      "params": {
+        "body": {
+          "homeTransactionId": "{$request.body.homeTransactionId}",
+          "completedTimestamp": "{$environment.completedTimestamp}",
+          "conversionState": "RESERVED"
+        },
+        "statusCode": "200",
+        "scripts": {
+          "exec": [
+            "environment.completedTimestamp = new Date().toISOString()",
+            "",
+            "const requestBody = JSON.parse(request.body)",
+            "",
+            "const toPartyId = requestBody.to.idType + '/' + requestBody.to.idValue",
+            "",
+            "if (!environment.partyData) {",
+            "  environment.partyData = {}",
+            "}",
+            "",
+            "if (!environment.partyData[toPartyId]) {",
+            "  environment.partyData[toPartyId] = {}",
+            "}",
+            "",
+            "const partyData = environment.partyData[toPartyId]",
+            "",
+            "if (!partyData.balance) {",
+            "  partyData.balance = {}",
+            "}",
+            "",
+            "if (!partyData.balance[requestBody.currency]) {",
+            "  partyData.balance[requestBody.currency] = 0",
+            "}",
+            "",
+            "partyData.balance[requestBody.currency] += +requestBody.amount",
+            "",
+            "",
+            "if (!partyData.transactionHistory) {",
+            "  partyData.transactionHistory = []",
+            "}",
+            "const creditDate = new Date(request.headers.date)",
+            "const transaction = {",
+            "  date: creditDate.getTime(),",
+            "  transferId: requestBody.transferId,",
+            "  amount: requestBody.amount,",
+            "  currency: requestBody.currency,",
+            "  from: {",
+            "    idType: requestBody.from.idType,",
+            "    idValue: requestBody.from.idValue",
+            "  }",
+            "}",
+            "partyData.transactionHistory.push(transaction)",
+            "",
+            "custom.pushMessage({ transaction: transaction, newBalance: partyData.balance , transactionHistory: partyData.transactionHistory }, toPartyId)"
+          ],
+          "scriptingEngine": "javascript"
+        },
+        "delay": 300000
+      },
+      "type": "FIXED_RESPONSE"
+    },
+    "type": "response",
+    "version": 1
+  },
+  {
     "ruleId": 10,
     "priority": 1,
     "description": "post /transfers",
@@ -1696,160 +1850,6 @@
         }
       },
       "type": "MOCK_RESPONSE"
-    },
-    "type": "response",
-    "version": 1
-  },
-  {
-    "ruleId": 71,
-    "priority": 1,
-    "description": "ABORTED for post /transfer for MSISDNs",
-    "apiVersion": {
-      "minorVersion": 1,
-      "majorVersion": 2,
-      "type": "mojaloop_connector_backend",
-      "asynchronous": false,
-      "specFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/api_spec.yaml",
-      "callbackMapFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/callback_map.json",
-      "responseMapFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/response_map.json",
-      "jsfRefFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/mockRef.json",
-      "triggerTemplatesFolder": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/trigger_templates"
-    },
-    "conditions": {
-      "all": [
-        {
-          "fact": "body",
-          "operator": "in",
-          "value": "260976652785,265975627283",
-          "path": "to.idValue"
-        },
-        {
-          "fact": "operationPath",
-          "operator": "equal",
-          "value": "/transfers"
-        },
-        {
-          "fact": "method",
-          "operator": "equal",
-          "value": "post"
-        }
-      ]
-    },
-    "event": {
-      "method": null,
-      "path": null,
-      "params": {
-        "body": {
-          "statusCode": "5100",
-          "message": "Generic Payee rejection"
-        },
-        "statusCode": "500",
-        "scripts": {
-          "scriptingEngine": "javascript"
-        }
-      },
-      "type": "FIXED_RESPONSE"
-    },
-    "type": "response",
-    "version": 1
-  },
-  {
-    "ruleId": 72,
-    "priority": 1,
-    "description": "Timeout scenario for post /transfers for MSISDNs",
-    "apiVersion": {
-      "minorVersion": 1,
-      "majorVersion": 2,
-      "type": "mojaloop_connector_backend",
-      "asynchronous": false,
-      "specFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/api_spec.yaml",
-      "callbackMapFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/callback_map.json",
-      "responseMapFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/response_map.json",
-      "jsfRefFile": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/mockRef.json",
-      "triggerTemplatesFolder": "/opt/app/spec_files/api_definitions/mojaloop_connector_backend_2.1/trigger_templates"
-    },
-    "conditions": {
-      "all": [
-        {
-          "fact": "body",
-          "operator": "in",
-          "value": "260976652786,265975627284",
-          "path": "to.idValue"
-        },
-        {
-          "fact": "operationPath",
-          "operator": "equal",
-          "value": "/transfers"
-        },
-        {
-          "fact": "method",
-          "operator": "equal",
-          "value": "post"
-        }
-      ]
-    },
-    "event": {
-      "method": null,
-      "path": null,
-      "params": {
-        "body": {
-          "homeTransactionId": "{$request.body.homeTransactionId}",
-          "completedTimestamp": "{$environment.completedTimestamp}",
-          "conversionState": "RESERVED"
-        },
-        "statusCode": "200",
-        "scripts": {
-          "exec": [
-            "environment.completedTimestamp = new Date().toISOString()",
-            "",
-            "const requestBody = JSON.parse(request.body)",
-            "",
-            "const toPartyId = requestBody.to.idType + '/' + requestBody.to.idValue",
-            "",
-            "if (!environment.partyData) {",
-            "  environment.partyData = {}",
-            "}",
-            "",
-            "if (!environment.partyData[toPartyId]) {",
-            "  environment.partyData[toPartyId] = {}",
-            "}",
-            "",
-            "const partyData = environment.partyData[toPartyId]",
-            "",
-            "if (!partyData.balance) {",
-            "  partyData.balance = {}",
-            "}",
-            "",
-            "if (!partyData.balance[requestBody.currency]) {",
-            "  partyData.balance[requestBody.currency] = 0",
-            "}",
-            "",
-            "partyData.balance[requestBody.currency] += +requestBody.amount",
-            "",
-            "",
-            "if (!partyData.transactionHistory) {",
-            "  partyData.transactionHistory = []",
-            "}",
-            "const creditDate = new Date(request.headers.date)",
-            "const transaction = {",
-            "  date: creditDate.getTime(),",
-            "  transferId: requestBody.transferId,",
-            "  amount: requestBody.amount,",
-            "  currency: requestBody.currency,",
-            "  from: {",
-            "    idType: requestBody.from.idType,",
-            "    idValue: requestBody.from.idValue",
-            "  }",
-            "}",
-            "partyData.transactionHistory.push(transaction)",
-            "",
-            "custom.pushMessage({ transaction: transaction, newBalance: partyData.balance , transactionHistory: partyData.transactionHistory }, toPartyId)"
-          ],
-          "scriptingEngine": "javascript"
-        },
-        "delay": 300000
-      },
-      "type": "FIXED_RESPONSE"
     },
     "type": "response",
     "version": 1
