@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.14.3](https://github.com/infitx-org/comesa-tests/compare/v1.14.2...v1.14.3) (2025-10-03)
+
+
+### Bug Fixes
+
+* rules ([0623467](https://github.com/infitx-org/comesa-tests/commit/06234677681735dc25a9df56295377d5f5be7efb))
+* rules ([23f64f6](https://github.com/infitx-org/comesa-tests/commit/23f64f65983940e3bd8f565ea7d2b9361d090c4a))
+* slack report ([fdc610a](https://github.com/infitx-org/comesa-tests/commit/fdc610aa513e5c47e2791a5e304dcf1a593986ab))
+
 ## [1.14.2](https://github.com/infitx-org/comesa-tests/compare/v1.14.1...v1.14.2) (2025-09-25)
 
 
