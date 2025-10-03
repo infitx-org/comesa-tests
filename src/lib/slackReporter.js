@@ -48,16 +48,16 @@ class SlackReporter {
     //     return { passed, total };
     // }
 
-    function countSteps(steps) {
-        let total = 0, passed = 0;
+    // function countSteps(steps) {
+    //     let total = 0, passed = 0;
 
-        steps.forEach(step => {
-            total++;
-            if (step.status === "passed") passed++;
-        });
+    //     steps.forEach(step => {
+    //         total++;
+    //         if (step.status === "passed") passed++;
+    //     });
 
-        return { passed, total };
-    }
+    //     return { passed, total };
+    // }
 
     fs.readdirSync(this.allureResultsPath).forEach(file => {
         if (path.extname(file) === '.json') {
@@ -79,7 +79,13 @@ class SlackReporter {
             const testName = content.name;
             const testStatus = content.status;
 
-            const { passed, total } = countSteps(content.steps);
+            // We don't want to count assertion failures, just the test cases
+            // So commenting the next line
+            // const { passed, total } = countSteps(content.steps);
+
+            const passed = testStatus === "passed" ? 1 : 0;
+            const total = 1;
+
             totalPassed += passed;
             totalTests += total;
             const responseCode = `${passed}/${total}`;
