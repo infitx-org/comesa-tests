@@ -85,6 +85,7 @@ jobs:
       id: inference
       uses: actions/ai-inference@v1
       with:
+        max-tokens: 1500
         prompt: |
           Summarize these test cases in bullet points:
           ${{ steps.process_files.outputs.summary }}
