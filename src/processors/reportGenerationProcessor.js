@@ -29,7 +29,7 @@ function setupReportGenerationProcessor(queueName, redisOptions) {
           slackWebhookDescription: job.data.slackWebhookDescription,
           releaseCdUrl: job.data.releaseCdUrl,
         });
-        const slackReporterLogs = await slackReporter.sendSlackNotification(reportURL);
+        const slackReporterLogs = await slackReporter.sendSlackNotification(reportURL, job.timestamp);
         slackReporterLogs.forEach(async log => {
           await job.log(log);
         });

@@ -10,6 +10,13 @@ const categoryMap = {
     "Static": "Static Tests"
 };
 
+const millisecondsToTime = (milliseconds) => {
+  const seconds = Math.floor(milliseconds / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+  return `${String(hours).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`
+}
+
 class SlackReporter {
 
   constructor (config) {
@@ -25,9 +32,7 @@ class SlackReporter {
     this.releaseCdUrl = config.releaseCdUrl;
   }
 
-  generateCombinedReport = async (reportURL, logs) => {
-    const blocks = [];
-
+  generateCombinedReport = async (reportURL, logs, startTime) => {
     const results = {};
     let totalPassed = 0;
     let totalTests = 0;
@@ -100,42 +105,34 @@ class SlackReporter {
         }
     });
 
+    const duration = Date.now() - startTime;
+
     await releaseCd({
       url: this.releaseCdUrl,
+      report: reportURL,
+      duration,
       totalPassedAssertions: totalPassed,
       totalAssertions: totalTests
     }, logs);
 
+    const elements = [];
     Object.keys(results).sort().forEach(category => {
       if (this.showDetails) {
-        blocks.push({
-            type: "section",
-            text: { type: "mrkdwn", text: `*${category}*` }
-        });
+        elements.push({ type: "text", text: `\n${category}`, style: { bold: true } });
         Object.keys(results[category]).sort().forEach(suiteName => {
             const suiteStatus = results[category][suiteName].every(test => test.testStatus === "passed");
-            const suiteStatusEmoji = suiteStatus ? ":white_check_mark:" : ":warning:";
-            blocks.push({
-              type: "context",
-              elements: [{ type: "mrkdwn", text: `${suiteStatusEmoji} ${suiteName}` }]
-            });
-
+            elements.push({ type: "text", text: ` ${suiteStatus ? "✅" : "⚠️"}${suiteName}` });
             results[category][suiteName].forEach(({ testName, testStatus, responseCode }) => {
-                const testStatusEmoji = testStatus === "passed" ? ":white_check_mark:" : ":x:";
-                blocks.push({
-                    type: "context",
-                    elements: [{ type: "mrkdwn", text: `-  ${testStatusEmoji} ${testName} \`${responseCode}\`` }]
-                });
+                elements.push({ type: "text", text: `-  ${testStatus === "passed" ? "✅" : "⚠️"} ${testName} ` });
+                elements.push({ type: "text", text: responseCode, style: { code: true } });
             });
         });
       } else {
-        const elements = [];
         if (Object.keys(results[category]).length <= 8) {
-          elements.push({ type: "mrkdwn", text: `*${category}*` });
+          elements.push({ type: "text", text: `\n${category}`, style: { bold: true } });
           Object.keys(results[category]).sort().forEach(suiteName => {
               const suiteStatus = results[category][suiteName].every(test => test.testStatus === "passed");
-              const suiteStatusEmoji = suiteStatus ? ":white_check_mark:" : ":warning:";
-              elements.push({ type: "mrkdwn", text: `${suiteStatusEmoji} ${suiteName}` });
+              elements.push({ type: "text", text: ` ${suiteStatus ? "✅" : "⚠️"}${suiteName}` });
           });
         } else {
           // generate summary for large categories
@@ -143,40 +140,40 @@ class SlackReporter {
           const totalPassedSuites = Object.keys(results[category]).filter(suiteName =>
             results[category][suiteName].every(test => test.testStatus === "passed")
           ).length;
-          const suiteStatusEmoji = totalPassedSuites === totalSuites ? ":white_check_mark:" : ":warning:";
-          elements.push({ type: "mrkdwn", text: `*${category}* ${suiteStatusEmoji} \`${totalPassedSuites}/${totalSuites}\`` });
+          elements.push({ type: "text", text: `\n${totalPassedSuites === totalSuites ? "✅" : "⚠️"}${category} `, style: { bold: true } });
+          elements.push({ type: "text", text: `${totalPassedSuites}/${totalSuites}`, style: { code: true } });
         }
-        blocks.push({
-          type: "context",
-          elements
-        });
       }
     });
 
-    blocks.push({ type: "divider" });
-
-    const totalStatus = totalPassed === totalTests ? ":white_check_mark:" : ":warning:";
-    // Append the following at the start of the blocks array
-    blocks.unshift({
-            type: "section",
-            text: {
-                type: "mrkdwn",
-                text: `${totalStatus} *COMESA GP:* ${this.slackWebhookDescription} \`${totalPassed}/${totalTests}\` <${reportURL}|View Report>`
-            }
-    });
+    const isPassed = totalPassed === totalTests;
     return {
-      blocks,
-      isPassed: totalPassed === totalTests
+      blocks: [{
+        type: 'rich_text',
+        elements: [{
+          type: 'rich_text_section',
+          elements: [
+            { type: 'text', text: `${isPassed ? '✅' : '⚠️'}${this.slackWebhookDescription} `},
+            { type: 'link', url: reportURL, text: 'COMESA GP' },
+            { type: 'text', text: ` tests: ` },
+            { type: 'text', text: `${totalPassed}/${totalTests}`, style: { code: true } },
+            { type: 'text', text: `, duration: ` },
+            { type: 'text', text: millisecondsToTime(duration), style: { code: true } },
+            ...elements
+          ]
+        }]
+      }],
+      isPassed
     };
   }
 
-  sendSlackNotification = async (reportURL = 'http://localhost/') => {
+  sendSlackNotification = async (reportURL = 'http://localhost/', startTime) => {
     const logs = [];
     if (!this.webhook && !this.webhookForFailed) {
       logs.push('No Slack webhook URLs configured.')
       return logs;
     }
-    const { blocks, isPassed } = await this.generateCombinedReport(reportURL, logs)
+    const { blocks, isPassed } = await this.generateCombinedReport(reportURL, logs, startTime)
     // console.log(JSON.stringify(blocks,null,2))
     // process.exit(0)
 
