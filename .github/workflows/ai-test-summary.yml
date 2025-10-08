@@ -177,7 +177,7 @@ jobs:
         TAG_NAME=${GITHUB_REF##*/}
         
         # Create/Update Release-Test-Summaries.md page
-        WIKI_PAGE="Release-Test-Summaries.md"
+        WIKI_PAGE="Home.md"
         
         # Create header if file doesn't exist
         if [ ! -f "$WIKI_PAGE" ]; then
@@ -210,24 +210,8 @@ jobs:
         
         mv "$WIKI_PAGE.tmp" "$WIKI_PAGE"
         
-        # Create individual release page
-        RELEASE_PAGE="Release-$TAG_NAME.md"
-        cat > "$RELEASE_PAGE" << 'EOF'
-        # Test Summary for Release $TAG_NAME
-        
-        **Generated on:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
-        
-        **Download Asset:** [test-summary-$TAG_NAME.md](${{ steps.upload_asset.outputs.asset_url }})
-        
-        ---
-        
-        EOF
-        
-        # Add the AI summary content
-        cat ../test-summary.md | tail -n +3 >> "$RELEASE_PAGE"
-        
         # Commit and push changes
-        git add "$WIKI_PAGE" "$RELEASE_PAGE"
+        git add "$WIKI_PAGE"
         
         if git diff --staged --quiet; then
           echo "No changes to commit"
