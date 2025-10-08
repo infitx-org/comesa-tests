@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://github.com/infitx-org/comesa-tests/compare/v1.14.3...v1.15.0) (2025-10-08)
+
+
+### Features
+
+* improve reporting ([79d55e9](https://github.com/infitx-org/comesa-tests/commit/79d55e91edbf8a2fba4b8062d8b8c700c1956a6e))
+
 ## [1.14.3](https://github.com/infitx-org/comesa-tests/compare/v1.14.2...v1.14.3) (2025-10-03)
 
 
