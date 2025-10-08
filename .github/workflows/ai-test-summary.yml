@@ -1,0 +1,240 @@
+name: Summarize Tests and Update Release Notes
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  summarize-tests:
+    name: Summarize Tests and Update Release Notes
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Process JSON Files
+      id: process_files
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          
+          const testFolder = 'ttk-test-collection/multi-scheme-tests';
+          const summaries = [];
+          
+          console.log(`Looking for JSON files in: ${testFolder}`);
+          console.log(`Directory exists: ${fs.existsSync(testFolder)}`);
+          
+          if (!fs.existsSync(testFolder)) {
+            core.setFailed(`Directory not found: ${testFolder}`);
+            return;
+          }
+          
+          // Get all JSON files and sort them
+          const allFiles = fs.readdirSync(testFolder)
+            .filter(f => f.endsWith('.json'))
+            .sort();
+          
+          console.log(`Found ${allFiles.length} JSON files: ${allFiles.join(', ')}`);
+          
+          // Process each file
+          for (const filename of allFiles) {
+            const filePath = path.join(testFolder, filename);
+            console.log(`\n--- Processing: ${filename} ---`);
+            
+            try {
+              const fileContent = fs.readFileSync(filePath, 'utf8');
+              const data = JSON.parse(fileContent);
+              
+              const testCases = data.test_cases || [];
+              console.log(`Found ${testCases.length} test cases in ${filename}`);
+              
+              testCases.forEach((tc, idx) => {
+                const name = tc.name || 'No Name';
+                const metaInfo = tc.meta?.info || 'No Meta Info';
+                summaries.push(`File: ${filename}\nTest Case: ${name}\nMeta Info: ${metaInfo}\n`);
+                console.log(`  - Test case ${idx + 1}: ${name}`);
+              });
+              
+            } catch (error) {
+              console.error(`ERROR: Failed to process ${filename}: ${error.message}`);
+              continue;
+            }
+          }
+          
+          console.log(`\n=== Total test cases processed: ${summaries.length} ===`);
+          
+          // Save summary to file and output
+          const summaryOutput = summaries.join('\n');
+          fs.writeFileSync('summary.txt', summaryOutput, 'utf8');
+          
+          // Set output using core.setOutput (handles multi-line automatically)
+          core.setOutput('summary', summaryOutput);
+          
+          return summaryOutput;
+    
+    - name: Debug - Show Summary File
+      run: cat summary.txt
+    
+    - name: Run AI inference
+      id: inference
+      uses: actions/ai-inference@v1
+      with:
+        prompt: |
+          Summarize these test cases in bullet points:
+          ${{ steps.process_files.outputs.summary }}
+  
+    - name: Get the Release ID
+      id: get_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        tag_name=${GITHUB_REF##*/}
+        release_info=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/$tag_name)
+        echo "$release_info" | jq
+        release_id=$(echo "$release_info" | jq -r '.id')
+        echo "release_id=$release_id" >> $GITHUB_OUTPUT
+    
+    - name: Create Summary Asset File
+      id: create_asset
+      run: |
+        # Get the AI summary and save it to a file
+        cat > test-summary.md << 'EOF'
+        # Test Cases Summary
+        
+        ${{ steps.inference.outputs.response }}
+        
+        ---
+        *Generated on $(date -u +"%Y-%m-%d %H:%M:%S UTC")*
+        EOF
+        
+        echo "Asset file created: test-summary.md"
+        cat test-summary.md
+    
+    - name: Upload Release Asset
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          
+          const releaseId = '${{ steps.get_release.outputs.release_id }}';
+          const tagName = context.ref.replace('refs/tags/', '');
+          const assetName = `test-summary-${tagName}.md`;
+          const assetPath = 'test-summary.md';
+          
+          console.log(`Uploading asset to release ID: ${releaseId}`);
+          console.log(`Asset name: ${assetName}`);
+          console.log(`Tag name: ${tagName}`);
+          
+          try {
+            // Read the file content
+            const fileContent = fs.readFileSync(assetPath);
+            const fileStats = fs.statSync(assetPath);
+            
+            console.log(`File size: ${fileStats.size} bytes`);
+            
+            // Upload the asset
+            const response = await github.rest.repos.uploadReleaseAsset({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: parseInt(releaseId),
+              name: assetName,
+              data: fileContent,
+              headers: {
+                'content-type': 'text/markdown',
+                'content-length': fileStats.size
+              }
+            });
+            
+            console.log(`Asset uploaded successfully: ${response.data.browser_download_url}`);
+            core.setOutput('asset_url', response.data.browser_download_url);
+            
+          } catch (error) {
+            core.setFailed(`Failed to upload release asset: ${error.message}`);
+          }
+    
+    - name: Clone Wiki Repository
+      run: |
+        git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
+        cd wiki
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+    
+    - name: Update Wiki with Test Summary
+      run: |
+        cd wiki
+        
+        # Get tag name
+        TAG_NAME=${GITHUB_REF##*/}
+        
+        # Create/Update Release-Test-Summaries.md page
+        WIKI_PAGE="Release-Test-Summaries.md"
+        
+        # Create header if file doesn't exist
+        if [ ! -f "$WIKI_PAGE" ]; then
+          echo "# Release Test Summaries" > "$WIKI_PAGE"
+          echo "" >> "$WIKI_PAGE"
+          echo "This page contains automated test summaries for each release." >> "$WIKI_PAGE"
+          echo "" >> "$WIKI_PAGE"
+        fi
+        
+        # Add new release section at the top (after the header)
+        {
+          # Keep the header
+          head -n 4 "$WIKI_PAGE"
+          
+          # Add new release entry
+          echo "---"
+          echo ""
+          echo "## Release $TAG_NAME"
+          echo ""
+          echo "**Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          echo ""
+          echo "**Download:** [test-summary-$TAG_NAME.md](${{ steps.upload_asset.outputs.asset_url }})"
+          echo ""
+          cat ../test-summary.md | tail -n +3  # Skip the first 2 lines (header and blank)
+          echo ""
+          
+          # Keep the rest of the file
+          tail -n +5 "$WIKI_PAGE"
+        } > "$WIKI_PAGE.tmp"
+        
+        mv "$WIKI_PAGE.tmp" "$WIKI_PAGE"
+        
+        # Create individual release page
+        RELEASE_PAGE="Release-$TAG_NAME.md"
+        cat > "$RELEASE_PAGE" << 'EOF'
+        # Test Summary for Release $TAG_NAME
+        
+        **Generated on:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+        
+        **Download Asset:** [test-summary-$TAG_NAME.md](${{ steps.upload_asset.outputs.asset_url }})
+        
+        ---
+        
+        EOF
+        
+        # Add the AI summary content
+        cat ../test-summary.md | tail -n +3 >> "$RELEASE_PAGE"
+        
+        # Commit and push changes
+        git add "$WIKI_PAGE" "$RELEASE_PAGE"
+        
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Add test summary for release $TAG_NAME"
+          git push origin master
+          echo "Wiki updated successfully"
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
