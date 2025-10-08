@@ -103,14 +103,13 @@ jobs:
 
         # Create/Update Release-Test-Summaries.md page
         WIKI_PAGE="Home.md"
+
+        cat > "$WIKI_PAGE" << 'EOF'
+        # Test Cases Summary
         
-        # Add new release section at the top (after the header)
-        {
-          echo "**Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
-          echo ""
-          cat ../test-summary.md | tail -n +3  # Skip the first 2 lines (header and blank)
-          echo ""
-        } > "$WIKI_PAGE"
+        ${{ steps.inference.outputs.response }}
+        
+        EOF
       
         # Commit and push changes
         git add "$WIKI_PAGE"
