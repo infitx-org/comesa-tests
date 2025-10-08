@@ -89,79 +89,6 @@ jobs:
         prompt: |
           Summarize these test cases in bullet points:
           ${{ steps.process_files.outputs.summary }}
-  
-    - name: Get the Release ID
-      id: get_release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        tag_name=${GITHUB_REF##*/}
-        release_info=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/$tag_name)
-        echo "$release_info" | jq
-        release_id=$(echo "$release_info" | jq -r '.id')
-        echo "release_id=$release_id" >> $GITHUB_OUTPUT
-    
-    - name: Create Summary Asset File
-      id: create_asset
-      run: |
-        # Get the AI summary and save it to a file
-        cat > test-summary.md << 'EOF'
-        # Test Cases Summary
-        
-        ${{ steps.inference.outputs.response }}
-        
-        ---
-        *Generated on $(date -u +"%Y-%m-%d %H:%M:%S UTC")*
-        EOF
-        
-        echo "Asset file created: test-summary.md"
-        cat test-summary.md
-    
-    - name: Upload Release Asset
-      uses: actions/github-script@v7
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const fs = require('fs');
-          const path = require('path');
-          
-          const releaseId = '${{ steps.get_release.outputs.release_id }}';
-          const tagName = context.ref.replace('refs/tags/', '');
-          const assetName = `test-summary-${tagName}.md`;
-          const assetPath = 'test-summary.md';
-          
-          console.log(`Uploading asset to release ID: ${releaseId}`);
-          console.log(`Asset name: ${assetName}`);
-          console.log(`Tag name: ${tagName}`);
-          
-          try {
-            // Read the file content
-            const fileContent = fs.readFileSync(assetPath);
-            const fileStats = fs.statSync(assetPath);
-            
-            console.log(`File size: ${fileStats.size} bytes`);
-            
-            // Upload the asset
-            const response = await github.rest.repos.uploadReleaseAsset({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              release_id: parseInt(releaseId),
-              name: assetName,
-              data: fileContent,
-              headers: {
-                'content-type': 'text/markdown',
-                'content-length': fileStats.size
-              }
-            });
-            
-            console.log(`Asset uploaded successfully: ${response.data.browser_download_url}`);
-            core.setOutput('asset_url', response.data.browser_download_url);
-            
-          } catch (error) {
-            core.setFailed(`Failed to upload release asset: ${error.message}`);
-          }
     
     - name: Clone Wiki Repository
       run: |
@@ -173,17 +100,12 @@ jobs:
     - name: Update Wiki with Test Summary
       run: |
         cd wiki
-        
-        # Get tag name
-        TAG_NAME=${GITHUB_REF##*/}
-        
+
         # Create/Update Release-Test-Summaries.md page
         WIKI_PAGE="Home.md"
         
         # Add new release section at the top (after the header)
         {
-          echo "## Release $TAG_NAME"
-          echo ""
           echo "**Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
           echo ""
           cat ../test-summary.md | tail -n +3  # Skip the first 2 lines (header and blank)
@@ -196,7 +118,7 @@ jobs:
         if git diff --staged --quiet; then
           echo "No changes to commit"
         else
-          git commit -m "Add test summary for release $TAG_NAME"
+          git commit -m "Updater test summary"
           git push origin master
           echo "Wiki updated successfully"
         fi
