@@ -1,8 +1,8 @@
 name: Summarize Tests and Update Release Notes
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
 jobs:
   summarize-tests:
     name: Summarize Tests and Update Release Notes
