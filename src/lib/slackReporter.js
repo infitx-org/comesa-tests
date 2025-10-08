@@ -118,7 +118,7 @@ class SlackReporter {
     const elements = [];
     Object.keys(results).sort().forEach(category => {
       if (this.showDetails) {
-        elements.push({ type: "text", text: `\n${category}`, style: { bold: true } });
+        elements.push({ type: "text", text: `\n• ${category}: ` });
         Object.keys(results[category]).sort().forEach(suiteName => {
             const suiteStatus = results[category][suiteName].every(test => test.testStatus === "passed");
             elements.push({ type: "text", text: ` ${suiteStatus ? "✅" : "⚠️"}${suiteName}` });
@@ -129,7 +129,7 @@ class SlackReporter {
         });
       } else {
         if (Object.keys(results[category]).length <= 8) {
-          elements.push({ type: "text", text: `\n${category}`, style: { bold: true } });
+          elements.push({ type: "text", text: `\n• ${category}: `});
           Object.keys(results[category]).sort().forEach(suiteName => {
               const suiteStatus = results[category][suiteName].every(test => test.testStatus === "passed");
               elements.push({ type: "text", text: ` ${suiteStatus ? "✅" : "⚠️"}${suiteName}` });
@@ -140,7 +140,7 @@ class SlackReporter {
           const totalPassedSuites = Object.keys(results[category]).filter(suiteName =>
             results[category][suiteName].every(test => test.testStatus === "passed")
           ).length;
-          elements.push({ type: "text", text: `\n${totalPassedSuites === totalSuites ? "✅" : "⚠️"}${category} `, style: { bold: true } });
+          elements.push({ type: "text", text: `\n• ${totalPassedSuites === totalSuites ? "✅" : "⚠️"}${category} `});
           elements.push({ type: "text", text: `${totalPassedSuites}/${totalSuites}`, style: { code: true } });
         }
       }
