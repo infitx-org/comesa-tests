@@ -179,37 +179,16 @@ jobs:
         # Create/Update Release-Test-Summaries.md page
         WIKI_PAGE="Home.md"
         
-        # Create header if file doesn't exist
-        if [ ! -f "$WIKI_PAGE" ]; then
-          echo "# Release Test Summaries" > "$WIKI_PAGE"
-          echo "" >> "$WIKI_PAGE"
-          echo "This page contains automated test summaries for each release." >> "$WIKI_PAGE"
-          echo "" >> "$WIKI_PAGE"
-        fi
-        
         # Add new release section at the top (after the header)
         {
-          # Keep the header
-          head -n 4 "$WIKI_PAGE"
-          
-          # Add new release entry
-          echo "---"
-          echo ""
           echo "## Release $TAG_NAME"
           echo ""
           echo "**Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
           echo ""
-          echo "**Download:** [test-summary-$TAG_NAME.md](${{ steps.upload_asset.outputs.asset_url }})"
-          echo ""
           cat ../test-summary.md | tail -n +3  # Skip the first 2 lines (header and blank)
           echo ""
-          
-          # Keep the rest of the file
-          tail -n +5 "$WIKI_PAGE"
-        } > "$WIKI_PAGE.tmp"
-        
-        mv "$WIKI_PAGE.tmp" "$WIKI_PAGE"
-        
+        } > "$WIKI_PAGE"
+      
         # Commit and push changes
         git add "$WIKI_PAGE"
         
