@@ -1,8 +1,7 @@
 name: Summarize Tests and Update Release Notes
 on:
   push:
-    branches:
-      - main
+    tags: [ 'v*.*.*' ]
 jobs:
   summarize-tests:
     name: Summarize Tests and Update Release Notes
