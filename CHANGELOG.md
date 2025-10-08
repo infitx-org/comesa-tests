@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.1](https://github.com/infitx-org/comesa-tests/compare/v1.15.0...v1.15.1) (2025-10-08)
+
+
+### Bug Fixes
+
+* improve formatting ([09fab29](https://github.com/infitx-org/comesa-tests/commit/09fab295f028bab88183134d998be1347802bc12))
+
 ## [1.15.0](https://github.com/infitx-org/comesa-tests/compare/v1.14.3...v1.15.0) (2025-10-08)
 
 
