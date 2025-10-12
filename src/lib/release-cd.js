@@ -28,12 +28,14 @@
  ******/
 const axios = require('axios').default
 
-module.exports = async function ({ url, totalAssertions, totalPassedAssertions }, logs) {
+module.exports = async function ({ url, totalAssertions, totalPassedAssertions, report, duration }, logs) {
   if (!url) return
   const data = {
     [`tests.comesa_gp`]: {
       totalAssertions,
-      totalPassedAssertions
+      totalPassedAssertions,
+      report,
+      duration
     }
   }
   logs.push(`Sending report to ${url} with data: ${JSON.stringify(data)}`);
