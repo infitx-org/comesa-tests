@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.2](https://github.com/infitx-org/comesa-tests/compare/v1.15.1...v1.15.2) (2025-10-12)
+
+
+### Bug Fixes
+
+* add report and duration to data sent in release-cd module ([444bd01](https://github.com/infitx-org/comesa-tests/commit/444bd01c5691a0f0c52787ca526ab8b9fb9206f4))
+
 ## [1.15.1](https://github.com/infitx-org/comesa-tests/compare/v1.15.0...v1.15.1) (2025-10-08)
 
 
