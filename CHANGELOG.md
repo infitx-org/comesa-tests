@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.5](https://github.com/infitx-org/comesa-tests/compare/v1.15.4...v1.15.5) (2025-10-24)
+
+
+### Bug Fixes
+
+* remove duplicate item ([584d690](https://github.com/infitx-org/comesa-tests/commit/584d690c99290c5456cb8c01341080e6f5d33755))
+
 ## [1.15.4](https://github.com/infitx-org/comesa-tests/compare/v1.15.3...v1.15.4) (2025-10-24)
 
 
