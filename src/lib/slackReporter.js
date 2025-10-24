@@ -132,7 +132,6 @@ class SlackReporter {
       } else {
         const bullet = { type: "rich_text_section", elements: [] };
         elements.push({ type : "rich_text_list", elements: [bullet], style: "bullet" });
-        elements.push(bullet);
         if (Object.keys(results[category]).length <= 8) {
           bullet.elements.push({ type: "text", text: `${category}: ` });
           Object.keys(results[category]).sort().forEach(suiteName => {
