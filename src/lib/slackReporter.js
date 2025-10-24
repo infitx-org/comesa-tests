@@ -118,21 +118,25 @@ class SlackReporter {
     const elements = [];
     Object.keys(results).sort().forEach(category => {
       if (this.showDetails) {
-        elements.push({ type: "text", text: `\n• ${category}: ` });
+        const bullet = { type: "rich_text_list", style: "bullet", elements: [] };
+        elements.push(bullet);
+        bullet.elements.push({ type: "text", text: `${category}: ` });
         Object.keys(results[category]).sort().forEach(suiteName => {
             const suiteStatus = results[category][suiteName].every(test => test.testStatus === "passed");
-            elements.push({ type: "text", text: ` ${suiteStatus ? "✅" : "⚠️"}${suiteName}` });
+            bullet.elements.push({ type: "text", text: ` ${suiteStatus ? "✅" : "⚠️"}${suiteName}` });
             results[category][suiteName].forEach(({ testName, testStatus, responseCode }) => {
-                elements.push({ type: "text", text: `-  ${testStatus === "passed" ? "✅" : "⚠️"} ${testName} ` });
-                elements.push({ type: "text", text: responseCode, style: { code: true } });
+                bullet.elements.push({ type: "text", text: `-  ${testStatus === "passed" ? "✅" : "⚠️"} ${testName} ` });
+                bullet.elements.push({ type: "text", text: responseCode, style: { code: true } });
             });
         });
       } else {
+        const bullet = { type: "rich_text_list", style: "bullet", elements: [] };
+        elements.push(bullet);
         if (Object.keys(results[category]).length <= 8) {
-          elements.push({ type: "text", text: `\n• ${category}: `});
+          bullet.elements.push({ type: "text", text: `${category}: ` });
           Object.keys(results[category]).sort().forEach(suiteName => {
               const suiteStatus = results[category][suiteName].every(test => test.testStatus === "passed");
-              elements.push({ type: "text", text: ` ${suiteStatus ? "✅" : "⚠️"}${suiteName}` });
+              bullet.elements.push({ type: "text", text: ` ${suiteStatus ? "✅" : "⚠️"}${suiteName}` });
           });
         } else {
           // generate summary for large categories
@@ -140,8 +144,8 @@ class SlackReporter {
           const totalPassedSuites = Object.keys(results[category]).filter(suiteName =>
             results[category][suiteName].every(test => test.testStatus === "passed")
           ).length;
-          elements.push({ type: "text", text: `\n• ${totalPassedSuites === totalSuites ? "✅" : "⚠️"}${category} `});
-          elements.push({ type: "text", text: `${totalPassedSuites}/${totalSuites}`, style: { code: true } });
+          bullet.elements.push({ type: "text", text: `${totalPassedSuites === totalSuites ? "✅" : "⚠️"}${category} `});
+          bullet.elements.push({ type: "text", text: `${totalPassedSuites}/${totalSuites}`, style: { code: true } });
         }
       }
     });
@@ -158,10 +162,9 @@ class SlackReporter {
             { type: 'text', text: ` tests: ` },
             { type: 'text', text: `${totalPassed}/${totalTests}`, style: { code: true } },
             { type: 'text', text: `, duration: ` },
-            { type: 'text', text: millisecondsToTime(duration), style: { code: true } },
-            ...elements
+            { type: 'text', text: millisecondsToTime(duration), style: { code: true } }
           ]
-        }]
+        }, ...elements]
       }],
       isPassed
     };
