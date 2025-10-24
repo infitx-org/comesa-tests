@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.3](https://github.com/infitx-org/comesa-tests/compare/v1.15.2...v1.15.3) (2025-10-24)
+
+
+### Bug Fixes
+
+* enhance Slack report formatting with bullet lists for better readability ([25b988b](https://github.com/infitx-org/comesa-tests/commit/25b988b37d6cd8f5b7fd2a9436f384da0cf5abb2))
+
 ## [1.15.2](https://github.com/infitx-org/comesa-tests/compare/v1.15.1...v1.15.2) (2025-10-12)
 
 
