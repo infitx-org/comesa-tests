@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.1](https://github.com/infitx-org/comesa-tests/compare/v1.16.0...v1.16.1) (2025-10-28)
+
+
+### Bug Fixes
+
+* streamline file upload error handling ([06557f6](https://github.com/infitx-org/comesa-tests/commit/06557f6cd6b2f977b3964799c0775156a7e011be))
+
 ## [1.16.0](https://github.com/infitx-org/comesa-tests/compare/v1.15.5...v1.16.0) (2025-10-28)
 
 
