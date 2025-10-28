@@ -32,7 +32,7 @@ class SlackReporter {
     this.releaseCdUrl = config.releaseCdUrl;
   }
 
-  generateCombinedReport = async (reportURL, logs, startTime) => {
+  generateCombinedReport = async (reportURL, logs, startTime, releaseURL) => {
     const results = {};
     let totalPassed = 0;
     let totalTests = 0;
@@ -109,7 +109,7 @@ class SlackReporter {
 
     await releaseCd({
       url: this.releaseCdUrl,
-      report: reportURL,
+      report: releaseURL || reportURL,
       duration,
       totalPassedAssertions: totalPassed,
       totalAssertions: totalTests
@@ -170,13 +170,13 @@ class SlackReporter {
     };
   }
 
-  sendSlackNotification = async (reportURL = 'http://localhost/', startTime) => {
+  sendSlackNotification = async (reportURL = 'http://localhost/', startTime, releaseURL) => {
     const logs = [];
     if (!this.webhook && !this.webhookForFailed) {
       logs.push('No Slack webhook URLs configured.')
       return logs;
     }
-    const { blocks, isPassed } = await this.generateCombinedReport(reportURL, logs, startTime)
+    const { blocks, isPassed } = await this.generateCombinedReport(reportURL, logs, startTime, releaseURL);
     // console.log(JSON.stringify(blocks,null,2))
     // process.exit(0)
 

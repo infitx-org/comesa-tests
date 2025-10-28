@@ -21,6 +21,13 @@ function setupReportGenerationProcessor(queueName, redisOptions) {
       try {
         await (new AllureReportGenerator({ reportDir: `${job.data.reportsDir}/${job.data.reportName}`, resultsDir: job.data.resultsDir })).generateAllureReport();
         await job.log(`Generated report successfully`);
+        if (job.data.s3) {
+          await job.log(`Uploading report to S3 bucket.`);
+          const uploadLogs = [];
+          job.data.s3ReportUrl = await require('../lib/s3.js')(job.data.s3, `${job.data.reportsDir}/${job.data.reportName}/index.html`, uploadLogs);
+          for (const log of uploadLogs) await job.log(log);
+          await job.log(`Uploaded report to S3 successfully: ${job.data.s3ReportUrl}`);
+        }
         const slackReporter = new SlackReporter({
           slackWebhookUrl: job.data.slackWebhookUrl,
           slackWebhookUrlForFailed: job.data.slackWebhookUrlForFailed,
@@ -29,10 +36,8 @@ function setupReportGenerationProcessor(queueName, redisOptions) {
           slackWebhookDescription: job.data.slackWebhookDescription,
           releaseCdUrl: job.data.releaseCdUrl,
         });
-        const slackReporterLogs = await slackReporter.sendSlackNotification(reportURL, job.timestamp);
-        slackReporterLogs.forEach(async log => {
-          await job.log(log);
-        });
+        const slackReporterLogs = await slackReporter.sendSlackNotification(reportURL, job.timestamp, job.data.s3ReportUrl);
+        for (const log of slackReporterLogs) await job.log(log);
         // job.updateProgress(100);
       } catch (error) {
         await job.log(`Failed to generate the report, ${error.message}`);
