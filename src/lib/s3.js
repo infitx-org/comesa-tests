@@ -14,6 +14,7 @@ module.exports = async function s3upload({config, bucket}, reportPath, logs) {
       logs.push(`Uploaded report to S3 successfully: ${Location}`);
       return Location;
     } catch (err) {
-      logs.push(`ERROR: S3 upload failed. ${err.message}`)
+      console.error('S3 upload failed', err);
+      throw new Error(`S3 upload failed: ${err.message}`);
     }
 }
