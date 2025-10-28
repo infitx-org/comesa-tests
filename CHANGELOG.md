@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.3](https://github.com/infitx-org/comesa-tests/compare/v1.16.2...v1.16.3) (2025-10-28)
+
+
+### Bug Fixes
+
+* remove test code ([a0e868e](https://github.com/infitx-org/comesa-tests/commit/a0e868ee27ee747054139fbf1fd001a395bfab9e))
+
 ## [1.16.2](https://github.com/infitx-org/comesa-tests/compare/v1.16.1...v1.16.2) (2025-10-28)
 
 
