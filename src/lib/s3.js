@@ -3,7 +3,6 @@ const path = require('path');
 const fs = require('fs')
 
 module.exports = async function s3upload({config, bucket}, reportPath, logs) {
-    reportPath = './reports/allure_reports/2025-10-28T13-25-39-564Z/index.html'; // For testing purpose
     const s3 = new AWS.S3({ apiVersion: '2012-10-17', ...(config || {}) })
     try {
       const { Location } = await s3.upload({
