@@ -1,6 +1,6 @@
 {
   "name": "comesa-tests",
-  "version": "1.15.5",
+  "version": "1.16.0",
   "description": "",
   "main": "index.js",
   "scripts": {

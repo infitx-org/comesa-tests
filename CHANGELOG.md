@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.0](https://github.com/infitx-org/comesa-tests/compare/v1.15.5...v1.16.0) (2025-10-28)
+
+
+### Features
+
+* add S3 upload functionality ([95733a8](https://github.com/infitx-org/comesa-tests/commit/95733a8f2c1f97e657ea598f70ae1692bfbbb01d))
+
 ## [1.15.5](https://github.com/infitx-org/comesa-tests/compare/v1.15.4...v1.15.5) (2025-10-24)
 
 
