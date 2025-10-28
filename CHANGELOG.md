@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.4](https://github.com/infitx-org/comesa-tests/compare/v1.16.3...v1.16.4) (2025-10-28)
+
+
+### Bug Fixes
+
+* improve error handling in S3 upload function ([e270f02](https://github.com/infitx-org/comesa-tests/commit/e270f0289423aa8ea91916fcadecf89300418ace))
+
 ## [1.16.3](https://github.com/infitx-org/comesa-tests/compare/v1.16.2...v1.16.3) (2025-10-28)
 
 
