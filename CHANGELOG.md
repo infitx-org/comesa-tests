@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.2](https://github.com/infitx-org/comesa-tests/compare/v1.16.1...v1.16.2) (2025-10-28)
+
+
+### Bug Fixes
+
+* add AWS SDK dependency and enhance S3 upload logging ([0c67fab](https://github.com/infitx-org/comesa-tests/commit/0c67fab12466bca8b707159fa05a933984790bab))
+
 ## [1.16.1](https://github.com/infitx-org/comesa-tests/compare/v1.16.0...v1.16.1) (2025-10-28)
 
 
