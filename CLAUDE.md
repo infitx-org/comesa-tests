@@ -6,23 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a COMESA (Common Market for Eastern and Southern Africa) testing framework (v1.7.0) that runs automated tests for cross-border payment systems using the Mojaloop Testing Toolkit (TTK). The project tests multi-scheme transactions between different DFSPs (Digital Financial Service Providers) with various currencies like ZMW, MWK, UGX, etc.
 
-## Development Commands
-
-- **Start the service**: `npm run start` or `npm run start:service` - Starts the main Bull queue dashboard and test orchestration service at http://localhost:3000
-- **Run single test**: `npm run start:testRun` - Executes a single test run without the UI
-- **No tests defined**: The project doesn't have unit tests - testing is done via TTK integration
 
 ## Architecture Overview
-
-### Core Components
-
-- **FlowExecutor** (`src/flowExecutor.js`) - Main orchestrator that manages test execution queues using BullMQ
-- **Bull Dashboard** (`src/index.js`) - Express web interface for monitoring test queues at port 3000
-- **Test Runner** (`src/testRun.js`) - CLI interface for executing test runs
-- **Processors** (`src/processors/`) - Queue workers that handle different test types:
-  - `ttkTestsProcessor.js` - Executes TTK test collections 
-  - `reportGenerationProcessor.js` - Generates Allure reports
-  - `sampleProcessor.js` - Sample processor template
 
 ### Test Structure
 
@@ -41,15 +26,6 @@ The project is organized around TTK (Testing Toolkit) patterns:
 - **Rules** (`ttk-rules/`) - TTK response and callback rules for test validation
 
 - **Configuration** (`config/testConfig.json`) - Main config defining DFSPs, currencies, and test amounts
-
-### Queue System
-
-The system uses BullMQ with Redis for job processing:
-- `waitBullMq` - Top-level coordination queue
-- `staticTestsBullMq` - Static/sample tests
-- `perSchemeTestsBullMq` - Per-scheme provisioning tests  
-- `multiSchemeTestsBullMq` - Multi-scheme transfer tests
-- `reportGenerationBullMq` - Report generation tasks
 
 ## Key Configuration
 
@@ -73,14 +49,6 @@ The framework includes comprehensive party validation tests:
 - **DRPP-GP-05**: Party exists in multiple schemes under different currencies
 - **DRPP-GP-06**: Party migration between DFSPs within a single scheme
 - **DRPP-GP-08**: DFSP processing error scenarios (Error code 4200)
-
-## Dependencies
-
-- **@mojaloop/ml-testing-toolkit-client-lib** - TTK client for test execution
-- **bullmq** & **@bull-board** - Queue management and monitoring
-- **allure-commandline** - Test reporting
-- **axios** - HTTP client
-- **@slack/webhook** - Slack notifications
 
 ## Development Notes
 
