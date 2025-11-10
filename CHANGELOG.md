@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.1](https://github.com/infitx-org/comesa-tests/compare/v1.17.0...v1.17.1) (2025-11-10)
+
+
+### Bug Fixes
+
+* issues ([b2bc37b](https://github.com/infitx-org/comesa-tests/commit/b2bc37b071e011605ba186df6cbae835878aa8a6))
+
 ## [1.17.0](https://github.com/infitx-org/comesa-tests/compare/v1.16.4...v1.17.0) (2025-11-10)
 
 
