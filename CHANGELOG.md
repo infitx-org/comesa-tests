@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.17.0](https://github.com/infitx-org/comesa-tests/compare/v1.16.4...v1.17.0) (2025-11-10)
+
+
+### Features
+
+* cleanup and use base image ([73647d8](https://github.com/infitx-org/comesa-tests/commit/73647d8cd1948b47ee81e5b628cf43c338a4665d))
+
+
+### Bug Fixes
+
+* ci ([7fbff3c](https://github.com/infitx-org/comesa-tests/commit/7fbff3c0a22a47d903953d2240ece23694cb2e5b))
+
 ## [1.16.4](https://github.com/infitx-org/comesa-tests/compare/v1.16.3...v1.16.4) (2025-10-28)
 
 
