@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.2](https://github.com/infitx-org/comesa-tests/compare/v1.17.1...v1.17.2) (2025-11-10)
+
+
+### Bug Fixes
+
+* slack issue ([4ff661b](https://github.com/infitx-org/comesa-tests/commit/4ff661bc53a289261dc624776c578b8fa6e2c6d9))
+
 ## [1.17.1](https://github.com/infitx-org/comesa-tests/compare/v1.17.0...v1.17.1) (2025-11-10)
 
 
