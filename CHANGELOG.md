@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.5](https://github.com/infitx-org/comesa-tests/compare/v1.17.4...v1.17.5) (2025-11-14)
+
+
+### Bug Fixes
+
+* update ml-e2e-test-runner image version to v0.0.7 ([a075be8](https://github.com/infitx-org/comesa-tests/commit/a075be83e8b75957ec6326233cbe57f5999daf3c))
+
 ## [1.17.4](https://github.com/infitx-org/comesa-tests/compare/v1.17.3...v1.17.4) (2025-11-14)
 
 
