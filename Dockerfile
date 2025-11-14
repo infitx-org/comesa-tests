@@ -1,4 +1,4 @@
-FROM ghcr.io/infitx-org/ml-e2e-test-runner:v0.0.7
+FROM ghcr.io/infitx-org/ml-e2e-test-runner:v0.0.8
 WORKDIR /opt/app
 
 COPY ttk-test-collection /opt/app/ttk-test-collection
