@@ -14,5 +14,7 @@ permissions:
 jobs:
   release:
     uses: infitx-org/actions/.github/workflows/release.yaml@main
+    with:
+      type: simple
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
