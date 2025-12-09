@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.14](https://github.com/infitx-org/comesa-tests/compare/v1.17.13...v1.17.14) (2025-12-09)
+
+
+### Bug Fixes
+
+* update release workflow token and add Grype configuration ([5748960](https://github.com/infitx-org/comesa-tests/commit/5748960a659566bb1f7d919e669a5567a3fff869))
+
 ## [1.17.13](https://github.com/infitx-org/comesa-tests/compare/v1.17.12...v1.17.13) (2025-12-09)
 
 
