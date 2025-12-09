@@ -9,13 +9,6 @@ on:
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - dockerfile: docker/release-cd.Dockerfile
-            image: release-cd
-            context: .
     uses: infitx-org/actions/.github/workflows/docker.yaml@main
     secrets:
       REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
