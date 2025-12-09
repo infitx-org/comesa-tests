@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.10](https://github.com/infitx-org/comesa-tests/compare/v1.17.9...v1.17.10) (2025-12-09)
+
+
+### Bug Fixes
+
+* add TRIGGER_DOWNSTREAM secret to Docker workflow ([443031f](https://github.com/infitx-org/comesa-tests/commit/443031f778bad57063e134e48ec12bbc119c7526))
+
 ## [1.17.9](https://github.com/infitx-org/comesa-tests/compare/v1.17.8...v1.17.9) (2025-12-09)
 
 
