@@ -15,6 +15,8 @@ permissions:
 jobs:
   build:
     uses: infitx-org/actions/.github/workflows/docker.yaml@main
+    with:
+      downstream: https://api.github.com/repos/infitx-org/profile-cd/actions/workflows/docker-image.yaml/dispatches
     secrets:
       REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       TRIGGER_DOWNSTREAM: ${{ secrets.TRIGGER_DOWNSTREAM }}
