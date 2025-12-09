@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.11](https://github.com/infitx-org/comesa-tests/compare/v1.17.10...v1.17.11) (2025-12-09)
+
+
+### Bug Fixes
+
+* remove unused strategy and matrix configuration from Docker workflow ([b1cced0](https://github.com/infitx-org/comesa-tests/commit/b1cced05255c3b4ae7e680e78031c6a510736c3b))
+
 ## [1.17.10](https://github.com/infitx-org/comesa-tests/compare/v1.17.9...v1.17.10) (2025-12-09)
 
 
