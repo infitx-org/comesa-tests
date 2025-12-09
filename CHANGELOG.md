@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.17.9](https://github.com/infitx-org/comesa-tests/compare/v1.17.8...v1.17.9) (2025-12-09)
+
+
+### Bug Fixes
+
+* add missing 'with' section for release job in workflow ([50dcef9](https://github.com/infitx-org/comesa-tests/commit/50dcef92368656b99d35cd843d94f74f648a87e5))
+* update error code assertion in parties test case ([b13cc92](https://github.com/infitx-org/comesa-tests/commit/b13cc929e35346dee758dcb8dd045ca50ebdf975))
+
 ## [1.17.8](https://github.com/infitx-org/comesa-tests/compare/v1.17.7...v1.17.8) (2025-11-14)
 
 
