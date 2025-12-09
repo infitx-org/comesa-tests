@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.13](https://github.com/infitx-org/comesa-tests/compare/v1.17.12...v1.17.13) (2025-12-09)
+
+
+### Bug Fixes
+
+* add security-events permission to Docker workflow ([73e33ea](https://github.com/infitx-org/comesa-tests/commit/73e33ea1e72ca9985763c6461b59bf99e59059de))
+
 ## [1.17.12](https://github.com/infitx-org/comesa-tests/compare/v1.17.11...v1.17.12) (2025-12-09)
 
 
