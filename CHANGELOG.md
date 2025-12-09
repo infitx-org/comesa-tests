@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.12](https://github.com/infitx-org/comesa-tests/compare/v1.17.11...v1.17.12) (2025-12-09)
+
+
+### Bug Fixes
+
+* add permissions section to Docker workflow ([8a92ff9](https://github.com/infitx-org/comesa-tests/commit/8a92ff9368e59826bcb559cab061d1827baf42f6))
+
 ## [1.17.11](https://github.com/infitx-org/comesa-tests/compare/v1.17.10...v1.17.11) (2025-12-09)
 
 
