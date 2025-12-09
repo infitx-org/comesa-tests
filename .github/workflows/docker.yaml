@@ -19,3 +19,4 @@ jobs:
     uses: infitx-org/actions/.github/workflows/docker.yaml@main
     secrets:
       REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      TRIGGER_DOWNSTREAM: ${{ secrets.TRIGGER_DOWNSTREAM }}
