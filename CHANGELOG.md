@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.16](https://github.com/infitx-org/comesa-tests/compare/v1.17.15...v1.17.16) (2025-12-09)
+
+
+### Bug Fixes
+
+* add downstream dispatch URL to Docker workflow ([a568f5b](https://github.com/infitx-org/comesa-tests/commit/a568f5b363f9f4e9adefd0d8aab418a858f56057))
+
 ## [1.17.15](https://github.com/infitx-org/comesa-tests/compare/v1.17.14...v1.17.15) (2025-12-09)
 
 
