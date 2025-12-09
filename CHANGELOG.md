@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.15](https://github.com/infitx-org/comesa-tests/compare/v1.17.14...v1.17.15) (2025-12-09)
+
+
+### Bug Fixes
+
+* update error code assertion to allow multiple valid codes ([8d8c880](https://github.com/infitx-org/comesa-tests/commit/8d8c88018b9d9e5a865810bf990b547c78f57701))
+
 ## [1.17.14](https://github.com/infitx-org/comesa-tests/compare/v1.17.13...v1.17.14) (2025-12-09)
 
 
