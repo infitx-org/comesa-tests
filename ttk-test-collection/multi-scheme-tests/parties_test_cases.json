@@ -65,7 +65,7 @@
                 "id": 1,
                 "description": "Error Code should be 3204 or 3200",
                 "exec": [
-                  "expect('3204','3200').to.contain(response.body.transferState.getPartiesResponse.body.errorInformation.errorCode)"
+                  "expect(['3204','3200']).to.contain(response.body.transferState.getPartiesResponse.body.errorInformation.errorCode)"
                 ]
               },
               {
