@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.17](https://github.com/infitx-org/comesa-tests/compare/v1.17.16...v1.17.17) (2025-12-10)
+
+
+### Bug Fixes
+
+* update error code assertion to use array syntax for validation ([e49d2e1](https://github.com/infitx-org/comesa-tests/commit/e49d2e12929a9d7ce31f237ff8f1d730675d6a4e))
+
 ## [1.17.16](https://github.com/infitx-org/comesa-tests/compare/v1.17.15...v1.17.16) (2025-12-09)
 
 
