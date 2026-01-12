@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.18](https://github.com/infitx-org/comesa-tests/compare/v1.17.17...v1.17.18) (2026-01-12)
+
+
+### Bug Fixes
+
+* increase delay to allow cache to expire ([0df2695](https://github.com/infitx-org/comesa-tests/commit/0df2695f9999c1d6ea11e9b5bdbfd3d4689fe43c))
+
 ## [1.17.17](https://github.com/infitx-org/comesa-tests/compare/v1.17.16...v1.17.17) (2025-12-10)
 
 
