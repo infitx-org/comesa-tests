@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.0](https://github.com/infitx-org/comesa-tests/compare/v1.17.18...v1.18.0) (2026-02-11)
+
+
+### Features
+
+* add self healing interscheme tests ([#71](https://github.com/infitx-org/comesa-tests/issues/71)) ([f2619c9](https://github.com/infitx-org/comesa-tests/commit/f2619c9195626471202983bdc91c2d4fea043fe1))
+
 ## [1.17.18](https://github.com/infitx-org/comesa-tests/compare/v1.17.17...v1.17.18) (2026-01-12)
 
 
