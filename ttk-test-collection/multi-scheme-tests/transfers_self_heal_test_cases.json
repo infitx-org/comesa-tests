@@ -1,0 +1,781 @@
+{
+  "name": "Self-Heal Transfer Flow PAYER stuck in RESERVED FORWARDED",
+  "test_cases": [
+    {
+      "id": 1,
+      "name": "DRPP-GP-24 Self-Heal Transfer Flow PAYER stuck in RESERVED FORWARDED - COMMITTED State in Payee scheme",
+      "meta": {
+        "info": "Objective: Validate successful transaction completion across interscheme combinations \n\n Expected Result: Successful transaction completion \n\n Notes: This test simulates a transfer flow where the payer's transfer gets stuck in RESERVED FORWARDED state due to a COMMITTED state in the payee scheme. The test verifies that the system can self-heal and complete the transaction successfully."
+      },
+      "fileInfo": {
+        "path": "ttk-test-collection/multi-scheme-tests/transfers_self_heal_test_cases.json"
+      },
+      "requests": [
+        {
+          "id": 1,
+          "description": "Send transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/transfers",
+          "path": "/transfers",
+          "method": "post",
+          "body": {
+            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
+            "from": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYER_MSISDN}",
+              "displayName": "{$inputs.FROM_DISPLAY_NAME}",
+              "firstName": "{$inputs.FROM_FIRST_NAME}",
+              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
+              "lastName": "{$inputs.FROM_LAST_NAME}",
+              "dateOfBirth": "{$inputs.FROM_DOB}",
+              "fspId": "{$inputs.MULTI_SCHEME_PAYER_FSP_ID}"
+            },
+            "to": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYEE_MSISDN}",
+              "merchantClassificationCode": "123"
+            },
+            "amountType": "SEND",
+            "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_AMOUNT}",
+            "transactionType": "TRANSFER",
+            "note": "{$inputs.NOTE}",
+            "skipPartyLookup": false
+          },
+          "params": {
+            "Type": "",
+            "ID": ""
+          },
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 2,
+          "description": "Accept Party and send FXQuote",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptParty": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 3,
+          "description": "Accept FX Conversion and send Quote",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptConversion": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_QUOTE_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_QUOTE_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 4,
+          "description": "Accept FX Conversion Quote and complete transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "headers": {
+            "baggage": "{$inputs.MULTI_SCHEME_BLOCK_TRANSFER_FULFIL_BAGGAGE_HEADER}"
+          },
+          "body": {
+            "acceptQuote": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be COMPLETED",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('COMPLETED')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "DRPP-GP-25 Self-Heal Transfer Flow PAYER stuck in RESERVED FORWARDED - ABORTED_ERROR State in Payee scheme",
+      "meta": {
+        "info": "Objective: Validate successful transaction completion across interscheme combinations \n\n Expected Result: Successful error callback to payer with correct error code and transfer state \n\n Notes: This test simulates a transfer flow where the payer's transfer gets stuck in RESERVED FORWARDED state due to an ABORTED state in the payee scheme. The test verifies that the system can self-heal and complete the transaction successfully."
+      },
+      "fileInfo": {
+        "path": "ttk-test-collection/multi-scheme-tests/transfers_self_heal_test_cases.json"
+      },
+      "requests": [
+        {
+          "id": 1,
+          "description": "Send transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/transfers",
+          "path": "/transfers",
+          "method": "post",
+          "body": {
+            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
+            "from": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYER_MSISDN}",
+              "displayName": "scenario-transfers-generic-error",
+              "firstName": "{$inputs.FROM_FIRST_NAME}",
+              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
+              "lastName": "{$inputs.FROM_LAST_NAME}",
+              "dateOfBirth": "{$inputs.FROM_DOB}",
+              "fspId": "{$inputs.MULTI_SCHEME_PAYER_FSP_ID}"
+            },
+            "to": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYEE_MSISDN}",
+              "merchantClassificationCode": "123"
+            },
+            "amountType": "SEND",
+            "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_AMOUNT}",
+            "transactionType": "TRANSFER",
+            "note": "{$inputs.NOTE}",
+            "skipPartyLookup": false
+          },
+          "params": {
+            "Type": "",
+            "ID": ""
+          },
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 2,
+          "description": "Accept Party and send FXQuote",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptParty": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 3,
+          "description": "Accept FX Conversion and send Quote",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptConversion": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_QUOTE_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_QUOTE_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 4,
+          "description": "Accept FX Conversion Quote and complete transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "headers": {
+            "baggage": "{$inputs.MULTI_SCHEME_BLOCK_TRANSFER_FULFIL_BAGGAGE_HEADER}"
+          },
+          "body": {
+            "acceptQuote": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 500",
+                "exec": [
+                  "expect(response.status).to.equal(500)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be ERROR_OCCURRED",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('ERROR_OCCURRED')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "DRPP-GP-26 Self-Heal Transfer Flow PAYER stuck in RESERVED FORWARDED - COMMITTED State in Payee scheme + Regional Scheme",
+      "meta": {
+        "info": "Objective: Validate successful transaction completion across interscheme combinations \n\n Expected Result: Successful transaction completion \n\n Notes: This test simulates a transfer flow where the payer's transfer gets stuck in RESERVED FORWARDED state due to a COMMITTED state in the payee scheme. The test verifies that the system can self-heal and complete the transaction successfully."
+      },
+      "fileInfo": {
+        "path": "ttk-test-collection/multi-scheme-tests/transfers_self_heal_test_cases.json"
+      },
+      "requests": [
+        {
+          "id": 1,
+          "description": "Send transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/transfers",
+          "path": "/transfers",
+          "method": "post",
+          "body": {
+            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
+            "from": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYER_MSISDN}",
+              "displayName": "{$inputs.FROM_DISPLAY_NAME}",
+              "firstName": "{$inputs.FROM_FIRST_NAME}",
+              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
+              "lastName": "{$inputs.FROM_LAST_NAME}",
+              "dateOfBirth": "{$inputs.FROM_DOB}",
+              "fspId": "{$inputs.MULTI_SCHEME_PAYER_FSP_ID}"
+            },
+            "to": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYEE_MSISDN}",
+              "merchantClassificationCode": "123"
+            },
+            "amountType": "SEND",
+            "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_AMOUNT}",
+            "transactionType": "TRANSFER",
+            "note": "{$inputs.NOTE}",
+            "skipPartyLookup": false
+          },
+          "params": {
+            "Type": "",
+            "ID": ""
+          },
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 2,
+          "description": "Accept Party and send FXQuote",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptParty": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 3,
+          "description": "Accept FX Conversion and send Quote",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptConversion": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_QUOTE_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_QUOTE_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 4,
+          "description": "Accept FX Conversion Quote and complete transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "headers": {
+            "baggage": "{$inputs.MULTI_SCHEME_BLOCK_TRANSFER_FULFIL_BAGGAGE_HEADER_AT_BUFFER_SCHEME}"
+          },
+          "body": {
+            "acceptQuote": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be COMPLETED",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('COMPLETED')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "DRPP-GP-27 Self-Heal Transfer Flow PAYER stuck in RESERVED FORWARDED - ABORTED_ERROR State in Payee scheme + Regional Scheme",
+      "meta": {
+        "info": "Objective: Validate successful transaction completion across interscheme combinations \n\n Expected Result: Successful error callback to payer with correct error code and transfer state \n\n Notes: This test simulates a transfer flow where the payer's transfer gets stuck in RESERVED FORWARDED state due to an ABORTED state in the payee scheme. The test verifies that the system can self-heal and complete the transaction successfully."
+      },
+      "fileInfo": {
+        "path": "ttk-test-collection/multi-scheme-tests/transfers_self_heal_test_cases.json"
+      },
+      "requests": [
+        {
+          "id": 1,
+          "description": "Send transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": true
+          },
+          "operationPath": "/transfers",
+          "path": "/transfers",
+          "method": "post",
+          "body": {
+            "homeTransactionId": "{$inputs.HOME_TRANSACTION_ID}",
+            "from": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYER_MSISDN}",
+              "displayName": "scenario-transfers-generic-error",
+              "firstName": "{$inputs.FROM_FIRST_NAME}",
+              "middleName": "{$inputs.FROM_MIDDLE_NAME}",
+              "lastName": "{$inputs.FROM_LAST_NAME}",
+              "dateOfBirth": "{$inputs.FROM_DOB}",
+              "fspId": "{$inputs.MULTI_SCHEME_PAYER_FSP_ID}"
+            },
+            "to": {
+              "type": "CONSUMER",
+              "idType": "MSISDN",
+              "idValue": "{$inputs.MULTI_SCHEME_PAYEE_MSISDN}",
+              "merchantClassificationCode": "123"
+            },
+            "amountType": "SEND",
+            "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_AMOUNT}",
+            "transactionType": "TRANSFER",
+            "note": "{$inputs.NOTE}",
+            "skipPartyLookup": false
+          },
+          "params": {
+            "Type": "",
+            "ID": ""
+          },
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_PARTY_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_PARTY_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 2,
+          "description": "Accept Party and send FXQuote",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptParty": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_CONVERSION_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_CONVERSION_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 3,
+          "description": "Accept FX Conversion and send Quote",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "body": {
+            "acceptConversion": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 200",
+                "exec": [
+                  "expect(response.status).to.equal(200)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be WAITING_FOR_QUOTE_ACCEPTANCE",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('WAITING_FOR_QUOTE_ACCEPTANCE')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        },
+        {
+          "id": 4,
+          "description": "Accept FX Conversion Quote and complete transfer",
+          "apiVersion": {
+            "minorVersion": 1,
+            "majorVersion": 2,
+            "type": "mojaloop_connector_outbound",
+            "asynchronous": false
+          },
+          "operationPath": "/transfers/{transferId}",
+          "path": "/transfers/{$prev.1.response.body.transferId}",
+          "method": "put",
+          "params": {
+            "transferId": "{$prev.1.response.body.transferId}"
+          },
+          "headers": {
+            "baggage": "{$inputs.MULTI_SCHEME_BLOCK_TRANSFER_FULFIL_BAGGAGE_HEADER_AT_BUFFER_SCHEME}"
+          },
+          "body": {
+            "acceptQuote": true
+          },
+          "disabled": false,
+          "tests": {
+            "assertions": [
+              {
+                "id": 1,
+                "description": "Status is 500",
+                "exec": [
+                  "expect(response.status).to.equal(500)"
+                ]
+              },
+              {
+                "id": 2,
+                "description": "Current state should be ERROR_OCCURRED",
+                "exec": [
+                  "expect(response.body.currentState).to.equal('ERROR_OCCURRED')"
+                ]
+              }
+            ]
+          },
+          "url": "{$inputs.MULTI_SCHEME_PAYER_SDK_OUTBOUND_URL}"
+        }
+      ]
+    }
+  ]
+}

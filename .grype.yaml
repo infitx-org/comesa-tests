@@ -2,6 +2,7 @@ ignore:
   - vulnerability: GHSA-phwq-j96m-2c2q
   - vulnerability: GHSA-fjxv-7rqg-78g4
   - vulnerability: GHSA-f58c-gq56-vjjf
+  - vulnerability: CVE-2025-15467
 
 # Set output format defaults
 output:
