@@ -8,7 +8,7 @@
   "test_cases": [
     {
       "id": 1,
-      "name": "DRPP-GP-24 Self-Heal FxTransfer Flow PAYER stuck in RESERVED FORWARDED - ABORTED ERROR State in FXP scheme",
+      "name": "DRPP-GP-28 Self-Heal FxTransfer Flow PAYER stuck in RESERVED FORWARDED - ABORTED ERROR State in FXP scheme",
       "meta": {
         "info": "Objective: Validate successful transaction completion across interscheme combinations \n\n Expected Result: Successful transaction completion \n\n Notes: This test simulates a transfer flow where the payer's transfer gets stuck in RESERVED FORWARDED state due to an ABORTED ERROR state in the FXP scheme. The test verifies that the system can self-heal and complete the transaction successfully."
       },
@@ -191,6 +191,13 @@
                 "description": "Current state should be ERROR_OCCURRED",
                 "exec": [
                   "expect(response.body.currentState).to.equal('ERROR_OCCURRED')"
+                ]
+              },
+              {
+                "id": 3,
+                "description": "Error code should be 5002 from self healed error callback",
+                "exec": [
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5002')"
                 ]
               }
             ]
