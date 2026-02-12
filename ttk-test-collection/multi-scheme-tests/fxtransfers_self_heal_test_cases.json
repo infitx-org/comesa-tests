@@ -50,7 +50,7 @@
             },
             "amountType": "SEND",
             "currency": "{$inputs.MULTI_SCHEME_PAYER_CURRENCY}",
-            "amount": "{$inputs.MULTI_SCHEME_PAYER_AMOUNT}",
+            "amount": "{$inputs.MULTI_SCHEME_PAYER_FXPTRANSFERS_ABORTED_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
             "skipPartyLookup": false,
@@ -190,14 +190,14 @@
                 "id": 2,
                 "description": "Current state should be ERROR_OCCURRED",
                 "exec": [
-                  "expect(response.body.currentState).to.equal('ERROR_OCCURRED')"
+                  "expect(response.body.transferState.currentState).to.equal('ERROR_OCCURRED')"
                 ]
               },
               {
                 "id": 3,
-                "description": "Error code should be 5002 from self healed error callback",
+                "description": "Error code should be 5100 from self healed error callback",
                 "exec": [
-                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5002')"
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5100')"
                 ]
               }
             ]
