@@ -188,9 +188,9 @@
               },
               {
                 "id": 2,
-                "description": "Response should contain timeout message",
+                "description": "Current state should be ERROR_OCCURRED",
                 "exec": [
-                  "expect(response.statusText).to.contain('timeout of')"
+                  "expect(response.body.currentState).to.equal('ERROR_OCCURRED')"
                 ]
               }
             ]
