@@ -47,7 +47,8 @@
             "amount": "{$inputs.MULTI_SCHEME_PAYER_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
-            "skipPartyLookup": false
+            "skipPartyLookup": false,
+            "prepareExpirySeconds": 10
           },
           "params": {
             "Type": "",
@@ -241,7 +242,8 @@
             "amount": "{$inputs.MULTI_SCHEME_PAYER_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
-            "skipPartyLookup": false
+            "skipPartyLookup": false,
+            "prepareExpirySeconds": 10
           },
           "params": {
             "Type": "",
@@ -380,7 +382,14 @@
                 "id": 2,
                 "description": "Current state should be ERROR_OCCURRED",
                 "exec": [
-                  "expect(response.body.currentState).to.equal('ERROR_OCCURRED')"
+                  "expect(response.body.transferState.currentState).to.equal('ERROR_OCCURRED')"
+                ]
+              },
+              {
+                "id": 3,
+                "description": "Error code should be 5002 from self healed error callback",
+                "exec": [
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5002')"
                 ]
               }
             ]
@@ -435,7 +444,8 @@
             "amount": "{$inputs.MULTI_SCHEME_PAYER_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
-            "skipPartyLookup": false
+            "skipPartyLookup": false,
+            "prepareExpirySeconds": 10
           },
           "params": {
             "Type": "",
@@ -629,7 +639,8 @@
             "amount": "{$inputs.MULTI_SCHEME_PAYER_AMOUNT}",
             "transactionType": "TRANSFER",
             "note": "{$inputs.NOTE}",
-            "skipPartyLookup": false
+            "skipPartyLookup": false,
+            "prepareExpirySeconds": 10
           },
           "params": {
             "Type": "",
@@ -768,7 +779,14 @@
                 "id": 2,
                 "description": "Current state should be ERROR_OCCURRED",
                 "exec": [
-                  "expect(response.body.currentState).to.equal('ERROR_OCCURRED')"
+                  "expect(response.body.transferState.currentState).to.equal('ERROR_OCCURRED')"
+                ]
+              },
+              {
+                "id": 3,
+                "description": "Error code should be 5002 from self healed error callback",
+                "exec": [
+                  "expect(response.body.transferState.lastError.mojaloopError.errorInformation.errorCode).to.equal('5002')"
                 ]
               }
             ]
