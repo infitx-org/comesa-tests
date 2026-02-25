@@ -797,7 +797,7 @@
     },
     {
       "id": 5,
-      "name": "DRPP-GP-29 Self-Heal Transfer Flow PAYER stuck in RESERVED FORWARDED - Regional Scheme unaware of Transfer",
+      "name": "DRPP-GP-29 Self-Heal Transfer Flow PAYER stuck in RESERVED FORWARDED - Regional Scheme unaware of transfer",
       "meta": {
         "info": "Objective: Validate successful transaction completion across interscheme combinations \n\n Expected Result: Abort the lost transfer. \n\n Notes: This test simulates a transfer flow where the payer's transfer gets stuck in RESERVED FORWARDED state due to kafka data loss in upstream scheme. The test verifies that the system can self-heal, abort the transfer and move to ABORTED finalized state."
       },
