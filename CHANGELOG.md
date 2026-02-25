@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.2](https://github.com/infitx-org/comesa-tests/compare/v1.18.1...v1.18.2) (2026-02-25)
+
+
+### Bug Fixes
+
+* fix release ([#77](https://github.com/infitx-org/comesa-tests/issues/77)) ([8437bb5](https://github.com/infitx-org/comesa-tests/commit/8437bb5b2d4df1acd5b3675791fa0d90f4a878e0))
+
 ## [1.18.1](https://github.com/infitx-org/comesa-tests/compare/v1.18.0...v1.18.1) (2026-02-12)
 
 
