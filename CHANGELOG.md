@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.18.3](https://github.com/infitx-org/comesa-tests/compare/v1.18.2...v1.18.3) (2026-02-26)
+
+
+### Bug Fixes
+
+* add missing vulnerability to ignore list ([5dd3285](https://github.com/infitx-org/comesa-tests/commit/5dd32853c76149fe7d3d0a9491aae7ce9c52f8c9))
+* update permissions to include pull-requests ([aee7524](https://github.com/infitx-org/comesa-tests/commit/aee7524c3375e603d64a887e92de4cfdd40eafd9))
+
 ## [1.18.2](https://github.com/infitx-org/comesa-tests/compare/v1.18.1...v1.18.2) (2026-02-25)
 
 
