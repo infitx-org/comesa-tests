@@ -1029,7 +1029,7 @@
       "id": 6,
       "name": "DRPP-GP-30 Self-Heal Transfer Flow PAYER stuck in RESERVED FORWARDED - Quick expiration and self-heal",
       "meta": {
-        "info": "Objective: Test edge case for latency and state checks \n\n Expected Result: Transfer should be expired"
+        "info": "Objective: Test edge case for latency and state checks \n Expected Result: Transfer should be expired"
       },
       "fileInfo": {
         "path": "ttk-test-collection/multi-scheme-tests/transfers_self_heal_test_cases.json"
