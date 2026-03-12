@@ -1027,7 +1027,7 @@
     },
     {
       "id": 6,
-      "name": "DRPP-GP-30 Self-Heal Transfer Flow PAYER stuck in RESERVED FORWARDED - Quick self-heal",
+      "name": "DRPP-GP-30 Self-Heal Transfer Flow PAYER stuck in RESERVED FORWARDED - Quick expiration and self-heal",
       "meta": {
         "info": "Objective: Test edge case for latency and state checks \n\n Expected Result: Transfer should be expired"
       },
